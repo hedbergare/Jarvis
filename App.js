@@ -10,11 +10,10 @@ import OtherExampleScreen from "./src/screens/OtherExampleScreen/OtherExampleScr
 
 const Stack = createStackNavigator();
 
-export default function App() {
+const App = () => {
   //Initializing firebase
   if (!firebase.apps.length) {
     console.log("Firebase initialized");
-    firebase.initializeApp(ApiKeys.FirebaseConfig);
   }
 
   const Stack = createStackNavigator();
@@ -39,4 +38,6 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;

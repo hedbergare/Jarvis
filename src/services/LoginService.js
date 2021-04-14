@@ -3,7 +3,7 @@ class LoginService extends Component {
     super(props);
   }
 
-  static funktionsNamn = () => {};
+  static testFunction = () => {};
 }
 
 export default LoginService;
