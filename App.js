@@ -1,27 +1,42 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
+import "react-native-gesture-handler";
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 import ApiKeys from "./constants/ApiKeys";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import { createStackNavigator } from "@react-navigation/stack";
+import ExampleScreen from "./src/screens/ExampleScreen/ExampleScreen";
+import OtherExampleScreen from "./src/screens/OtherExampleScreen/OtherExampleScreen";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   //Initializing firebase
   if (!firebase.apps.length) {
+    console.log("Firebase initialized");
     firebase.initializeApp(ApiKeys.FirebaseConfig);
   }
+
+  const Stack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name="Example"
+          component={ExampleScreen}
+          options={{ title: "Example screen" }}
+        />
+        <Stack.Screen
+          name="OtherExample"
+          component={OtherExampleScreen}
+          options={{ title: "OtherExample screen" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "yellow",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

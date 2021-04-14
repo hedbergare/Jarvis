@@ -2,6 +2,8 @@ export default {
   FirebaseConfig: {
     apiKey: "AIzaSyAZjw9408eb216YdjDkKOQw6vuWx5P_-74",
     authDomain: "jarvis-9a1a2.firebaseapp.com",
+    databaseURL:
+      "https://jarvis-9a1a2-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "jarvis-9a1a2",
     storageBucket: "jarvis-9a1a2.appspot.com",
     messagingSenderId: "790659808632",
