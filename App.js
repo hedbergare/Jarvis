@@ -5,15 +5,17 @@ import { StyleSheet, Text, View } from "react-native";
 import ApiKeys from "./constants/ApiKeys";
 import firebase from "firebase/app";
 import { createStackNavigator } from "@react-navigation/stack";
-import ExampleScreen from "./src/screens/ExampleScreen/ExampleScreen";
-import OtherExampleScreen from "./src/screens/OtherExampleScreen/OtherExampleScreen";
-
-const Stack = createStackNavigator();
+import ExampleScreen from "./src/screens/ExampleScreen";
+import OtherExampleScreen from "./src/screens/OtherExampleScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import LoadingScreen from "./src/screens/LoadingScreen";
+import RegistrationScreen from "./src/screens/RegistrationScreen";
 
 const App = () => {
   //Initializing firebase
   if (!firebase.apps.length) {
-    console.log("Firebase initialized");
+    firebase.initializeApp(ApiKeys.FirebaseConfig);
   }
 
   const Stack = createStackNavigator();
@@ -26,14 +28,24 @@ const App = () => {
         }}
       >
         <Stack.Screen
-          name="Example"
-          component={ExampleScreen}
-          options={{ title: "Example screen" }}
+          name="Loading"
+          component={LoadingScreen}
+          options={{ title: "Loading screen" }}
         />
         <Stack.Screen
-          name="OtherExample"
-          component={OtherExampleScreen}
-          options={{ title: "OtherExample screen" }}
+          name="Login"
+          component={LoginScreen}
+          options={{ title: "Login screen" }}
+        />
+        <Stack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{ title: "Registration screen" }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "Home screen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
