@@ -4,7 +4,7 @@ import "firebase/database";
 require("firebase/auth");
 import * as Google from "expo-google-app-auth";
 
-class LoginService extends React.Component {
+class LoginService {
   constructor(props) {
     super(props);
   }
