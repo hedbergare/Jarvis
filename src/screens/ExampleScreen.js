@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, Text, SafeAreaView } from "react-native";
-import styles from "./styles.js";
+import { Button, Text, SafeAreaView, StyleSheet } from "react-native";
 
 const ExampleScreen = ({ navigation }) => {
   return (
@@ -15,3 +14,11 @@ const ExampleScreen = ({ navigation }) => {
 };
 
 export default ExampleScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
