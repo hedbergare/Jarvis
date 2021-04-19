@@ -1,0 +1,129 @@
+{
+    "user": [
+        {
+            "id": "970325",
+            "email": "jacob@gmail.com",
+            "first_name": "Jacob",
+            "last_name": "Hedberg",
+            "password": "Qwerty",
+            "contacts": {
+                "971220": true
+            }
+        },
+        {
+            "id": "971220",
+            "email": "patrik@gmail.com",
+            "first_name": "Patrik",
+            "last_name": "Gräddelins",
+            "password": "Qwerty",
+            "contacts": {
+                "970325": true
+            }
+        }
+    ],
+    "goal": [
+        {
+            "id": "goal_id_1",
+            "owner_id": "970325",
+            "name": "Run 800 km",
+            "description": "Run 800 km in the time span, preparations for ultra marathon that I'm going to win. I'm a beast BRRAA (oh la la la)",
+            "quantified": true,
+            "max_value": 80,
+            "current_value": 37,
+            "completed": false,
+            "date_created": "2021-01-01",
+            "deadline": "2021-12-31",
+            "shared_with": [
+                {
+                    "0": "971220"
+                }
+            ]
+        },
+        {
+            "id": "goal_id_2",
+            "owner_id": "971220",
+            "name": "Shoot 500 3-pointers",
+            "description": "To become better than Erik, I need to practice my 3-pointers.... I might be taller but he is still better (oh la la la)",
+            "quantified": true,
+            "max_value": 500,
+            "current_value": 1,
+            "completed": false,
+            "date_created": "2021-01-01",
+            "deadline": "2021-04-31",
+            "shared_with": [
+                {
+                    "0": "970325"
+                }
+            ]
+        }
+    ],
+    "task_list": [
+        {
+            "id": "task_list_id_1",
+            "owner_id": "971220",
+            "name": "Spring 2021",
+            "description": "Description: Things I want to accomplish during the spring of 2021.",
+            "completed": false,
+            "date_created": "2021-03-01",
+            "deadline": "2021-06-01",
+            "shared_with": [
+                {
+                    "0": "970325"
+                }
+            ],
+            "tasks": [
+                {
+                    "id": "task_id_1",
+                    "name": "Run a half-marathon",
+                    "description": "",
+                    "completed": false,
+                    "date_created": "2021-03-01",
+                    "deadline": "2021-03-30"
+                },
+                {
+                    "id": "task_id_2",
+                    "name": "Get 1.2 KD in Warzone",
+                    "description": "Buy a  pro control with padels to help xd",
+                    "completed": false,
+                    "date_created": "2021-03-02",
+                    "deadline": "2021-05-30"
+                }
+            ]
+        }
+    ],
+    "shopping_list": [
+        {
+            "id": "shopping_list_id_1",
+            "owner_id": "971220",
+            "name": "Food",
+            "description": "Description: Food & groceries for our home",
+            "completed": false,
+            "date_created": "2021-03-01",
+            "shared_with": [
+                {
+                    "0": "970325"
+                }
+            ],
+            "entries": [
+                {
+                    "id": "entry_1",
+                    "name": "Nocco",
+                    "quantity": "24",
+                    "completed": false
+                },
+                {
+                    "id": "entry_2",
+                    "name": "Billys",
+                    "quantity": "4",
+                    "completed": false
+                },
+                {
+                    "id": "entry_3",
+                    "name": "Coffee",
+                    "quantity": "1",
+                    "completed": true
+                }
+            ]
+        }
+    ]
+}
