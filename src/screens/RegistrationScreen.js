@@ -33,8 +33,8 @@ const RegistrationScreen = ({ navigation }) => {
             .ref("/users/" + user.uid)
             .set({
               email: user.email,
-              first_name: { firstName },
-              last_name: { lastName },
+              first_name: firstName,
+              last_name: lastName,
             });
         })
         .catch((error) => {
