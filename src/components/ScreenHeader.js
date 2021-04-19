@@ -56,9 +56,7 @@ export default ScreenHeader;
 const styles = StyleSheet.create({
   screenHeader: {
     width: "100%",
-    minHeight: 300,
-    position: "absolute",
-    top: 0,
+    height: 300,
     justifyContent: "center",
     alignItems: "center",
   },

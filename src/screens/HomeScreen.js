@@ -1,8 +1,9 @@
 import React from "react";
-import { Image, Button, SafeAreaView, StyleSheet } from "react-native";
+import { Image, Button, SafeAreaView, StyleSheet, View } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
 import ScreenHeader from "../components/ScreenHeader";
+import TaskCard from "../components/TaskCard";
 require("firebase/auth");
 
 const HomeScreen = ({ navigation }) => {
@@ -11,10 +12,11 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScreenHeader />
+      <TaskCard />
       {/* <Button title="Log out" onPress={() => onSignoutPress()}></Button> */}
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -23,8 +25,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     backgroundColor: "#fff",
   },
 });
