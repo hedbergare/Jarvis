@@ -20,9 +20,9 @@ const LoadingScreen = ({ navigation }) => {
       if (user) {
         dispatch(fetchUser(user.uid));
         dispatch(fetchTaskLists(user.uid));
-        navigation.navigate("Home");
+        navigation.navigate("HomeScreen");
       } else {
-        navigation.navigate("Login");
+        navigation.navigate("LoginScreen");
       }
     });
   };

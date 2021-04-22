@@ -10,6 +10,7 @@ import LoadingScreen from "./src/screens/LoadingScreen";
 import RegistrationScreen from "./src/screens/RegistrationScreen";
 import Store from "./redux/Store";
 import { Provider } from "react-redux";
+import TaskListsScreen from "./src/screens/TaskListsScreen";
 
 const App = () => {
   //Initializing firebase
@@ -21,34 +22,39 @@ const App = () => {
 
   return (
     <Provider store={Store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            name="Loading"
-            component={LoadingScreen}
-            options={{ title: "Loading screen" }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ title: "Login screen" }}
-          />
-          <Stack.Screen
-            name="Registration"
-            component={RegistrationScreen}
-            options={{ title: "Registration screen" }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ title: "Home screen" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name="LoadingScreen"
+          component={LoadingScreen}
+          options={{ title: "Loading screen" }}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ title: "Login screen" }}
+        />
+        <Stack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{ title: "Registration screen" }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ title: "Home screen" }}
+        />
+        <Stack.Screen
+          name="TaskListsScreen"
+          component={TaskListsScreen}
+          options={{ title: "Task lists screen" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
     </Provider>
   );
 };
