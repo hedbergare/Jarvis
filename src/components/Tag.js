@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { fonts } from "../../constants/fonts";
+import Font from "./Font";
 
 const Tag = ({ color, text }) => {
   return (
@@ -16,11 +17,15 @@ const Tag = ({ color, text }) => {
         marginRight: 5,
       }}
     >
-      <Text style={[fonts.subText, { color: color }]}>{text}</Text>
+      <Text style={[fonts.subText, { color: color }]}>
+        <Font text={text} />
+      </Text>
     </View>
   );
 };
 
 export default Tag;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  Tag: {},
+});

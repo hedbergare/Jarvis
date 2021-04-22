@@ -14,7 +14,7 @@ const LoadingScreen = ({ navigation }) => {
       if (user) {
         navigation.navigate("HomeScreen");
       } else {
-        navigation.navigate("Login");
+        navigation.navigate("LoginScreen");
       }
     });
   };

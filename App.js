@@ -1,12 +1,10 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
 import ApiKeys from "./constants/ApiKeys";
 import firebase from "firebase/app";
 import { createStackNavigator } from "@react-navigation/stack";
-import ExampleScreen from "./src/screens/ExampleScreen";
-import OtherExampleScreen from "./src/screens/OtherExampleScreen";
+
 import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
@@ -29,12 +27,12 @@ const App = () => {
         }}
       >
         <Stack.Screen
-          name="Loading"
+          name="LoadingScreen"
           component={LoadingScreen}
           options={{ title: "Loading screen" }}
         />
         <Stack.Screen
-          name="Login"
+          name="LoginScreen"
           component={LoginScreen}
           options={{ title: "Login screen" }}
         />

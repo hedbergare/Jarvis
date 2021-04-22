@@ -5,6 +5,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
 import Tag from "./Tag.js";
+import Font from "./Font";
 
 const TaskCard = () => {
   const [checkboxState, setCheckboxState] = React.useState(false);
@@ -33,7 +34,7 @@ const TaskCard = () => {
               },
             ]}
           >
-            Drink a big glass of water
+            <Font text="Drink a big glass of water" />
           </Text>
           <Text
             style={
@@ -43,7 +44,7 @@ const TaskCard = () => {
               })
             }
           >
-            Due to: Tue 10 Jun
+            <Font text="Due to: Tue 10 Jun" />
           </Text>
         </View>
         <Image
@@ -51,7 +52,7 @@ const TaskCard = () => {
           source={require("../assets/icon-delete-trash-can.png")}
         />
       </View>
-      <View style={{ marginTop: 10, flexDirection: "row" }}>
+      <View style={styles.tagContainer}>
         <Tag color={colors.yellow} text="Water habit" />
         <Tag color={colors.green} text="Gym" />
       </View>
@@ -79,5 +80,9 @@ const styles = StyleSheet.create({
   },
   TaskCardTitle: {
     color: "black",
+  },
+  tagContainer: {
+    marginTop: 10,
+    flexDirection: "row",
   },
 });

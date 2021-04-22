@@ -19,7 +19,7 @@ const TaskListsScreen = ({ navigation }) => {
       <Navbar navigation={navigation} />
       <View style={styles.listTypeToggle}>
         <TouchableOpacity
-          style={displayOwned ? styles.ActiveListStyle : null}
+          style={displayOwned ? styles.activeListStyle : null}
           onPress={handleDisplayOwned}
         >
           <Text
@@ -34,7 +34,7 @@ const TaskListsScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={displayOwned ? null : styles.ActiveListStyle}
+          style={displayOwned ? null : styles.activeListStyle}
           onPress={handleDisplayShared}
         >
           <Text
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
-  ActiveListStyle: {
+  activeListStyle: {
     opacity: 1,
     borderBottomWidth: 1,
     borderBottomColor: colors.purple,

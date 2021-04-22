@@ -28,13 +28,13 @@ const ScreenHeader = () => {
       source={require("../assets/screen-header.png")}
     >
       <TouchableOpacity
-        style={styles.screenHeaderBackArrowIcon}
+        style={styles.backArrowIcon}
         onPress={handleBackArrowIcon}
       >
         <Image source={require("../assets/icon-back-arrow.png")} />
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.screenHeaderSettingsIcon}
+        style={styles.settingsIcon}
         onPress={handleSettingsIcon}
       >
         <Image source={require("../assets/icon-settings.png")} />
@@ -43,7 +43,7 @@ const ScreenHeader = () => {
         <Text style={[fonts.heading1, styles.title]}>
           <Font text="General"></Font>
         </Text>
-        <Text style={[styles.screenHeaderSubText, fonts.subText]}>
+        <Text style={[styles.date, fonts.subText]}>
           <Font text="Saturday 20th April"></Font>
         </Text>
       </View>
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  screenHeaderBackArrowIcon: {
+  backArrowIcon: {
     position: "absolute",
     top: 50,
     left: 20,
   },
-  screenHeaderSettingsIcon: {
+  settingsIcon: {
     position: "absolute",
     top: 50,
     right: 20,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.white,
   },
-  screenHeaderSubText: {
+  date: {
     transform: [{ translateX: 10 }],
     color: colors.gray,
   },
