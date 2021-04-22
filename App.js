@@ -11,6 +11,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import RegistrationScreen from "./src/screens/RegistrationScreen";
+import TaskListsScreen from "./src/screens/TaskListsScreen";
 
 const App = () => {
   //Initializing firebase
@@ -43,9 +44,14 @@ const App = () => {
           options={{ title: "Registration screen" }}
         />
         <Stack.Screen
-          name="Home"
+          name="HomeScreen"
           component={HomeScreen}
           options={{ title: "Home screen" }}
+        />
+        <Stack.Screen
+          name="TaskListsScreen"
+          component={TaskListsScreen}
+          options={{ title: "Task lists screen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
