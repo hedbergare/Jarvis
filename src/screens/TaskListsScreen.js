@@ -4,6 +4,7 @@ import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import Navbar from "../components/Navbar";
 import ScreenHeader from "../components/ScreenHeader";
+import TaskListCard from "../components/TaskListCard";
 
 const TaskListsScreen = ({ navigation }) => {
   const [displayOwned, setDisplayOwned] = React.useState(true);
@@ -48,6 +49,7 @@ const TaskListsScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      <TaskListCard />
     </View>
   );
 };
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
   TaskListsScreen: {
     flex: 1,
     backgroundColor: colors.white,
+    alignItems: "center",
   },
   listTypeToggle: {
     width: "100%",
