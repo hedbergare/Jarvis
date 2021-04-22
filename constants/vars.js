@@ -5,5 +5,12 @@ export const fontFamilies = {
 // Colors
 export const colors = {
   white: "#fff",
+  whiteDark: "#f6f6f6",
+  black: "#1d1d1d",
   gray: "#939393",
+
+  green: "#04a783",
+  red: "#f85566",
+  yellow: "#c78c03",
+  purple: "#5635d2",
 };

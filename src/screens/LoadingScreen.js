@@ -12,9 +12,9 @@ const LoadingScreen = ({ navigation }) => {
   const checkIfLoggedIn = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("Home");
+        navigation.navigate("HomeScreen");
       } else {
-        navigation.navigate("Login");
+        navigation.navigate("LoginScreen");
       }
     });
   };

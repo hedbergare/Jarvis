@@ -1,16 +1,15 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
 import ApiKeys from "./constants/ApiKeys";
 import firebase from "firebase/app";
 import { createStackNavigator } from "@react-navigation/stack";
-import ExampleScreen from "./src/screens/ExampleScreen";
-import OtherExampleScreen from "./src/screens/OtherExampleScreen";
+
 import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import RegistrationScreen from "./src/screens/RegistrationScreen";
+import TaskListsScreen from "./src/screens/TaskListsScreen";
 
 const App = () => {
   //Initializing firebase
@@ -28,12 +27,12 @@ const App = () => {
         }}
       >
         <Stack.Screen
-          name="Loading"
+          name="LoadingScreen"
           component={LoadingScreen}
           options={{ title: "Loading screen" }}
         />
         <Stack.Screen
-          name="Login"
+          name="LoginScreen"
           component={LoginScreen}
           options={{ title: "Login screen" }}
         />
@@ -43,9 +42,14 @@ const App = () => {
           options={{ title: "Registration screen" }}
         />
         <Stack.Screen
-          name="Home"
+          name="HomeScreen"
           component={HomeScreen}
           options={{ title: "Home screen" }}
+        />
+        <Stack.Screen
+          name="TaskListsScreen"
+          component={TaskListsScreen}
+          options={{ title: "Task lists screen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
