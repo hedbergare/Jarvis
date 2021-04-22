@@ -7,8 +7,12 @@ import {
   TextInput,
 } from "react-native";
 import LoginService from "../services/LoginService";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../redux/actions/AuthActions";
 
 const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
