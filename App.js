@@ -4,11 +4,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import ApiKeys from "./constants/ApiKeys";
 import firebase from "firebase/app";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import RegistrationScreen from "./src/screens/RegistrationScreen";
+import Store from "./redux/Store";
+import { Provider } from "react-redux";
 import TaskListsScreen from "./src/screens/TaskListsScreen";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
   const Stack = createStackNavigator();
 
   return (
+    <Provider store={Store}>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -53,6 +55,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 };
 
