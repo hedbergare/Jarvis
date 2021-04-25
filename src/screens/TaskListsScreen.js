@@ -49,7 +49,7 @@ const TaskListsScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <TaskListCard />
+      <TaskListCard name="General" completed={10} total={15} />
     </View>
   );
 };
