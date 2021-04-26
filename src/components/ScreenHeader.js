@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
+
 import Font from "./Font";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
