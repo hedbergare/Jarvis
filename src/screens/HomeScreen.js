@@ -1,10 +1,6 @@
 import { useSelector, useDispatch, useStore } from "react-redux";
-import {
-  addTaskList,
-  addTaskToList,
-} from "../../redux/actions/TaskListActions";
 import React from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Text, Button, StyleSheet, View } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -20,13 +16,17 @@ const HomeScreen = ({ navigation }) => {
   const onSignoutPress = () => {
     firebase.auth().signOut().then(navigation.navigate("LoginScreen"));
   };
-
-  return (
-    <View style={styles.container}>
-      <Button title="Log out" onPress={() => onSignoutPress()}></Button>
-      <Navbar navigation={navigation} />
-    </View>
-  );
+  if (currentUser) {
+    return (
+      <View style={styles.container}>
+        <Button title="Log out" onPress={() => onSignoutPress()}></Button>
+        <Navbar navigation={navigation} />
+        <Text>You are logged in as: {currentUser.email}</Text>
+      </View>
+    );
+  } else {
+    return <View style={styles.container}></View>;
+  }
 };
 
 export default HomeScreen;

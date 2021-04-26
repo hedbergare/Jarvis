@@ -1,4 +1,9 @@
-import { ADD_TASK_LIST, FETCH_TASK_LISTS } from "../constants";
+import {
+  ADD_TASK_LIST,
+  ADD_TASK,
+  FETCH_TASK_LISTS,
+  COMPLETE_TASK,
+} from "../constants";
 import firebase from "firebase/app";
 import "firebase/database";
 require("firebase/auth");
@@ -11,10 +16,11 @@ export const fetchTaskLists = (uid) => {
       .orderByChild("userId")
       .equalTo(uid)
       .on("value", (snapshot) => {
-        dispatch({ type: FETCH_TASK_LISTS, task_lists: snapshot });
+        dispatch({ type: FETCH_TASK_LISTS, task_lists: snapshot.val() });
       });
   };
 };
+
 export const addTaskList = (uid) => {
   return (dispatch) => {
     firebase.database().ref().child("/task_lists/").push().set({
@@ -45,5 +51,14 @@ export const addTaskToList = (task) => {
         completed: false,
       });
     dispatch({ type: ADD_TASK });
+  };
+};
+export const completeTask = (taskListId, taskId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/task_lists/" + taskListId + "/tasks/" + taskId)
+      .update({ completed: true });
+    dispatch({ type: COMPLETE_TASK });
   };
 };

@@ -1,17 +1,20 @@
-import { FETCH_OWN_GOALS } from "../constants";
+import { FETCH_SHOPPING_LISTS } from "../constants";
 import firebase from "firebase/app";
 import "firebase/database";
 require("firebase/auth");
 
-export const fetchOwnGoals = (uid) => {
+export const fetchShoppingLists = (uid) => {
   return (dispatch) => {
     firebase
       .database()
-      .ref("/goals/")
+      .ref("/shopping_lists/")
       .orderByChild("userId")
       .equalTo(uid)
       .on("value", (snapshot) => {
-        dispatch({ type: FETCH_OWN_GOALS, goals: snapshot });
+        dispatch({
+          type: FETCH_SHOPPING_LISTS,
+          shopping_lists: snapshot.val(),
+        });
       });
   };
 };
