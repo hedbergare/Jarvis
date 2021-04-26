@@ -8,7 +8,7 @@ export const fetchOwnGoals = (uid) => {
     firebase
       .database()
       .ref("/goals/")
-      .orderByChild("userId")
+      .orderByChild("ownerId")
       .equalTo(uid)
       .on("value", (snapshot) => {
         dispatch({ type: FETCH_OWN_GOALS, goals: snapshot });
