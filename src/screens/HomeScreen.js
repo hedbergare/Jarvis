@@ -28,6 +28,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* <Button title="Log out" onPress={() => onSignoutPress()}></Button> */}
+      <Navbar navigation={navigation} />
     </View>
   );
 };
