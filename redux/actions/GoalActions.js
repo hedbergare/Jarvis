@@ -4,6 +4,7 @@ import "firebase/database";
 require("firebase/auth");
 
 export const fetchOwnGoals = (uid) => {
+  const goals = [];
   return (dispatch) => {
     firebase
       .database()
@@ -11,7 +12,10 @@ export const fetchOwnGoals = (uid) => {
       .orderByChild("ownerId")
       .equalTo(uid)
       .on("value", (snapshot) => {
-        dispatch({ type: FETCH_OWN_GOALS, goals: snapshot });
+        snapshot.forEach((goal) => {
+          goals.push(goal.val());
+        });
+        dispatch({ type: FETCH_OWN_GOALS, goals: goals });
       });
   };
 };
