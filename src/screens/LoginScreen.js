@@ -27,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView
       resetScrollToCoords={{ x: 0, y: 0 }}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={styles.LoginScreen}
       scrollEnabled={true}
     >
       {/* TO DO - does the image scale? Is it too big?? And should we have our logo here instead?*/}
@@ -98,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  LoginScreen: {
     flex: 1,
     backgroundColor: colors.white,
     alignItems: "center",

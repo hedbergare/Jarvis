@@ -11,7 +11,6 @@ export const fetchSharedTaskLists = (uid) => {
       .ref("/users/" + uid + "/shared_task_lists/")
       .on("value", (snapshot) => {
         snapshot.forEach((shared_list) => {
-          /* console.log(shared_list.key); */
           firebase
             .database()
             .ref("/task_lists/" + shared_list.key)
