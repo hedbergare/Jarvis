@@ -12,10 +12,10 @@ import Font from "./Font";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
 
-const ScreenHeader = () => {
-  const handleBackArrowIcon = () => {
+const ScreenHeader = ({ title, navigation }) => {
+  const handleBackArrow = () => {
     {
-      /* todo: fix routing on click. */
+      navigation.goBack();
     }
   };
   const handleSettingsIcon = () => {
@@ -28,10 +28,7 @@ const ScreenHeader = () => {
       style={styles.screenHeader}
       source={require("../assets/screen-header.png")}
     >
-      <TouchableOpacity
-        style={styles.backArrowIcon}
-        onPress={handleBackArrowIcon}
-      >
+      <TouchableOpacity style={styles.backArrowIcon} onPress={handleBackArrow}>
         <Image source={require("../assets/icon-back-arrow.png")} />
       </TouchableOpacity>
       <TouchableOpacity
@@ -42,7 +39,7 @@ const ScreenHeader = () => {
       </TouchableOpacity>
       <View style={styles.screenHeaderText}>
         <Text style={[fonts.heading1, styles.title]}>
-          <Font text="General"></Font>
+          <Font text={title}></Font>
         </Text>
         <Text style={[styles.date, fonts.subText]}>
           <Font text="Saturday 20th April"></Font>

@@ -41,10 +41,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  descriptionContainer: {
-    width: "90%",
-  },
-  descriptionText: {
-    padding: 10,
-  },
 });
