@@ -6,6 +6,7 @@ import * as Google from "expo-google-app-auth";
 
 class LoginService {
   constructor() {}
+
   static onSignIn = (googleUser) => {
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {

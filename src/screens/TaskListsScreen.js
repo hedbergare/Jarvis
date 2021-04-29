@@ -17,7 +17,6 @@ const TaskListsScreen = ({ navigation }) => {
   return (
     <View style={styles.TaskListsScreen}>
       <ScreenHeader />
-      <Navbar navigation={navigation} />
       <View style={styles.listTypeToggle}>
         <TouchableOpacity
           style={displayOwned ? styles.activeListStyle : null}

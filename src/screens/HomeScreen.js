@@ -8,7 +8,6 @@ import { Text, Button, StyleSheet, View } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
 
-import Navbar from "../components/Navbar";
 import DisplayField from "../components/DisplayField";
 import { fonts } from "../../constants/fonts";
 import Font from "../components/Font";
@@ -22,13 +21,13 @@ const HomeScreen = ({ navigation }) => {
   const taskLists = useSelector((state) => state.taskLists);
 
   const onSignoutPress = () => {
-    firebase.auth().signOut().then(navigation.navigate("LoginScreen"));
+    firebase.auth().signOut();
   };
 
   return (
     <View style={styles.container}>
-      {/* <Button title="Log out" onPress={() => onSignoutPress()}></Button> */}
-      <Navbar navigation={navigation} />
+      <Text>HomeScreen</Text>
+      <Button title="Log out" onPress={() => onSignoutPress()}></Button>
     </View>
   );
 };

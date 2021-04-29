@@ -7,25 +7,11 @@ require("firebase/auth");
 import { useDispatch } from "react-redux";
 import { fetchUser } from "../../redux/actions/AuthActions";
 import { fetchTaskLists } from "../../redux/actions/TaskListActions";
+import LoginService from "../services/LoginService";
 
 const LoadingScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    checkIfLoggedIn();
-  });
-
-  const checkIfLoggedIn = () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(fetchUser(user.uid));
-        dispatch(fetchTaskLists(user.uid));
-        navigation.navigate("HomeScreen");
-      } else {
-        navigation.navigate("LoginScreen");
-      }
-    });
-  };
   return (
     <SafeAreaView>
       <Text>Loading Logo Placeholder</Text>

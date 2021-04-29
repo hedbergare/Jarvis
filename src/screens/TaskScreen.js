@@ -31,7 +31,6 @@ const TaskScreen = () => {
         </Text>
       </View>
       <EditButton />
-      <Navbar navigation={navigation} />
     </View>
   );
 };
