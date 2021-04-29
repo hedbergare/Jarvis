@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import {
+  Image,
+  View,
   Button,
   Text,
   SafeAreaView,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import LoginService from "../services/LoginService";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/actions/AuthActions";
+import { fonts } from "../../constants/fonts";
+import { colors } from "../../constants/vars";
+import LargeButton from "../components/LargeButton";
+import Font from "../components/Font";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import InputField from "../components/InputField";
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -17,62 +26,138 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome Text!</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={(email) => setEmail(email)}
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.LoginScreen}
+      scrollEnabled={true}
+    >
+      {/* TO DO - does the image scale? Is it too big?? And should we have our logo here instead?*/}
+      <Image
+        style={styles.profileImage}
+        source={require("../assets/icon-profile.png")}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={(password) => setPassword(password)}
-      />
-      <Button
-        title="Sign in"
-        style={styles.logInButton}
-        onPress={() => LoginService.signIn(email, password)}
-      />
-      <Button
-        title="Sign in with google"
-        style={styles.logInButton}
+      {/* 
+          onChangeText={(password) => setPassword(password)}
+      */}
+      <InputField
+        placeHolderText="Email"
+        secureEntry={false}
+        src={require("../assets/icon-mail.png")}
+      ></InputField>
+      <InputField
+        placeHolderText="Password"
+        secureEntry={true}
+        src={require("../assets/icon-key.png")}
+      ></InputField>
+
+      {/* TO-DO: Navigate to ForgotPasswordScreen */}
+      <TouchableOpacity style={styles.forgotPasswordContainer}>
+        <Text style={[styles.forgotPasswordText, fonts.subText]}>
+          <Font text="Forgot your password?"></Font>
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.googleButton}
         onPress={() => LoginService.signInWithGoogleAsync()}
-      />
-      <Button
-        title="Don't have an account? Register here."
-        style={styles.logInButton}
-        onPress={() => navigation.navigate("Registration")}
-      />
-    </SafeAreaView>
+      >
+        <Text style={[fonts.subTextBold, styles.googleButtonText]}>
+          <Font text="Connect with Google"></Font>
+        </Text>
+        <Image source={require("../assets/icon-google.png")} />
+      </TouchableOpacity>
+
+      <Text style={[styles.buttonSeparator, fonts.heading5]}>
+        <Font text="or"></Font>
+      </Text>
+
+      <TouchableOpacity onPress={() => LoginService.signIn(email, password)}>
+        <LargeButton
+          text="LOG IN"
+          backgroundColor={colors.redLight}
+          color={colors.white}
+        ></LargeButton>
+      </TouchableOpacity>
+
+      <View style={styles.registerContainer}>
+        <Text style={fonts.subText}>
+          <Font text="Don't have an account?"></Font>
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
+          <Text style={[fonts.subText, styles.signUpText]}>
+            <Font text="Sign up"></Font>
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  LoginScreen: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    width: "85%",
-    margin: 10,
-    padding: 15,
-    fontSize: 16,
-    borderColor: "#d3d3d3",
+  profileImage: {
+    marginBottom: 30,
+  },
+  inputContainer: {
+    width: 280,
+    height: 30,
+    alignItems: "center",
+    flexDirection: "row",
     borderBottomWidth: 1,
+    borderBottomColor: colors.grayDark,
+    marginTop: 20,
+  },
+  input: {
+    marginLeft: 10,
+    width: 200,
+    fontSize: 16,
+  },
+  forgotPasswordContainer: {
+    width: 280,
+    marginBottom: 30,
+    marginTop: 2,
+  },
+  forgotPasswordText: {
+    color: colors.yellow,
+  },
+  googleButton: {
+    width: 217,
+    height: 46,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: colors.whiteDark,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    borderRadius: 6,
+    color: colors.black,
+  },
+  googleButtonText: {
+    textTransform: "uppercase",
     textAlign: "center",
+    marginRight: 10,
   },
-  welcomeText: {
-    color: "tomato",
+  buttonSeparator: {
+    marginVertical: 10,
   },
-  logInButton: {
-    height: 70,
+  registerContainer: {
+    flexDirection: "row",
+    marginTop: 15,
   },
-  registerButton: {
-    height: 70,
+  signUpText: {
+    color: colors.redLight,
+    marginLeft: 10,
   },
 });
