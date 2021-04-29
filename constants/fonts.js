@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 export const fonts = StyleSheet.create({
   heading1: {
@@ -16,8 +17,19 @@ export const fonts = StyleSheet.create({
   heading4: {
     fontSize: 18,
   },
+  heading5: {
+    fontSize: 16,
+  },
   subText: {
     fontSize: 12,
     fontWeight: "300",
+  },
+  subTextBold: {
+    fontSize: 11,
+    fontWeight: "500",
+  },
+  buttonText: {
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });

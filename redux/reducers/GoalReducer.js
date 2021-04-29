@@ -1,6 +1,6 @@
 import { FETCH_OWN_GOALS } from "../constants";
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = null;
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
