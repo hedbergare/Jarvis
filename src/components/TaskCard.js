@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import { colors } from "../../constants/vars";
@@ -7,7 +7,7 @@ import { fonts } from "../../constants/fonts";
 import Tag from "./Tag.js";
 import Font from "./Font";
 
-const TaskCard = () => {
+const TaskCard = ({ handleOnPress }) => {
   const [checkboxState, setCheckboxState] = React.useState(false);
 
   return (
@@ -24,7 +24,7 @@ const TaskCard = () => {
           }}
         />
 
-        <View style={styles.TaskCardText}>
+        <TouchableOpacity style={styles.TaskCardText} onPress={handleOnPress}>
           <Text
             style={[
               styles.TaskCardTitle,
@@ -46,7 +46,7 @@ const TaskCard = () => {
           >
             <Font text="Due to: Tue 10 Jun" />
           </Text>
-        </View>
+        </TouchableOpacity>
         <Image
           style={styles.screenHeader}
           source={require("../assets/icon-delete-trash-can.png")}

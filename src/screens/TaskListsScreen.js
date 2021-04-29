@@ -14,10 +14,22 @@ const TaskListsScreen = ({ navigation }) => {
   const handleDisplayShared = () => {
     setDisplayOwned(false);
   };
+  const handleOnPressTaskList = () => {
+    navigation.navigate("ViewTaskListScreen");
+  };
+  const renderTasklists = () => {
+    return (
+      <TaskListCard
+        name="General"
+        completed={10}
+        total={15}
+        onPressHandler={() => handleOnPressTaskList}
+      />
+    );
+  };
   return (
     <View style={styles.TaskListsScreen}>
-      <ScreenHeader />
-      <Navbar navigation={navigation} />
+      <ScreenHeader title="Task lists" navigation={navigation} />
       <View style={styles.listTypeToggle}>
         <TouchableOpacity
           style={displayOwned ? styles.activeListStyle : null}
@@ -49,7 +61,7 @@ const TaskListsScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <TaskListCard name="General" completed={10} total={15} />
+      <View style={styles.taskListsContainer}>{renderTasklists()}</View>
     </View>
   );
 };
@@ -79,5 +91,8 @@ const styles = StyleSheet.create({
   },
   fadedText: {
     opacity: 0.5,
+  },
+  taskListsContainer: {
+    marginTop: 20,
   },
 });

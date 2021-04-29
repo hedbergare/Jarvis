@@ -1,14 +1,14 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
 import { fonts } from "../../constants/fonts";
 
 import { colors } from "../../constants/vars";
 import Font from "./Font";
 
-const TaskListCard = ({ name, completed, total }) => {
+const TaskListCard = ({ name, completed, total, onPressHandler }) => {
   return (
-    <View style={styles.TaskListCard}>
+    <TouchableOpacity style={styles.TaskListCard} onPress={onPressHandler()}>
       <ProgressCircle
         percent={(completed / total) * 100}
         radius={25}
@@ -33,7 +33,7 @@ const TaskListCard = ({ name, completed, total }) => {
         style={styles.arrow}
         source={require("../assets/icon-arrow-right.png")}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 

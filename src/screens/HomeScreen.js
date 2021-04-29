@@ -10,7 +10,6 @@ import { Text, Button, StyleSheet, View } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
 
-import Navbar from "../components/Navbar";
 import DisplayField from "../components/DisplayField";
 import { fonts } from "../../constants/fonts";
 import Font from "../components/Font";
@@ -30,11 +29,17 @@ const HomeScreen = ({ navigation }) => {
   const sharedGoals = useSelector((state) => state.sharedGoals);
 
   const onSignoutPress = () => {
-    firebase.auth().signOut().then(navigation.navigate("LoginScreen"));
+    firebase.auth().signOut();
   };
   const test = false;
 
-  return <View styles={styles.container}>{currentUser ? <></> : <></>}</View>;
+  return (
+    <View style={styles.container}>
+      <Text>HomeScreen</Text>
+      <Button title="Log out" onPress={() => onSignoutPress()}></Button>
+    </View>
+  );
+  // return <View styles={styles.container}>{currentUser ? <></> : <></>}</View>;
 };
 
 export default HomeScreen;
@@ -45,11 +50,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-  },
-  descriptionContainer: {
-    width: "90%",
-  },
-  descriptionText: {
-    padding: 10,
   },
 });

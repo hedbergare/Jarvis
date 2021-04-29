@@ -3,11 +3,14 @@ import { StyleSheet, View, Text } from "react-native";
 import ScreenHeader from "../components/ScreenHeader";
 import DisplayField from "../components/DisplayField";
 import EditButton from "../components/EditButton";
+import { fonts } from "../../constants/fonts";
+import Font from "../components/Font";
+import { colors } from "../../constants/vars";
 
-const TaskScreen = () => {
+const TaskScreen = ({ navigation }) => {
   return (
     <View style={styles.TaskScreen}>
-      <ScreenHeader />
+      <ScreenHeader title="Task" navigation={navigation} />
       <DisplayField
         text="Drink a huge glass of water"
         src={require("../assets/icon-alphabet.png")}
@@ -30,8 +33,9 @@ const TaskScreen = () => {
           ></Font>
         </Text>
       </View>
-      <EditButton />
-      <Navbar navigation={navigation} />
+      <View style={styles.editButton}>
+        <EditButton />
+      </View>
     </View>
   );
 };
@@ -41,5 +45,17 @@ export default TaskScreen;
 const styles = StyleSheet.create({
   TaskScreen: {
     flex: 1,
+    backgroundColor: colors.white,
+    alignItems: "center",
+  },
+  descriptionContainer: {
+    width: "90%",
+  },
+  descriptionText: {
+    padding: 10,
+  },
+  editButton: {
+    marginLeft: 180,
+    marginTop: 50,
   },
 });
