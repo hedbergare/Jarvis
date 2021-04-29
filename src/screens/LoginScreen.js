@@ -17,6 +17,7 @@ import { colors } from "../../constants/vars";
 import LargeButton from "../components/LargeButton";
 import Font from "../components/Font";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import InputField from "../components/InputField";
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -33,25 +34,22 @@ const LoginScreen = ({ navigation }) => {
       {/* TO DO - does the image scale? Is it too big?? And should we have our logo here instead?*/}
       <Image
         style={styles.profileImage}
-        source={require("../assets/profile-icon.png")}
+        source={require("../assets/icon-profile.png")}
       />
-      <View style={styles.inputContainer}>
-        <Image source={require("../assets/icon-mail.png")} />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          onChangeText={(email) => setEmail(email)}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image source={require("../assets/icon-key.png")} />
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          placeholder="Password"
+      {/* 
           onChangeText={(password) => setPassword(password)}
-        />
-      </View>
+      */}
+      <InputField
+        placeHolderText="Email"
+        secureEntry={false}
+        src={require("../assets/icon-mail.png")}
+      ></InputField>
+      <InputField
+        placeHolderText="Password"
+        secureEntry={true}
+        src={require("../assets/icon-key.png")}
+      ></InputField>
+
       {/* TO-DO: Navigate to ForgotPasswordScreen */}
       <TouchableOpacity style={styles.forgotPasswordContainer}>
         <Text style={[styles.forgotPasswordText, fonts.subText]}>
@@ -76,7 +74,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => LoginService.signIn(email, password)}>
         <LargeButton
           text="LOG IN"
-          backgroundColor={colors.lightRed}
+          backgroundColor={colors.redLight}
           color={colors.white}
         ></LargeButton>
       </TouchableOpacity>
@@ -159,7 +157,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   signUpText: {
-    color: colors.lightRed,
+    color: colors.redLight,
     marginLeft: 10,
   },
 });

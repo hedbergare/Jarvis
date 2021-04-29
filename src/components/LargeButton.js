@@ -5,7 +5,6 @@ import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-/* Kom inte på något bättre namn för denna.... Ska ju återanvändas i reset password. Något förslag på annat namn? */
 const LargeButton = ({ backgroundColor, text, color }) => {
   return (
     <View style={[styles.LargeButton, { backgroundColor: backgroundColor }]}>
