@@ -43,11 +43,13 @@ const LoginScreen = ({ navigation }) => {
         placeHolderText="Email"
         secureEntry={false}
         src={require("../assets/icon-mail.png")}
+        textChanged={(text) => setEmail(text)}
       ></InputField>
       <InputField
         placeHolderText="Password"
         secureEntry={true}
         src={require("../assets/icon-key.png")}
+        textChanged={(text) => setPassword(text)}
       ></InputField>
 
       {/* TO-DO: Navigate to ForgotPasswordScreen */}

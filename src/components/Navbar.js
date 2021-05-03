@@ -13,19 +13,19 @@ const Navbar = ({ navigation }) => {
   return (
     <View style={styles.Navbar}>
       <TouchableOpacity style={styles.navbarItem} onPress={handleHomeClick}>
-        <Image source={require("../assets/icon-home.png")} />
+        {/* <Image source={require("../assets/icon-home.png")} /> */}
       </TouchableOpacity>
       <TouchableOpacity style={styles.navbarItem}>
-        <Image source={require("../assets/icon-bulb.png")} />
+        {/* <Image source={require("../assets/icon-bulb.png")} /> */}
       </TouchableOpacity>
       <TouchableOpacity style={styles.navbarItem} onPress={handleTasksClick}>
-        <Image source={require("../assets/icon-schedule.png")} />
+        {/* <Image source={require("../assets/icon-schedule.png")} /> */}
       </TouchableOpacity>
       <TouchableOpacity style={styles.navbarItem}>
         <Image source={require("../assets/icon-pen.png")} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.navbarItem}>
-        <Image source={require("../assets/icon-list.png")} />
+        {/* <Image source={require("../assets/icon-list.png")} /> */}
       </TouchableOpacity>
     </View>
   );

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 300,
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
   backArrowIcon: {
     position: "absolute",
@@ -69,7 +69,9 @@ const styles = StyleSheet.create({
     right: 20,
   },
   screenHeaderText: {
-    transform: [{ translateX: "-90%" }, { translateY: "-20%" }],
+    // transform: [{ translateX: "-90%" }, { translateY: "-20%" }],
+    transform: [{ translateY: "-20%" }],
+    marginLeft: 20,
   },
   title: {
     color: colors.white,
