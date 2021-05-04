@@ -11,6 +11,8 @@ import {
 import Font from "./Font";
 import { colors, icons } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
+import { Ionicons } from "@expo/vector-icons";
+
 import SvgComponent from "./SvgComponent";
 
 const ScreenHeader = ({ title, navigation }) => {
@@ -32,13 +34,18 @@ const ScreenHeader = ({ title, navigation }) => {
       <SvgComponent content={icons.screenHeader} iconStyle={styles.iconStyle} />
 
       <TouchableOpacity style={styles.backArrowIcon} onPress={handleBackArrow}>
-        <Image source={require("../assets/icon-back-arrow.png")} />
+        <Ionicons
+          name="arrow-back-outline"
+          color={colors.whiteDark}
+          size={40}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.settingsIcon}
         onPress={handleSettingsIcon}
       >
-        <Image source={require("../assets/icon-settings.png")} />
+        {/* <Image source={require("../assets/icon-settings.png")} /> */}
+        <Ionicons name="settings-outline" color={colors.whiteDark} size={32} />
       </TouchableOpacity>
       <View style={styles.screenHeaderText}>
         <Text style={[fonts.heading1, styles.title]}>
@@ -63,7 +70,7 @@ const styles = StyleSheet.create({
   },
   backArrowIcon: {
     position: "absolute",
-    top: 50,
+    top: 45,
     left: 20,
   },
   settingsIcon: {

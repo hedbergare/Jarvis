@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SvgComponent from "./SvgComponent";
 import Font from "./Font";
 
-const ToggleInput = ({ title, icon, value }) => {
+const ToggleInput = ({ title, icon, value, handleOnPress }) => {
   return (
     <View style={styles.ToggleInput}>
       <SvgComponent content={icon} iconStyle={styles.iconStyle} />
@@ -15,12 +15,14 @@ const ToggleInput = ({ title, icon, value }) => {
         <Text style={fonts.subText}>
           <Font text={title + ":"}></Font>
         </Text>
-        <Text style={fonts.heading3}>
-          <Font text={value} textStyle={styles.valueText}></Font>
-          <View style={styles.chevronStyle}>
-            <Ionicons name="chevron-down-outline" color={colors.black} />
-          </View>
-        </Text>
+        <TouchableOpacity onPress={handleOnPress}>
+          <Text style={fonts.heading3}>
+            <Font text={value} textStyle={styles.valueText}></Font>
+            <View style={styles.chevronStyle}>
+              <Ionicons name="chevron-down-outline" color={colors.black} />
+            </View>
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
