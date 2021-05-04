@@ -23,6 +23,14 @@ export const colors = {
 };
 
 export const icons = {
+  screenHeader: `<svg id="Component_59_4" data-name="Component 59 – 4" xmlns="http://www.w3.org/2000/svg" width="100%" height="287" viewBox="0 0 457 287">
+  <path id="Path_2" data-name="Path 2" d="M0,0H457V285.725H0Z" fill="#123b91"/>
+  <path id="Intersection_5" data-name="Intersection 5" d="M0,86.611C20.345,42.972,60.861,10.28,109.851,0V86.611Z" transform="translate(347.149 199.114)" fill="#fff" opacity="0.097"/>
+  <path id="Intersection_6" data-name="Intersection 6" d="M0,69.019a158.452,158.452,0,0,1,261.6,0Z" transform="translate(169.199 207.91)" fill="#fff" opacity="0.1"/>
+  <path id="Intersection_4" data-name="Intersection 4" d="M5.537,285.725A817.566,817.566,0,0,1,0,189.919C0,120.287,8.5,55.236,23.224,0H125V285.725Z" transform="translate(332)" fill="#fff" opacity="0.1"/>
+  <path id="Rectangle_31" data-name="Rectangle 31" d="M48,0H409a48,48,0,0,1,48,48v0a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0v0A48,48,0,0,1,48,0Z" transform="translate(0 239)" fill="#fff"/>
+</svg>
+`,
   alphabet: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="49" height="49" viewBox="0 0 49 49">
   <defs>
     <filter id="Rectangle_30" x="0" y="0" width="49" height="49" filterUnits="userSpaceOnUse">

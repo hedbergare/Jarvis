@@ -9,8 +9,9 @@ import {
 } from "react-native";
 
 import Font from "./Font";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
+import SvgComponent from "./SvgComponent";
 
 const ScreenHeader = ({ title, navigation }) => {
   const handleBackArrow = () => {
@@ -24,10 +25,12 @@ const ScreenHeader = ({ title, navigation }) => {
     }
   };
   return (
-    <ImageBackground
+    <View
       style={styles.screenHeader}
-      source={require("../assets/screen-header.png")}
+      // source={require("../assets/screen-header.png")}
     >
+      <SvgComponent content={icons.screenHeader} iconStyle={styles.iconStyle} />
+
       <TouchableOpacity style={styles.backArrowIcon} onPress={handleBackArrow}>
         <Image source={require("../assets/icon-back-arrow.png")} />
       </TouchableOpacity>
@@ -45,7 +48,7 @@ const ScreenHeader = ({ title, navigation }) => {
           <Font text="Saturday 20th April"></Font>
         </Text>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -54,7 +57,7 @@ export default ScreenHeader;
 const styles = StyleSheet.create({
   screenHeader: {
     width: "100%",
-    height: 300,
+    height: 250,
     justifyContent: "center",
     // alignItems: "center",
   },
@@ -69,8 +72,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   screenHeaderText: {
-    // transform: [{ translateX: "-90%" }, { translateY: "-20%" }],
-    transform: [{ translateY: "-20%" }],
+    transform: [{ translateX: "10%" }],
     marginLeft: 20,
   },
   title: {
@@ -79,5 +81,13 @@ const styles = StyleSheet.create({
   date: {
     transform: [{ translateX: 10 }],
     color: colors.gray,
+  },
+  iconStyle: {
+    transform: [{ translateY: -30 }],
+    position: "absolute",
+    top: 0,
+    left: 0,
+
+    resizeMode: "contain",
   },
 });
