@@ -27,10 +27,7 @@ const ScreenHeader = ({ title, navigation }) => {
     }
   };
   return (
-    <View
-      style={styles.screenHeader}
-      // source={require("../assets/screen-header.png")}
-    >
+    <View style={styles.screenHeader}>
       <SvgComponent content={icons.screenHeader} iconStyle={styles.iconStyle} />
 
       <TouchableOpacity style={styles.backArrowIcon} onPress={handleBackArrow}>
@@ -44,7 +41,6 @@ const ScreenHeader = ({ title, navigation }) => {
         style={styles.settingsIcon}
         onPress={handleSettingsIcon}
       >
-        {/* <Image source={require("../assets/icon-settings.png")} /> */}
         <Ionicons name="settings-outline" color={colors.whiteDark} size={32} />
       </TouchableOpacity>
       <View style={styles.screenHeaderText}>

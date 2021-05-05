@@ -7,7 +7,10 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Pressable,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+
 import CreateField from "../components/CreateField";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { colors, icons } from "../../constants/vars";
@@ -97,14 +100,14 @@ const CreateTaskScreen = ({ navigation }) => {
         presentationStyle="overFullScreen"
         transparent={true}
         animationType="fade"
-        style={styles.datePicker}
+        style={styles.modalBackground}
         visible={toggleModal === "date"}
         onRequestClose={() => {
           setToggleModal("");
         }}
       >
         <TouchableOpacity
-          style={styles.datePicker}
+          style={styles.modalBackground}
           onPress={() => {
             setToggleModal("");
           }}
@@ -122,6 +125,40 @@ const CreateTaskScreen = ({ navigation }) => {
               display="spinner"
               onChange={onChange}
             />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal
+        presentationStyle="overFullScreen"
+        transparent={true}
+        animationType="fade"
+        style={styles.modalBackground}
+        visible={toggleModal === "list"}
+        onRequestClose={() => {
+          setToggleModal("");
+        }}
+      >
+        <TouchableOpacity
+          style={styles.modalBackground}
+          onPress={() => {
+            setToggleModal("");
+          }}
+        >
+          <View style={styles.datePickerContainer}>
+            <Pressable>
+              <Picker
+                selectedValue={assignedList}
+                onValueChange={(itemValue, itemIndex) =>
+                  setAssignedList(itemValue)
+                }
+              >
+                <Picker.Item label="General" value="General" />
+                <Picker.Item label="Summer 2021" value="Summer 2021" />
+                <Picker.Item label="End of Year" value="End of Year" />
+                <Picker.Item label="Misc" value="Misc" />
+              </Picker>
+            </Pressable>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -160,7 +197,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "white",
   },
-  datePicker: {
+  modalBackground: {
     width: "100%",
     height: "100%",
     justifyContent: "center",

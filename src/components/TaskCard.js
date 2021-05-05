@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
 import Tag from "./Tag.js";
