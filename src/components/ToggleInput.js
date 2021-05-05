@@ -3,7 +3,6 @@ import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
 import { Ionicons } from "@expo/vector-icons";
-
 import SvgComponent from "./SvgComponent";
 import Font from "./Font";
 

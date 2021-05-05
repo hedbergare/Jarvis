@@ -1,9 +1,7 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Font from "./Font";
-import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const LargeButton = ({ backgroundColor, text, color }) => {
   return (
