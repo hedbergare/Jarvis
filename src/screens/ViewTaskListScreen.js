@@ -4,23 +4,34 @@ import { colors } from "../../constants/vars";
 import ScreenHeader from "../components/ScreenHeader";
 import TaskCard from "../components/TaskCard";
 
-const ViewTaskListScreen = ({ navigation }) => {
-  const handleOnPressTaskCard = () => {
-    navigation.navigate("TaskScreen");
+const ViewTaskListScreen = ({ navigation, route }) => {
+  const list = route.params;
+
+  const handleOnPressTaskCard = (task) => {
+    navigation.navigate("TaskScreen", task);
   };
-  const renderTaskCards = () => {
+  const renderTaskCards = (task, index) => {
     return (
-      <>
-        <TaskCard handleOnPress={() => handleOnPressTaskCard()} />
-        <TaskCard />
-        <TaskCard />
-      </>
+      <TaskCard
+        key={index}
+        task={task}
+        list={list}
+        handleOnPress={(task) => handleOnPressTaskCard(task)}
+      />
     );
   };
+
   return (
     <View style={styles.ViewTaskListScreen}>
-      <ScreenHeader title="Task List" navigation={navigation} />
-      {renderTaskCards()}
+      <ScreenHeader title={list.name} navigation={navigation} />
+      {list.tasks ? (
+        Object.values(list.tasks).map((task, index) => {
+          return renderTaskCards(task, index);
+        })
+      ) : (
+        /* TO DO - Add a "add task" button here */
+        <Text>You don't have any tasks in this list yet. Add task here:</Text>
+      )}
     </View>
   );
 };

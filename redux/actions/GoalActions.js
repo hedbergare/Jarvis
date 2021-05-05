@@ -9,11 +9,13 @@ export const fetchOwnGoals = (uid) => {
     firebase
       .database()
       .ref("/goals/")
-      .orderByChild("ownerId")
+      .orderByChild("userId")
       .equalTo(uid)
       .on("value", (snapshot) => {
         snapshot.forEach((goal) => {
-          goals.push(goal.val());
+          const tempObject = goal.val();
+          tempObject.key = goal.key;
+          goals.push(tempObject);
         });
         dispatch({ type: FETCH_OWN_GOALS, goals: goals });
       });

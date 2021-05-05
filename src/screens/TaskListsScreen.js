@@ -2,31 +2,38 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
-import Navbar from "../components/Navbar";
 import ScreenHeader from "../components/ScreenHeader";
 import TaskListCard from "../components/TaskListCard";
+import { useSelector, useStore } from "react-redux";
 
 const TaskListsScreen = ({ navigation }) => {
   const [displayOwned, setDisplayOwned] = React.useState(true);
+
+  const taskLists = useSelector((state) => state.taskLists);
+  const { sharedTaskLists } = useSelector((state) => state.sharedTaskLists);
+
   const handleDisplayOwned = () => {
     setDisplayOwned(true);
   };
+
   const handleDisplayShared = () => {
     setDisplayOwned(false);
   };
-  const handleOnPressTaskList = () => {
-    navigation.navigate("ViewTaskListScreen");
+
+  const handleOnPressTaskList = (list) => {
+    navigation.navigate("ViewTaskListScreen", list);
   };
-  const renderTasklists = () => {
+
+  const renderTasklist = (list, index) => {
     return (
       <TaskListCard
-        name="General"
-        completed={10}
-        total={15}
-        onPressHandler={() => handleOnPressTaskList}
+        key={index}
+        list={list}
+        onPressHandler={(list) => handleOnPressTaskList(list)}
       />
     );
   };
+
   return (
     <View style={styles.TaskListsScreen}>
       <ScreenHeader title="Task lists" navigation={navigation} />
@@ -61,7 +68,15 @@ const TaskListsScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.taskListsContainer}>{renderTasklists()}</View>
+      <View style={styles.taskListsContainer}>
+        {displayOwned
+          ? Object.values(taskLists).map((list, index) => {
+              return renderTasklist(list, index);
+            })
+          : Object.values(sharedTaskLists).map((list, index) => {
+              return renderTasklist(list, index);
+            })}
+      </View>
     </View>
   );
 };
@@ -91,8 +106,5 @@ const styles = StyleSheet.create({
   },
   fadedText: {
     opacity: 0.5,
-  },
-  taskListsContainer: {
-    marginTop: 20,
   },
 });

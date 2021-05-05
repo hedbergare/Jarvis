@@ -4,13 +4,14 @@ import {
   FETCH_TASK_LISTS,
   COMPLETE_TASK,
   SHARE_TASK_LIST,
+  COMPLETE_SHARED_TASK,
 } from "../constants";
 import firebase from "firebase/app";
 import "firebase/database";
 require("firebase/auth");
 
 export const fetchTaskLists = (uid) => {
-  const taskLists = [];
+  let taskLists;
   return (dispatch) => {
     firebase
       .database()
@@ -18,9 +19,16 @@ export const fetchTaskLists = (uid) => {
       .orderByChild("userId")
       .equalTo(uid)
       .on("value", (snapshot) => {
+        taskLists = [];
         snapshot.forEach((list) => {
-          taskLists.push(list.val());
+          const tempObject = list.val();
+          tempObject.key = list.key;
+          for (const index in tempObject.tasks) {
+            tempObject.tasks[index].key = index;
+          }
+          taskLists.push(tempObject);
         });
+
         dispatch({ type: FETCH_TASK_LISTS, task_lists: taskLists });
       });
   };
@@ -60,12 +68,25 @@ export const addTaskToList = (task) => {
     dispatch({ type: ADD_TASK });
   };
 };
-export const completeTask = (taskListId, taskId) => {
+export const completeTask = (taskListId, taskId, updatedState) => {
+  const ref = firebase.database().ref("/task_lists/" + taskListId);
   return (dispatch) => {
     firebase
       .database()
       .ref("/task_lists/" + taskListId + "/tasks/" + taskId)
-      .update({ completed: true });
+      .update({ completed: updatedState });
+    firebase
+      .database()
+      .ref("/task_lists/" + taskListId + "/tasks/")
+      .once("value", (tasks) => {
+        let allTasks = true;
+        tasks.forEach((task) => {
+          if (!task.val().completed) {
+            allTasks = false;
+          }
+        });
+        ref.update({ completed: allTasks });
+      });
     dispatch({ type: COMPLETE_TASK });
   };
 };

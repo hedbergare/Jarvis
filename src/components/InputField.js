@@ -1,9 +1,8 @@
 import React from "react";
 import { Image, StyleSheet, Text, View, TextInput } from "react-native";
 import { colors } from "../../constants/vars";
-import { fonts } from "../../constants/fonts";
 
-const InputField = ({ placeHolderText, src, secureEntry }) => {
+const InputField = ({ placeHolderText, src, secureEntry, textChanged }) => {
   return (
     <View style={styles.InputField}>
       <Image source={src} />
@@ -11,6 +10,7 @@ const InputField = ({ placeHolderText, src, secureEntry }) => {
         secureTextEntry={secureEntry}
         style={styles.input}
         placeholder={placeHolderText}
+        onChangeText={(text) => textChanged(text)}
       />
     </View>
   );
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: colors.grayDark,
-    marginTop: 20,
+    marginBottom: 20,
   },
   input: {
     marginLeft: 10,
