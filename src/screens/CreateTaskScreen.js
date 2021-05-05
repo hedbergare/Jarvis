@@ -117,7 +117,7 @@ const CreateTaskScreen = ({ navigation }) => {
               maximumDate={
                 new Date(now.getFullYear() + 1, now.getMonth(), now.getDate())
               }
-              minimumate={now}
+              minimumDate={now}
               testID="dateTimePicker"
               value={date}
               mode="date"
