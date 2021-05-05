@@ -1,17 +1,6 @@
 import React, { useState } from "react";
-import {
-  Image,
-  View,
-  Button,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import LoginService from "../services/LoginService";
-import { useDispatch } from "react-redux";
-import { logIn } from "../../redux/actions/AuthActions";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import LargeButton from "../components/LargeButton";
@@ -20,8 +9,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import InputField from "../components/InputField";
 
 const LoginScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,26 +18,22 @@ const LoginScreen = ({ navigation }) => {
       contentContainerStyle={styles.LoginScreen}
       scrollEnabled={true}
     >
-      {/* TO DO - does the image scale? Is it too big?? And should we have our logo here instead?*/}
       <Image
         style={styles.profileImage}
         source={require("../assets/icon-profile.png")}
       />
-      {/* 
-          onChangeText={(password) => setPassword(password)}
-      */}
       <InputField
         placeHolderText="Email"
         secureEntry={false}
         src={require("../assets/icon-mail.png")}
+        textChanged={(text) => setEmail(text)}
       ></InputField>
       <InputField
         placeHolderText="Password"
         secureEntry={true}
         src={require("../assets/icon-key.png")}
+        textChanged={(text) => setPassword(text)}
       ></InputField>
-
-      {/* TO-DO: Navigate to ForgotPasswordScreen */}
       <TouchableOpacity style={styles.forgotPasswordContainer}>
         <Text style={[styles.forgotPasswordText, fonts.subText]}>
           <Font text="Forgot your password?"></Font>
@@ -71,7 +54,11 @@ const LoginScreen = ({ navigation }) => {
         <Font text="or"></Font>
       </Text>
 
-      <TouchableOpacity onPress={() => LoginService.signIn(email, password)}>
+      <TouchableOpacity
+        onPress={() => {
+          LoginService.signIn(email, password);
+        }}
+      >
         <LargeButton
           text="LOG IN"
           backgroundColor={colors.redLight}

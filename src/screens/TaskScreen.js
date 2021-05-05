@@ -7,17 +7,19 @@ import { fonts } from "../../constants/fonts";
 import Font from "../components/Font";
 import { colors } from "../../constants/vars";
 
-const TaskScreen = ({ navigation }) => {
+const TaskScreen = ({ navigation, route }) => {
+  const task = route.params;
+
   return (
     <View style={styles.TaskScreen}>
-      <ScreenHeader title="Task" navigation={navigation} />
+      <ScreenHeader title={"Task"} navigation={navigation} />
       <DisplayField
-        text="Drink a huge glass of water"
+        text={task.name}
         src={require("../assets/icon-alphabet.png")}
         textStyle={fonts.heading2}
       />
       <DisplayField
-        text="10th May, Thursday"
+        text={task.deadline}
         src={require("../assets/icon-color-calender.png")}
         textStyle={fonts.heading3}
       />
@@ -26,11 +28,7 @@ const TaskScreen = ({ navigation }) => {
           <Font text="Description:"></Font>
         </Text>
         <Text style={[styles.descriptionText, fonts.heading4]}>
-          <Font
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris."
-          ></Font>
+          <Font text={task.description}></Font>
         </Text>
       </View>
       <View style={styles.editButton}>
@@ -56,6 +54,6 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginLeft: 180,
-    marginTop: 50,
+    marginTop: 0,
   },
 });

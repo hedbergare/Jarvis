@@ -10,6 +10,7 @@ export const SHARE_TASK_LIST = "share_task_list";
 
 //SHARED TASK LIST ACTIONS
 export const FETCH_SHARED_TASK_LISTS = "fetch_shared_task_lists";
+export const COMPLETE_SHARED_TASK = "complete_shared_task";
 
 //GOAL ACTIONS
 export const FETCH_OWN_GOALS = "fetch_own_goals";
