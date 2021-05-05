@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/vars";
-import { fonts } from "../../constants/fonts";
 
 const DisplayField = ({ text, src, textStyle }) => {
   return (
@@ -25,5 +24,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 20,
+    width: 50,
+    height: 50,
   },
 });

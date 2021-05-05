@@ -8,12 +8,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "./src/screens/HomeScreen";
-import LoginScreen from "./src/screens/LoginScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
-import RegistrationScreen from "./src/screens/RegistrationScreen";
 import Store from "./redux/Store";
 import { Provider } from "react-redux";
-import TaskListsScreen from "./src/screens/TaskListsScreen";
 import GoalStackScreen from "./src/navigation/GoalStackScreen";
 import ListStackScreen from "./src/navigation/ListStackScreen";
 import CreateTaskStackScreen from "./src/navigation/CreateTaskStackScreen";

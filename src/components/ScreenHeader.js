@@ -1,16 +1,12 @@
 import React from "react";
-import {
-  StyleSheet,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 
 import Font from "./Font";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
+import { Ionicons } from "@expo/vector-icons";
+
+import SvgComponent from "./SvgComponent";
 
 const ScreenHeader = ({ title, navigation }) => {
   const handleBackArrow = () => {
@@ -24,18 +20,21 @@ const ScreenHeader = ({ title, navigation }) => {
     }
   };
   return (
-    <ImageBackground
-      style={styles.screenHeader}
-      source={require("../assets/screen-header.png")}
-    >
+    <View style={styles.screenHeader}>
+      <SvgComponent content={icons.screenHeader} iconStyle={styles.iconStyle} />
+
       <TouchableOpacity style={styles.backArrowIcon} onPress={handleBackArrow}>
-        <Image source={require("../assets/icon-back-arrow.png")} />
+        <Ionicons
+          name="arrow-back-outline"
+          color={colors.whiteDark}
+          size={40}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.settingsIcon}
         onPress={handleSettingsIcon}
       >
-        <Image source={require("../assets/icon-settings.png")} />
+        <Ionicons name="settings-outline" color={colors.whiteDark} size={32} />
       </TouchableOpacity>
       <View style={styles.screenHeaderText}>
         <Text style={[fonts.heading1, styles.title]}>
@@ -45,7 +44,7 @@ const ScreenHeader = ({ title, navigation }) => {
           <Font text="Saturday 20th April"></Font>
         </Text>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -54,13 +53,13 @@ export default ScreenHeader;
 const styles = StyleSheet.create({
   screenHeader: {
     width: "100%",
-    height: 300,
+    height: 250,
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
   backArrowIcon: {
     position: "absolute",
-    top: 50,
+    top: 45,
     left: 20,
   },
   settingsIcon: {
@@ -69,7 +68,8 @@ const styles = StyleSheet.create({
     right: 20,
   },
   screenHeaderText: {
-    transform: [{ translateX: "-90%" }, { translateY: "-20%" }],
+    transform: [{ translateX: "10%" }],
+    marginLeft: 20,
   },
   title: {
     color: colors.white,
@@ -77,5 +77,13 @@ const styles = StyleSheet.create({
   date: {
     transform: [{ translateX: 10 }],
     color: colors.gray,
+  },
+  iconStyle: {
+    transform: [{ translateY: -30 }],
+    position: "absolute",
+    top: 0,
+    left: 0,
+
+    resizeMode: "contain",
   },
 });
