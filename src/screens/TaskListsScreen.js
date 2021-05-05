@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
-import Navbar from "../components/Navbar";
 import ScreenHeader from "../components/ScreenHeader";
 import TaskListCard from "../components/TaskListCard";
 
