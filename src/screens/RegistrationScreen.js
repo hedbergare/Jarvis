@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Button,
-  Text,
-  TextInput,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import firebase from "firebase/app";
+import { colors } from "../../constants/vars";
 import "firebase/database";
+import ScreenHeader from "../components/ScreenHeader";
+import InputField from "../components/InputField";
+import LargeButton from "../components/LargeButton";
 require("firebase/auth");
 
 const RegistrationScreen = ({ navigation }) => {
@@ -44,57 +42,59 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.RegistrationScreen}>
+      <ScreenHeader title="Register account" navigation={navigation} />
       <Text style={styles.errorMessage}> {errorMessage}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="First name"
-        onChangeText={(firstName) => setFirstName(firstName)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Last name"
-        onChangeText={(lastName) => setLastName(lastName)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={(email) => setEmail(email)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={(password) => setPassword(password)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm password"
-        onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
-      />
-      <Button
-        title="Register account"
-        onPress={() => registerAccount()}
-      ></Button>
-    </SafeAreaView>
+      <View style={styles.inputContainer}>
+        <InputField
+          placeHolderText="First Name"
+          secureEntry={false}
+          textChanged={(text) => setFirstName(text)}
+          src={require("../assets/icon-mail.png")}
+        />
+        <InputField
+          placeHolderText="Last name"
+          secureEntry={false}
+          textChanged={(lastName) => setLastName(lastName)}
+          src={require("../assets/icon-mail.png")}
+        />
+        <InputField
+          placeHolderText="Email"
+          secureEntry={false}
+          textChanged={(email) => setEmail(email)}
+          src={require("../assets/icon-mail.png")}
+        />
+        <InputField
+          placeHolderText="Password"
+          secureEntry={true}
+          textChanged={(password) => setPassword(password)}
+          src={require("../assets/icon-key.png")}
+        />
+        <InputField
+          placeHolderText="Confirm Password"
+          secureEntry={true}
+          textChanged={(password) => setConfirmPassword(password)}
+          src={require("../assets/icon-key.png")}
+        />
+      </View>
+      <TouchableOpacity onPress={() => registerAccount()}>
+        <LargeButton
+          text="Register"
+          backgroundColor={colors.redLight}
+          color={colors.white}
+        ></LargeButton>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  RegistrationScreen: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
   },
-  input: {
-    width: "85%",
-    margin: 10,
-    padding: 15,
-    fontSize: 16,
-    borderColor: "#d3d3d3",
-    borderBottomWidth: 1,
-    textAlign: "center",
-  },
+  inputContainer: {},
   errorMessage: {
     color: "tomato",
   },
