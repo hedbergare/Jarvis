@@ -20,14 +20,22 @@ import Font from "../components/Font";
 import { fonts } from "../../constants/fonts";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { addTaskToList } from "../../redux/actions/TaskListActions";
+import DateService from "../services/DateService";
 
 const CreateTaskScreen = ({ navigation }) => {
   Moment.locale("en");
+
+  const dispatch = useDispatch();
+  const taskLists = useSelector((state) => state.taskLists);
 
   const [date, setDate] = useState(new Date());
 
   const [assignedList, setAssignedList] = useState("General");
   const [assignedGoal, setAssignedGoal] = useState("None");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [toggleModal, setToggleModal] = useState();
 
   const now = new Date();
@@ -39,14 +47,29 @@ const CreateTaskScreen = ({ navigation }) => {
   const handleToggleModal = (selector) => {
     setToggleModal(selector);
   };
-  const formatDate = () => {
-    return Moment(date).format("MMM DD dddd");
-  };
 
   const handleAddTask = () => {
-    console.log("add");
+    let listId;
+    for (let list of taskLists) {
+      if (assignedList === list.name) {
+        listId = list.key;
+      }
+    }
+    const task = {
+      name: name,
+      description: description,
+      deadline: date,
+      date_created: now,
+      listId: listId,
+    };
+    dispatch(addTaskToList(task));
+    resetInputs();
   };
+  const resetInputs = () => {};
 
+  const renderTaskListPicker = (list, index) => {
+    return <Picker.Item key={index} label={list.name} value={list.name} />;
+  };
   return (
     <ScrollView contentContainerStyle={styles.CreateTaskScreen}>
       <KeyboardAwareScrollView
@@ -59,11 +82,12 @@ const CreateTaskScreen = ({ navigation }) => {
           src={icons.alphabet}
           placeholder="Declare a name"
           title="Name"
+          textChanged={(text) => setName(text)}
         />
         <ToggleInput
           title="Due date"
           icon={icons.calender}
-          value={formatDate()}
+          value={DateService.formatDate(date)}
           handleOnPress={() => handleToggleModal("date")}
         />
         <ToggleInput
@@ -82,6 +106,7 @@ const CreateTaskScreen = ({ navigation }) => {
           <Font text="Description:"></Font>
         </Text>
         <TextInput
+          onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={4}
           placeholder="Add descripion..."
@@ -153,10 +178,9 @@ const CreateTaskScreen = ({ navigation }) => {
                   setAssignedList(itemValue)
                 }
               >
-                <Picker.Item label="General" value="General" />
-                <Picker.Item label="Summer 2021" value="Summer 2021" />
-                <Picker.Item label="End of Year" value="End of Year" />
-                <Picker.Item label="Misc" value="Misc" />
+                {Object.values(taskLists).map((list, index) => {
+                  return renderTaskListPicker(list, index);
+                })}
               </Picker>
             </Pressable>
           </View>
@@ -178,7 +202,6 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontWeight: "900",
-
     width: "90%",
     marginBottom: 5,
   },

@@ -10,6 +10,7 @@ import { completeTask } from "../../redux/actions/TaskListActions";
 import { completeSharedTask } from "../../redux/actions/SharedTaskListActions";
 import firebase from "firebase/app";
 import "firebase/database";
+import DateService from "../services/DateService";
 require("firebase/auth");
 const TaskCard = ({ handleOnPress, task, list }) => {
   const dispatch = useDispatch();
@@ -74,11 +75,14 @@ const TaskCard = ({ handleOnPress, task, list }) => {
               })
             }
           >
-            <Font text="Due to: Tue 10 Jun" />
+            <Font
+              text={"Due to: " + DateService.formatTimeStamp(task.deadline)}
+              textStyle={styles.dateText}
+            />
           </Text>
         </TouchableOpacity>
         <Image
-          style={styles.screenHeader}
+          style={styles.trashIcon}
           source={require("../assets/icon-delete-trash-can.png")}
         />
       </View>
@@ -100,10 +104,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    /* justifyContent: "space-around", */
   },
   TaskCardText: {
-    transform: [{ translateX: -15 }],
+    /* transform: [{ translateX: -15 }], */
   },
   TaskCardTitle: {
     color: "black",
@@ -111,5 +115,12 @@ const styles = StyleSheet.create({
   tagContainer: {
     marginTop: 10,
     flexDirection: "row",
+  },
+  dateText: {
+    fontSize: 11,
+  },
+  trashIcon: {
+    position: "absolute",
+    right: 0,
   },
 });
