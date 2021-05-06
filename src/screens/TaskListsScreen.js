@@ -1,13 +1,24 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Modal,
+  Pressable,
+} from "react-native";
 import { fonts } from "../../constants/fonts";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import ScreenHeader from "../components/ScreenHeader";
 import TaskListCard from "../components/TaskListCard";
 import { useSelector, useStore } from "react-redux";
+import AddButton from "../components/AddButton";
+import FullScreenModal from "../components/FullScreenModal";
+import CreateField from "../components/CreateField";
 
 const TaskListsScreen = ({ navigation }) => {
   const [displayOwned, setDisplayOwned] = React.useState(true);
+  const [showAddModal, setShowAddModal] = React.useState(false);
 
   const taskLists = useSelector((state) => state.taskLists);
   const { sharedTaskLists } = useSelector((state) => state.sharedTaskLists);
@@ -77,6 +88,28 @@ const TaskListsScreen = ({ navigation }) => {
               return renderTasklist(list, index);
             })}
       </View>
+
+      <AddButton
+        handleOnPress={() => {
+          setShowAddModal(true);
+        }}
+      />
+      {showAddModal && (
+        <FullScreenModal
+          title="Create Task List"
+          visible={showAddModal}
+          handleClose={() => {
+            setShowAddModal(false);
+          }}
+          content={
+            <CreateField
+              src={icons.alphabet}
+              placeholder="Declare a name"
+              title="Name"
+            />
+          }
+        />
+      )}
     </View>
   );
 };
