@@ -6,6 +6,9 @@ import "firebase/database";
 import ScreenHeader from "../components/ScreenHeader";
 import InputField from "../components/InputField";
 import LargeButton from "../components/LargeButton";
+import { useDispatch } from "react-redux";
+import { addTaskList } from "../../redux/actions/TaskListActions";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 require("firebase/auth");
 
 const RegistrationScreen = ({ navigation }) => {
@@ -15,6 +18,8 @@ const RegistrationScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const dispatch = useDispatch();
 
   const registerAccount = () => {
     if (password !== confirmPassword) {
@@ -33,6 +38,9 @@ const RegistrationScreen = ({ navigation }) => {
               email: user.email,
               first_name: firstName,
               last_name: lastName,
+            })
+            .then(() => {
+              dispatch(addTaskList(userCredential.user.uid, "General"));
             });
         })
         .catch((error) => {
@@ -42,8 +50,13 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.RegistrationScreen}>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.RegistrationScreen}
+      scrollEnabled={true}
+    >
       <ScreenHeader title="Register account" navigation={navigation} />
+
       <Text style={styles.errorMessage}> {errorMessage}</Text>
       <View style={styles.inputContainer}>
         <InputField
@@ -84,7 +97,7 @@ const RegistrationScreen = ({ navigation }) => {
           color={colors.white}
         ></LargeButton>
       </TouchableOpacity>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

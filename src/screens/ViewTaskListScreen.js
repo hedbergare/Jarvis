@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { colors } from "../../constants/vars";
 import ScreenHeader from "../components/ScreenHeader";
 import TaskCard from "../components/TaskCard";
@@ -23,15 +23,19 @@ const ViewTaskListScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.ViewTaskListScreen}>
-      <ScreenHeader title={list.name} navigation={navigation} />
-      {list.tasks ? (
-        Object.values(list.tasks).map((task, index) => {
-          return renderTaskCards(task, index);
-        })
-      ) : (
-        /* TO DO - Add a "add task" button here */
-        <Text>You don't have any tasks in this list yet. Add task here:</Text>
-      )}
+      <ScrollView>
+        {/* <View style={styles.ViewTaskListScreen}> */}
+        <ScreenHeader title={list.name} navigation={navigation} />
+        {list.tasks ? (
+          Object.values(list.tasks).map((task, index) => {
+            return renderTaskCards(task, index);
+          })
+        ) : (
+          /* TO DO - Add a "add task" button here */
+          <Text>You don't have any tasks in this list yet. Add task here:</Text>
+        )}
+        {/* </View> */}
+      </ScrollView>
     </View>
   );
 };
