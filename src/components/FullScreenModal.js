@@ -13,7 +13,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Font from "./Font";
 import ConfirmButton from "./ConfirmButton";
-const FullScreenModal = ({ title, handleClose, visible, content }) => {
+const FullScreenModal = ({
+  title,
+  handleConfirm,
+  handleClose,
+  visible,
+  content,
+}) => {
   return (
     <Modal
       presentationStyle="overFullScreen"
@@ -40,7 +46,7 @@ const FullScreenModal = ({ title, handleClose, visible, content }) => {
               </Text>
             </View>
             {content}
-            <ConfirmButton />
+            <ConfirmButton handleConfirm={handleConfirm} />
           </View>
         </Pressable>
       </TouchableOpacity>

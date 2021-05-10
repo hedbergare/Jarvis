@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   AddButton: {
     position: "absolute",
     top: "85%",
+    alignSelf: "center",
     paddingLeft: 2,
     paddingTop: -1,
     width: 70,

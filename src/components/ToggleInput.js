@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   ToggleInput: {
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
+    minWidth: "90%",
     paddingBottom: 20,
     marginBottom: 20,
     borderBottomWidth: 1,

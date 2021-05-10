@@ -1,11 +1,25 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { colors } from "../../constants/vars";
+import AddButton from "../components/AddButton";
 import ScreenHeader from "../components/ScreenHeader";
+import { useSelector } from "react-redux";
+
 import TaskCard from "../components/TaskCard";
 
 const ViewTaskListScreen = ({ navigation, route }) => {
-  const list = route.params;
+  const listKey = route.params;
+
+  const fetchCurrentList = () => {
+    const taskLists = useSelector((state) => state.taskLists);
+    let currentList;
+    for (const item of taskLists) {
+      item.key === listKey ? (currentList = item) : null;
+    }
+    return currentList;
+  };
+
+  const list = fetchCurrentList();
 
   const handleOnPressTaskCard = (task) => {
     navigation.navigate("TaskScreen", task);
@@ -36,6 +50,14 @@ const ViewTaskListScreen = ({ navigation, route }) => {
         )}
         {/* </View> */}
       </ScrollView>
+      <AddButton
+        handleOnPress={() => {
+          navigation.navigate("CreateTaskStackScreen", {
+            screen: "CreateTaskScreen",
+            params: { listName: list.name },
+          });
+        }}
+      />
     </View>
   );
 };
