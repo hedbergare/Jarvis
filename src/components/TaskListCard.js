@@ -26,6 +26,18 @@ const TaskListCard = ({ list, onPressHandler }) => {
     }
     return counter;
   };
+
+  const calculateProgress = () => {
+    if (!list.completed) {
+      if (total == 0) {
+        return 0;
+      } else {
+        return Math.floor((completed / total) * 100);
+      }
+    } else {
+      return 100;
+    }
+  };
   const completed = getCompletedTasks();
   const total = getTotalTasks();
 
@@ -35,7 +47,7 @@ const TaskListCard = ({ list, onPressHandler }) => {
       onPress={() => onPressHandler(list)}
     >
       <ProgressCircle
-        percent={!list.completed ? (completed / total) * 100 : 100}
+        percent={calculateProgress()}
         radius={25}
         borderWidth={8}
         color={colors.blueDark}
@@ -43,9 +55,7 @@ const TaskListCard = ({ list, onPressHandler }) => {
         bgColor={colors.white}
       >
         <Text style={styles.progressText}>
-          {!list.completed
-            ? Math.round((completed / total) * 100) + "%"
-            : 100 + "%"}
+          <Font text={calculateProgress() + "%"}></Font>{" "}
         </Text>
       </ProgressCircle>
       <View style={styles.textContainer}>

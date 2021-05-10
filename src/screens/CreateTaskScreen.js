@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -24,19 +24,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTaskToList } from "../../redux/actions/TaskListActions";
 import DateService from "../services/DateService";
 
-const CreateTaskScreen = ({ navigation }) => {
+const CreateTaskScreen = ({ navigation, route }) => {
   Moment.locale("en");
-
   const dispatch = useDispatch();
   const taskLists = useSelector((state) => state.taskLists);
+  const routeParams = route.params;
 
   const [date, setDate] = useState(new Date());
 
-  const [assignedList, setAssignedList] = useState("General");
+  const [assignedList, setAssignedList] = useState();
   const [assignedGoal, setAssignedGoal] = useState("None");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [toggleModal, setToggleModal] = useState();
+  const [toggleRender, setToggleRender] = useState(false);
+
+  const inputRef = React.createRef();
+
+  useEffect(() => {
+    if (routeParams?.listName) {
+      setAssignedList(routeParams?.listName);
+    } else {
+      setAssignedList("General");
+    }
+  }, [routeParams]);
 
   const now = new Date();
   const onChange = (event, selectedDate) => {
@@ -63,9 +74,9 @@ const CreateTaskScreen = ({ navigation }) => {
       listId: listId,
     };
     dispatch(addTaskToList(task));
-    resetInputs();
+    setToggleRender(!toggleRender);
+    inputRef.current.clear();
   };
-  const resetInputs = () => {};
 
   const renderTaskListPicker = (list, index) => {
     return <Picker.Item key={index} label={list.name} value={list.name} />;
@@ -82,7 +93,10 @@ const CreateTaskScreen = ({ navigation }) => {
           src={icons.alphabet}
           placeholder="Declare a name"
           title="Name"
-          textChanged={(text) => setName(text)}
+          textChanged={(text) => {
+            setName(text);
+          }}
+          toggleRender={toggleRender}
         />
         <ToggleInput
           title="Due date"
@@ -106,6 +120,7 @@ const CreateTaskScreen = ({ navigation }) => {
           <Font text="Description:"></Font>
         </Text>
         <TextInput
+          ref={inputRef}
           onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={4}
@@ -218,7 +233,7 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 20,
     overflow: "hidden",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
   },
   modalBackground: {
     width: "100%",

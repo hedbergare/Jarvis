@@ -10,7 +10,9 @@ export const fetchUser = (uid) => {
       .database()
       .ref("/users/" + uid)
       .on("value", (snapshot) => {
-        dispatch({ type: SIGN_IN, currentUser: snapshot.val() });
+        let user = snapshot.val();
+        user.uid = snapshot.key;
+        dispatch({ type: SIGN_IN, currentUser: user });
       });
   };
 };
