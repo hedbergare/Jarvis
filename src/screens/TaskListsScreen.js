@@ -60,10 +60,7 @@ const TaskListsScreen = ({ navigation }) => {
 
   return (
     <>
-      <ScrollView
-        contentContainerStyle={styles.TaskListsScreen}
-        stickyHeaderIndices={[3]}
-      >
+      <ScrollView contentContainerStyle={styles.TaskListsScreen}>
         <ScreenHeader title="Task lists" navigation={navigation} />
         <View style={styles.listTypeToggle}>
           <TouchableOpacity
