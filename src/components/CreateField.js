@@ -5,7 +5,7 @@ import { colors } from "../../constants/vars";
 import Font from "./Font";
 import SvgComponent from "./SvgComponent";
 
-const CreateField = ({ src, placeholder, title }) => {
+const CreateField = ({ src, placeholder, title, textChanged }) => {
   return (
     <View style={styles.CreateField}>
       <SvgComponent content={src} iconStyle={styles.iconStyle} />
@@ -13,7 +13,11 @@ const CreateField = ({ src, placeholder, title }) => {
         <Text style={fonts.subText}>
           <Font text={title + ":"}></Font>
         </Text>
-        <TextInput style={fonts.heading5} placeholder={placeholder}></TextInput>
+        <TextInput
+          style={fonts.heading5}
+          placeholder={placeholder}
+          onChangeText={(text) => textChanged(text)}
+        ></TextInput>
       </View>
     </View>
   );

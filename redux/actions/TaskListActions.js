@@ -34,16 +34,13 @@ export const fetchTaskLists = (uid) => {
   };
 };
 
-export const addTaskList = (uid) => {
+export const addTaskList = (uid, name) => {
   return (dispatch) => {
     firebase.database().ref().child("/task_lists/").push().set({
-      /* TODO - replace temporary info with data from parameter*/
-      name: "Another task list w/o tasks",
-      description: "New description for task list",
+      name: name,
       userId: uid,
       completed: false,
-      deadline: "2021-05-15",
-      date_created: "2021-04-22",
+      date_created: new Date().getTime(),
       tasks: {},
       shared_with: {},
     });
@@ -61,10 +58,15 @@ export const addTaskToList = (task) => {
       .set({
         name: task.name,
         description: task.description,
-        deadline: task.deadline,
-        date_created: task.date_created,
+        deadline: task.deadline.getTime(),
+        date_created: task.date_created.getTime(),
         completed: false,
+        connected_goal: {},
       });
+    firebase
+      .database()
+      .ref("/task_lists/" + task.listId)
+      .update({ completed: false });
     dispatch({ type: ADD_TASK });
   };
 };

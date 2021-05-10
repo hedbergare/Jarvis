@@ -6,20 +6,24 @@ import EditButton from "../components/EditButton";
 import { fonts } from "../../constants/fonts";
 import Font from "../components/Font";
 import { colors } from "../../constants/vars";
+import DateService from "../services/DateService";
 
 const TaskScreen = ({ navigation, route }) => {
   const task = route.params;
 
   return (
     <View style={styles.TaskScreen}>
-      <ScreenHeader title={"Task"} navigation={navigation} />
+      <ScreenHeader
+        title={task.completed ? "Completed task" : "Uncompleted task"}
+        navigation={navigation}
+      />
       <DisplayField
         text={task.name}
         src={require("../assets/icon-alphabet.png")}
         textStyle={fonts.heading2}
       />
       <DisplayField
-        text={task.deadline}
+        text={DateService.formatTimeStamp(task.deadline)}
         src={require("../assets/icon-color-calender.png")}
         textStyle={fonts.heading3}
       />
