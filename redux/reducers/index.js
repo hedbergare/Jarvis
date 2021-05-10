@@ -4,7 +4,8 @@ import TaskListReducer from "./TaskListReducer";
 import SharedTaskListReducer from "./SharedTaskListReducer";
 import GoalReducer from "./GoalReducer";
 import SharedGoalReducer from "./SharedGoalReducer";
-import ShoppingListReducer from "./ShoppingListReducer.js";
+import ItemListReducer from "./ItemListReducer.js";
+import SharedItemListReducer from "./SharedItemListReducer";
 
 export default combineReducers({
   currentUser: AuthReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   sharedTaskLists: SharedTaskListReducer,
   goals: GoalReducer,
   sharedGoals: SharedGoalReducer,
-  shoppingLists: ShoppingListReducer,
+  itemLists: ItemListReducer,
+  sharedItemLists: SharedItemListReducer,
 });

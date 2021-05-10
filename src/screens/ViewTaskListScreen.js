@@ -24,7 +24,6 @@ const ViewTaskListScreen = ({ navigation, route }) => {
   return (
     <View style={styles.ViewTaskListScreen}>
       <ScrollView>
-        {/* <View style={styles.ViewTaskListScreen}> */}
         <ScreenHeader title={list.name} navigation={navigation} />
         {list.tasks ? (
           Object.values(list.tasks).map((task, index) => {

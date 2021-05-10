@@ -22,13 +22,25 @@ const TaskCard = ({ handleOnPress, task, list }) => {
   const renderGoalTags = () => {
     if (task.connected_goal) {
       const goalId = Object.keys(task.connected_goal)[0];
-      for (let goal of goals) {
-        if (goalId === goal.key) {
-          /* Connect the color to the theme of the goal */
-          return <Tag color={colors.green} text={goal.name}></Tag>;
+      if (goals) {
+        for (let goal of goals) {
+          if (goalId === goal.key) {
+            /* Connect the color to the theme of the goal */
+            return <Tag color={colors.green} text={goal.name}></Tag>;
+          }
         }
       }
     }
+  };
+
+  const handleCompleteTask = () => {
+    if (list.userId === firebase.auth().currentUser.uid) {
+      dispatch(completeTask(list.key, task.key, !checkboxState));
+    } else {
+      dispatch(completeSharedTask(list.key, task.key, !checkboxState));
+    }
+
+    setCheckboxState(!checkboxState);
   };
 
   return (
@@ -41,15 +53,7 @@ const TaskCard = ({ handleOnPress, task, list }) => {
           iconStyle={{
             borderColor: colors.green,
           }}
-          onPress={() => {
-            if (list.userId === firebase.auth().currentUser.uid) {
-              dispatch(completeTask(list.key, task.key, !checkboxState));
-            } else {
-              dispatch(completeSharedTask(list.key, task.key, !checkboxState));
-            }
-
-            setCheckboxState(!checkboxState);
-          }}
+          onPress={handleCompleteTask}
         />
 
         <TouchableOpacity
