@@ -5,8 +5,11 @@ import { colors } from "../../constants/vars";
 import Font from "./Font";
 import { Ionicons } from "@expo/vector-icons";
 import DateService from "../services/DateService";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import SwipeButtons from "./SwipeButtons";
 
-const ListCard = ({ list, onPressHandler }) => {
+const ListCard = ({ list, onPressHandler, handleDelete, handleEdit }) => {
+  const swipeableRef = React.useRef(null);
   const getTotal = () => {
     if (list.items) {
       const items = Object.values(list.items);
@@ -28,52 +31,85 @@ const ListCard = ({ list, onPressHandler }) => {
     return counter;
   };
   return (
-    <TouchableOpacity
-      style={styles.ListCard}
-      onPress={() => onPressHandler(list)}
-    >
-      <View style={styles.circle}></View>
-      <View style={styles.textContainer}>
-        <Text
-          style={[
-            fonts.heading2,
-            {
-              textDecorationLine: list.completed ? "line-through" : "none",
-            },
-          ]}
-        >
-          <Font text={list.name}></Font>
-        </Text>
-        <Text
-          style={[
-            fonts.subText,
-            {
-              textDecorationLine: list.completed ? "line-through" : "none",
-            },
-          ]}
-        >
-          <Font text={DateService.formatTimeStamp(list.date_created)}></Font>
-        </Text>
-      </View>
-      <View style={styles.rightFloatContainer}>
-        <Text
-          style={[
-            fonts.subText,
-            styles.completed,
-            {
-              textDecorationLine: list.completed ? "line-through" : "none",
-            },
-          ]}
-        >
-          <Font text={getCompleted() + "/" + getTotal()}></Font>
-        </Text>
-        <Ionicons
-          name="chevron-forward-outline"
-          color={colors.black}
-          size={40}
-        />
-      </View>
-    </TouchableOpacity>
+    <>
+      <Swipeable
+        ref={swipeableRef}
+        renderRightActions={() => (
+          <SwipeButtons
+            onDeletePress={() => {
+              handleDelete(list);
+              swipeableRef.current.close();
+            }}
+            onEditPress={() => {
+              handleEdit(list);
+              swipeableRef.current.close();
+            }}
+          ></SwipeButtons>
+        )}
+        friction={2}
+        rightThreshold={20}
+        containerStyle={styles.swipeContainer}
+      >
+        <View style={styles.ListCard}>
+          <TouchableOpacity
+            style={styles.content}
+            onPress={() => {
+              onPressHandler(list);
+            }}
+          >
+            <View style={styles.circle}></View>
+            <View style={styles.textContainer}>
+              <Text
+                style={[
+                  fonts.heading2,
+                  {
+                    textDecorationLine: list.completed
+                      ? "line-through"
+                      : "none",
+                  },
+                ]}
+              >
+                <Font text={list.name}></Font>
+              </Text>
+              <Text
+                style={[
+                  fonts.subText,
+                  {
+                    textDecorationLine: list.completed
+                      ? "line-through"
+                      : "none",
+                  },
+                ]}
+              >
+                <Font
+                  text={DateService.formatTimeStamp(list.date_created)}
+                ></Font>
+              </Text>
+            </View>
+            <View style={styles.rightFloatContainer}>
+              <Text
+                style={[
+                  fonts.subText,
+                  styles.completed,
+                  {
+                    textDecorationLine: list.completed
+                      ? "line-through"
+                      : "none",
+                  },
+                ]}
+              >
+                <Font text={getCompleted() + "/" + getTotal()}></Font>
+              </Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                color={colors.black}
+                size={40}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Swipeable>
+    </>
   );
 };
 
@@ -82,11 +118,13 @@ export default ListCard;
 const styles = StyleSheet.create({
   ListCard: {
     alignItems: "center",
-    padding: 10,
     flexDirection: "row",
-    borderBottomColor: colors.black,
-    borderBottomWidth: 1,
-    width: "85%",
+    width: "100%",
+    backgroundColor: colors.white,
+  },
+  swipeContainer: {
+    width: "100%",
+    marginBottom: 10,
   },
   rightFloatContainer: {
     flexDirection: "row",
@@ -98,6 +136,15 @@ const styles = StyleSheet.create({
   textContainer: {
     width: "65%",
     paddingLeft: 10,
+  },
+  content: {
+    paddingBottom: 10,
+    borderBottomColor: colors.black,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    width: "86%",
+    alignItems: "center",
+    marginHorizontal: "7%",
   },
   circle: {
     backgroundColor: colors.green,

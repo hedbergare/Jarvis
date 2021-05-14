@@ -17,6 +17,7 @@ export const colors = {
   green: "#04a783",
   red: "#f85566",
   yellow: "#c78c03",
+  yellowLight: "#E9D29C",
   purple: "#5635d2",
   blue: "#2055c5",
   blueDark: "#123B91",
@@ -136,23 +137,24 @@ export const icons = {
 </svg>
 `,
   share: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="49" height="49" viewBox="0 0 49 49">
-  <defs>
-    <filter id="Rectangle_29" x="0" y="0" width="49" height="49" filterUnits="userSpaceOnUse">
-      <feOffset dx="1" dy="1" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="1.5" result="blur"/>
-      <feFlood flood-opacity="0.161"/>
-      <feComposite operator="in" in2="blur"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
-  </defs>
-  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_29)">
+<defs>
+  <filter id="Rectangle_29" x="0" y="0" width="49" height="49" filterUnits="userSpaceOnUse">
+    <feOffset dx="1" dy="1" input="SourceAlpha"/>
+    <feGaussianBlur stdDeviation="1.5" result="blur"/>
+    <feFlood flood-opacity="0.161"/>
+    <feComposite operator="in" in2="blur"/>
+    <feComposite in="SourceGraphic"/>
+  </filter>
+</defs>
+<g id="Component_65_3" data-name="Component 65 – 3" transform="translate(3.5 3.5)">
+  <g transform="matrix(1, 0, 0, 1, -3.5, -3.5)" filter="url(#Rectangle_29)">
     <rect id="Rectangle_29-2" data-name="Rectangle 29" width="40" height="40" rx="13" transform="translate(3.5 3.5)" fill="#04a783" opacity="0.5"/>
   </g>
-  <g id="icon_share_group_friends" data-name="icon share group friends" transform="translate(12.5 16.5)">
+  <g id="icon_share_group_friends" data-name="icon share group friends" transform="translate(9 13)">
     <g id="icon_share" data-name="icon share">
       <path id="ic_group_24px" d="M16,11a3,3,0,1,0-3-3A2.987,2.987,0,0,0,16,11ZM8,11A3,3,0,1,0,5,8,2.987,2.987,0,0,0,8,11Zm0,2c-2.33,0-7,1.17-7,3.5V19H15V16.5C15,14.17,10.33,13,8,13Zm8,0c-.29,0-.62.02-.97.05A4.22,4.22,0,0,1,17,16.5V19h6V16.5C23,14.17,18.33,13,16,13Z" transform="translate(-1 -5)" fill="#04a783"/>
     </g>
   </g>
-</svg>
-`,
+</g>
+</svg>`,
 };

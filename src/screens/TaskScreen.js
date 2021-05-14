@@ -5,7 +5,7 @@ import DisplayField from "../components/DisplayField";
 import EditButton from "../components/EditButton";
 import { fonts } from "../../constants/fonts";
 import Font from "../components/Font";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import DateService from "../services/DateService";
 
 const TaskScreen = ({ navigation, route }) => {
@@ -19,21 +19,21 @@ const TaskScreen = ({ navigation, route }) => {
       />
       <DisplayField
         text={task.name}
-        src={require("../assets/icon-alphabet.png")}
-        textStyle={fonts.heading2}
+        src={icons.alphabet}
+        textStyle={fonts.heading3}
       />
       <DisplayField
         text={DateService.formatTimeStamp(task.deadline)}
-        src={require("../assets/icon-color-calender.png")}
+        src={icons.calender}
         textStyle={fonts.heading3}
       />
       <View style={styles.descriptionContainer}>
-        <Text style={fonts.heading3}>
-          <Font text="Description:"></Font>
-        </Text>
-        <Text style={[styles.descriptionText, fonts.heading4]}>
-          <Font text={task.description}></Font>
-        </Text>
+        <Font textStyle={fonts.heading4} text="Description:"></Font>
+
+        <Font
+          textStyle={[fonts.heading4, styles.descriptionText]}
+          text={task.description}
+        ></Font>
       </View>
       <View style={styles.editButton}>
         <EditButton />

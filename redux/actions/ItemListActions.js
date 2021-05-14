@@ -3,6 +3,12 @@ import {
   ADD_QUANTITY,
   SUBTRACT_QUANTITY,
   COMPLETE_ITEM,
+  ADD_ITEM_LIST,
+  ADD_ITEM,
+  DELETE_ITEM,
+  EDIT_ITEM,
+  DELETE_ITEM_LIST,
+  EDIT_ITEM_LIST,
 } from "../constants";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -31,6 +37,19 @@ export const fetchItemLists = (uid) => {
       });
   };
 };
+export const addItemList = (uid, name) => {
+  return (dispatch) => {
+    firebase.database().ref().child("item_lists/").push().set({
+      name: name,
+      userId: uid,
+      completed: false,
+      date_created: new Date().getTime(),
+      items: {},
+      shared_with: {},
+    });
+    dispatch({ type: ADD_ITEM_LIST });
+  };
+};
 export const addQuantity = (listId, itemId) => {
   return (dispatch) => {
     firebase
@@ -53,6 +72,26 @@ export const subtractQuantity = (listId, itemId) => {
     dispatch({ type: SUBTRACT_QUANTITY });
   };
 };
+
+export const addItemToList = (name, quantity, listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref()
+      .child("/item_lists/" + listId + "/items/")
+      .push()
+      .set({
+        name: name,
+        completed: false,
+        quantity: quantity,
+      });
+    firebase
+      .database()
+      .ref("/item_lists/" + listId)
+      .update({ completed: false });
+    dispatch({ type: ADD_ITEM });
+  };
+};
 export const completeItem = (listId, itemId, updatedState) => {
   const ref = firebase.database().ref("/item_lists/" + listId);
   return (dispatch) => {
@@ -73,5 +112,45 @@ export const completeItem = (listId, itemId, updatedState) => {
         ref.update({ completed: allItems });
       });
     dispatch({ type: COMPLETE_ITEM });
+  };
+};
+export const deleteItem = (itemId, listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/item_lists/" + listId + "/items/" + itemId)
+      .remove()
+      .catch((error) => console.log(error.message));
+    dispatch({ type: DELETE_ITEM });
+  };
+};
+export const submitEditItem = (name, quantity, itemId, listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/item_lists/" + listId + "/items/" + itemId)
+      .update({ name: name, quantity: quantity });
+    dispatch({ type: EDIT_ITEM });
+  };
+};
+export const submitEditList = (name, listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/item_lists/" + listId)
+      .update({ name: name });
+    dispatch({ type: EDIT_ITEM_LIST });
+  };
+};
+export const deleteItemList = (listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/item_lists/" + listId)
+      .remove()
+      .catch((error) => {
+        console.log(error.message);
+      });
+    dispatch({ type: DELETE_ITEM_LIST });
   };
 };

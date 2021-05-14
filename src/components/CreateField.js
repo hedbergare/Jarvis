@@ -5,23 +5,35 @@ import { colors } from "../../constants/vars";
 import Font from "./Font";
 import SvgComponent from "./SvgComponent";
 
-const CreateField = ({ src, placeholder, title, textChanged }) => {
-  return (
-    <View style={styles.CreateField}>
-      <SvgComponent content={src} iconStyle={styles.iconStyle} />
-      <View>
-        <Text style={fonts.subText}>
-          <Font text={title + ":"}></Font>
-        </Text>
-        <TextInput
-          style={fonts.heading5}
-          placeholder={placeholder}
-          onChangeText={(text) => textChanged(text)}
-        ></TextInput>
+const CreateField = React.memo(
+  ({ src, placeholder, title, textChanged, toggleRender, value }) => {
+    const inputRef = React.createRef();
+    React.useEffect(() => {
+      inputRef.current.clear();
+    }, [toggleRender]);
+
+    return (
+      <View style={styles.CreateField}>
+        <SvgComponent content={src} iconStyle={styles.iconStyle} />
+        <View>
+          <Text style={fonts.subText}>
+            <Font text={title + ":"}></Font>
+          </Text>
+          <TextInput
+            ref={inputRef}
+            style={(fonts.heading5, styles.textInput)}
+            /* placeholder={placeholder} */
+            onChangeText={(text, textInputRef) =>
+              textChanged(text, textInputRef)
+            }
+            placeholder={placeholder}
+            defaultValue={value}
+          />
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  }
+);
 
 export default CreateField;
 
@@ -30,8 +42,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
-    paddingBottom: 30,
+    minWidth: "90%",
+    paddingBottom: 10,
     marginBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: colors.black + "30",
