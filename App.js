@@ -22,7 +22,8 @@ import AuthUserStackScreen from "./src/navigation/AuthUserStackScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import TaskStackScreen from "./src/navigation/TaskStackScreen";
 import { fetchSharedTaskLists } from "./redux/actions/SharedTaskListActions";
-import { fetchOwnGoals } from "./redux/actions/GoalActions";
+import { fetchItemLists } from "./redux/actions/ItemListActions";
+import { fetchSharedItemLists } from "./redux/actions/SharedItemListActions";
 
 const AppWrapper = () => {
   return (
@@ -72,7 +73,8 @@ const App = () => {
         dispatch(fetchUser(user.uid));
         dispatch(fetchTaskLists(user.uid));
         dispatch(fetchSharedTaskLists(user.uid));
-        dispatch(fetchOwnGoals(user.uid));
+        dispatch(fetchItemLists(user.uid));
+        dispatch(fetchSharedItemLists(user.uid));
         setAuthUser("true");
       } else {
         setAuthUser("false");

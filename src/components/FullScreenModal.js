@@ -19,6 +19,7 @@ const FullScreenModal = ({
   handleClose,
   visible,
   content,
+  confirmText,
 }) => {
   return (
     <Modal
@@ -46,7 +47,10 @@ const FullScreenModal = ({
               </Text>
             </View>
             {content}
-            <ConfirmButton handleConfirm={handleConfirm} />
+            <ConfirmButton
+              confirmText={confirmText}
+              handleConfirm={handleConfirm}
+            />
           </View>
         </Pressable>
       </TouchableOpacity>

@@ -17,9 +17,11 @@ export const colors = {
   green: "#04a783",
   red: "#f85566",
   yellow: "#c78c03",
+  yellowLight: "#E9D29C",
   purple: "#5635d2",
   blue: "#2055c5",
   blueDark: "#123B91",
+  blueLight: "#90ABE2",
 };
 
 export const icons = {

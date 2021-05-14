@@ -3,11 +3,11 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import Font from "./Font";
-const ConfirmButton = ({ handleConfirm }) => {
+const ConfirmButton = ({ handleConfirm, confirmText }) => {
   return (
     <TouchableOpacity style={styles.ConfirmButton} onPress={handleConfirm}>
       <Text style={[fonts.heading3, styles.text]}>
-        <Font text="Add Task"></Font>
+        <Font text={confirmText}></Font>
       </Text>
     </TouchableOpacity>
   );

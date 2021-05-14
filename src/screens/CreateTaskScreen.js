@@ -21,7 +21,7 @@ import { fonts } from "../../constants/fonts";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { addTaskToList } from "../../redux/actions/TaskListActions";
+import { addTaskToList, editTask } from "../../redux/actions/TaskListActions";
 import DateService from "../services/DateService";
 
 const CreateTaskScreen = ({ navigation, route }) => {
@@ -34,6 +34,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
 
   const [assignedList, setAssignedList] = useState();
   const [assignedGoal, setAssignedGoal] = useState("None");
+  const [assignedTaskEdit, setAssignedTaskEdit] = useState();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [toggleModal, setToggleModal] = useState();
@@ -44,6 +45,11 @@ const CreateTaskScreen = ({ navigation, route }) => {
   useEffect(() => {
     if (routeParams?.listName) {
       setAssignedList(routeParams?.listName);
+      if (routeParams?.task) {
+        setAssignedTaskEdit(routeParams.task);
+        setDate(routeParams.task.deadline);
+        setDescription(routeParams.task.description);
+      }
     } else {
       setAssignedList("General");
     }
@@ -73,10 +79,18 @@ const CreateTaskScreen = ({ navigation, route }) => {
       date_created: now,
       listId: listId,
     };
-    dispatch(addTaskToList(task));
+    if (!assignedTaskEdit) {
+      dispatch(addTaskToList(task));
+    } else {
+      dispatch(editTask(assignedTaskEdit.key, task));
+      setAssignedTaskEdit(null);
+    }
+
     setToggleRender(!toggleRender);
     inputRef.current.clear();
   };
+
+  const resetInputs = () => {};
 
   const renderTaskListPicker = (list, index) => {
     return <Picker.Item key={index} label={list.name} value={list.name} />;
@@ -88,10 +102,16 @@ const CreateTaskScreen = ({ navigation, route }) => {
         scrollEnabled={true}
         contentContainerStyle={styles.Content}
       >
-        <ScreenHeader title="Create a Task" navigation={navigation} />
+        <ScreenHeader
+          title={assignedTaskEdit ? "Edit task" : "Create a Task"}
+          navigation={navigation}
+        />
         <CreateField
           src={icons.alphabet}
-          placeholder="Declare a name"
+          placeholder={
+            assignedTaskEdit ? assignedTaskEdit.name : "Declare a name"
+          }
+          value={assignedTaskEdit ? assignedTaskEdit.name : ""}
           title="Name"
           textChanged={(text) => {
             setName(text);
@@ -101,7 +121,11 @@ const CreateTaskScreen = ({ navigation, route }) => {
         <ToggleInput
           title="Due date"
           icon={icons.calender}
-          value={DateService.formatDate(date)}
+          value={
+            assignedTaskEdit
+              ? DateService.formatDate(assignedTaskEdit.deadline)
+              : DateService.formatDate(date)
+          }
           handleOnPress={() => handleToggleModal("date")}
         />
         <ToggleInput
@@ -125,16 +149,36 @@ const CreateTaskScreen = ({ navigation, route }) => {
           multiline={true}
           numberOfLines={4}
           placeholder="Add descripion..."
+          defaultValue={assignedTaskEdit ? assignedTaskEdit.description : ""}
           style={styles.description}
         />
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => handleAddTask()}
-        >
-          <Text style={[fonts.heading3, styles.addButtonText]}>
-            <Font text="Add Task"></Font>
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          {assignedTaskEdit ? (
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => {
+                setAssignedTaskEdit(null);
+              }}
+            >
+              <Text style={[fonts.heading3, styles.cancelButtonText]}>
+                <Font text="Cancel"></Font>
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => handleAddTask()}
+          >
+            <Text style={[fonts.heading3, styles.addButtonText]}>
+              <Font
+                text={assignedTaskEdit ? "Confirm changes" : "Add Task"}
+              ></Font>
+            </Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
       <Modal
         presentationStyle="overFullScreen"
@@ -242,13 +286,29 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black + "90",
     position: "absolute",
   },
-  addButton: {
-    marginVertical: 20,
-    marginLeft: "40%",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: colors.purple,
+  buttonContainer: {
+    flexDirection: "row",
+    width: "100%",
+    marginTop: 20,
+    height: 50,
+  },
+  cancelButton: {
+    backgroundColor: colors.white,
+    padding: 10,
     borderRadius: 50,
+    borderColor: colors.purple,
+    borderWidth: 2,
+    marginLeft: 40,
+  },
+  addButton: {
+    backgroundColor: colors.purple,
+    padding: 10,
+    borderRadius: 50,
+    position: "absolute",
+    right: 40,
+  },
+  cancelButtonText: {
+    color: colors.purple,
   },
   addButtonText: {
     color: colors.white,

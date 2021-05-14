@@ -5,6 +5,10 @@ import {
   COMPLETE_TASK,
   SHARE_TASK_LIST,
   COMPLETE_SHARED_TASK,
+  EDIT_TASK_LIST,
+  DELETE_TASK_LIST,
+  DELETE_TASK,
+  EDIT_TASK,
 } from "../constants";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -99,5 +103,46 @@ export const shareTaskList = (taskListId, shareId) => {
       .ref("/task_lists/" + taskListId + "/shared_with/" + shareId)
       .set(true);
     dispatch({ type: SHARE_TASK_LIST });
+  };
+};
+export const submitEditTaskList = (name, listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/task_lists/" + listId)
+      .update({ name: name });
+    dispatch({ type: EDIT_TASK_LIST });
+  };
+};
+export const deleteTaskList = (listId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/task_lists/" + listId)
+      .remove();
+    dispatch({ type: DELETE_TASK_LIST });
+  };
+};
+
+export const deleteTask = (listId, taskId) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/task_lists/" + listId + "/tasks/" + taskId)
+      .remove();
+    dispatch({ type: DELETE_TASK });
+  };
+};
+export const editTask = (taskId, task) => {
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref("/task_lists/" + task.listId + "/tasks/" + taskId)
+      .update({
+        name: task.name,
+        description: task.description,
+        deadline: task.deadline,
+      });
+    dispatch({ type: EDIT_TASK });
   };
 };

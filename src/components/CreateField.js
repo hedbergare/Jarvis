@@ -6,9 +6,8 @@ import Font from "./Font";
 import SvgComponent from "./SvgComponent";
 
 const CreateField = React.memo(
-  ({ src, placeholder, title, textChanged, toggleRender }) => {
+  ({ src, placeholder, title, textChanged, toggleRender, value }) => {
     const inputRef = React.createRef();
-
     React.useEffect(() => {
       inputRef.current.clear();
     }, [toggleRender]);
@@ -22,12 +21,14 @@ const CreateField = React.memo(
           </Text>
           <TextInput
             ref={inputRef}
-            style={fonts.heading5}
-            placeholder={placeholder}
+            style={(fonts.heading5, styles.textInput)}
+            /* placeholder={placeholder} */
             onChangeText={(text, textInputRef) =>
               textChanged(text, textInputRef)
             }
-          ></TextInput>
+            placeholder={placeholder}
+            defaultValue={value}
+          />
         </View>
       </View>
     );
