@@ -16,9 +16,11 @@ import moment from "moment";
 
 import GoalCard from "../components/GoalCard";
 import ScreenHeader from "../components/ScreenHeader";
+import AddButton from "../components/AddButton";
 
 const GoalsScreen = ({ navigation }) => {
   const fetchedGoals = useSelector((state) => state.goals);
+  console.log(fetchedGoals);
 
   const estimatedFinishDate = (goal, progressMade) => {
     if (progressMade > 0) {
@@ -42,12 +44,18 @@ const GoalsScreen = ({ navigation }) => {
     if (goal.quantified) {
       return goal.current_value / goal.max_value;
     } else {
-      return (end - now) / (end - start);
+      return 1 - (end - now) / (end - start);
     }
   };
 
   const calculateDaysRemaining = (now, end) =>
-    Math.floor((end - now) / (1000 * 60 * 60 * 24));
+    Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+
+  const calculateDaysTotal = (start, end) =>
+    Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+  const calculateDaysPassed = (start, now) =>
+    Math.floor((now - start) / (1000 * 60 * 60 * 24));
 
   const calculatePhase = (end, estimatedDate) => {
     const differeceInDays =
@@ -63,6 +71,10 @@ const GoalsScreen = ({ navigation }) => {
     const end = new Date(goal.deadline).getTime();
 
     const daysRemaining = calculateDaysRemaining(now, end);
+    const daysPassed = calculateDaysPassed(start, now);
+
+    const daysTotal = calculateDaysTotal(start, end);
+
     const progressMade = calculateProgressMade(goal, now, start, end);
     const estimatedDate = estimatedFinishDate(goal, progressMade);
     const [goodPhase, dayDifference] = calculatePhase(end, estimatedDate);
@@ -77,6 +89,8 @@ const GoalsScreen = ({ navigation }) => {
         estimatedDate={estimatedDate}
         goodPhase={goodPhase}
         dayDifference={dayDifference}
+        daysPassed={daysPassed}
+        daysTotal={daysTotal}
       />
     );
   };
@@ -92,47 +106,54 @@ const GoalsScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.GoalsScreen}>
-      <ScreenHeader title="My Goals" navigation={navigation} />
-      <View style={styles.listTypeToggle}>
-        <TouchableOpacity
-          style={displayOwned ? styles.activeListStyle : null}
-          onPress={handleDisplayOwned}
-        >
-          <Text
-            style={[
-              fonts.heading4,
-              styles.listTypeText,
-              displayOwned ? null : styles.fadedText,
-            ]}
+    <>
+      <ScrollView contentContainerStyle={styles.GoalsScreen}>
+        <ScreenHeader title="My Goals" navigation={navigation} />
+        <View style={styles.listTypeToggle}>
+          <TouchableOpacity
+            style={displayOwned ? styles.activeListStyle : null}
+            onPress={handleDisplayOwned}
           >
-            Mine
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={[
+                fonts.heading4,
+                styles.listTypeText,
+                displayOwned ? null : styles.fadedText,
+              ]}
+            >
+              Mine
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={displayOwned ? null : styles.activeListStyle}
-          onPress={handleDisplayShared}
-        >
-          <Text
-            style={[
-              fonts.heading4,
-              styles.listTypeText,
-              displayOwned ? styles.fadedText : null,
-            ]}
+          <TouchableOpacity
+            style={displayOwned ? null : styles.activeListStyle}
+            onPress={handleDisplayShared}
           >
-            Shared
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.sortContainer}>
-        <Font text="Goals" font={fonts.heading2} />
-      </View>
+            <Text
+              style={[
+                fonts.heading4,
+                styles.listTypeText,
+                displayOwned ? styles.fadedText : null,
+              ]}
+            >
+              Shared
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.sortContainer}>
+          <Font text="Goals" font={fonts.heading2} />
+        </View>
 
-      {Object.values(fetchedGoals).map((goal, index) => {
-        return renderGoalCard(goal, index);
-      })}
-    </ScrollView>
+        {Object.values(fetchedGoals).map((goal, index) => {
+          return renderGoalCard(goal, index);
+        })}
+      </ScrollView>
+      <AddButton
+        handleOnPress={() => {
+          navigation.navigate("CreateGoalScreen");
+        }}
+      />
+    </>
   );
 };
 

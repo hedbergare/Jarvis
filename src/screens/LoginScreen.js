@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import LoginService from "../services/LoginService";
 import { fonts } from "../../constants/fonts";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import LargeButton from "../components/LargeButton";
 import Font from "../components/Font";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import InputField from "../components/InputField";
+import SvgComponent from "../components/SvgComponent";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -18,10 +19,15 @@ const LoginScreen = ({ navigation }) => {
       contentContainerStyle={styles.LoginScreen}
       scrollEnabled={true}
     >
-      <Image
-        style={styles.profileImage}
-        source={require("../assets/icon-profile.png")}
+      <SvgComponent
+        content={icons.loginIllustration}
+        iconStyle={styles.profileImage}
       />
+      <Font
+        text="LOG IN"
+        font={fonts.heading3}
+        textStyle={{ color: colors.redLight }}
+      ></Font>
       <InputField
         placeHolderText="Email"
         secureEntry={false}
@@ -70,7 +76,9 @@ const LoginScreen = ({ navigation }) => {
         <Text style={fonts.subText}>
           <Font text="Don't have an account?"></Font>
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("RegistrationScreen")}
+        >
           <Text style={[fonts.subText, styles.signUpText]}>
             <Font text="Sign up"></Font>
           </Text>
@@ -87,25 +95,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     alignItems: "center",
-    justifyContent: "center",
   },
   profileImage: {
+    marginTop: 50,
     marginBottom: 30,
   },
-  inputContainer: {
-    width: 280,
-    height: 30,
-    alignItems: "center",
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grayDark,
-    marginTop: 20,
-  },
-  input: {
-    marginLeft: 10,
-    width: 200,
-    fontSize: 16,
-  },
+
   forgotPasswordContainer: {
     width: 280,
     marginBottom: 30,

@@ -12,6 +12,8 @@ const GoalCard = ({
   estimatedDate,
   goodPhase,
   dayDifference,
+  daysPassed,
+  daysTotal,
 }) => {
   return (
     <TouchableOpacity
@@ -24,6 +26,8 @@ const GoalCard = ({
           estimatedDate,
           goodPhase,
           dayDifference,
+          daysTotal,
+          daysPassed,
         })
       }
     >

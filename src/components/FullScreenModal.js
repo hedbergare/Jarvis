@@ -46,7 +46,7 @@ const FullScreenModal = ({
               </Text>
             </View>
             {content}
-            <ConfirmButton handleConfirm={handleConfirm} />
+            <ConfirmButton handleConfirm={handleConfirm} text="Add task" />
           </View>
         </Pressable>
       </TouchableOpacity>

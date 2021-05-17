@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TextInput } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import Font from "../components/Font";
@@ -12,17 +12,15 @@ import DateService from "../services/DateService";
 
 const ViewGoalScreen = ({ navigation, route }) => {
   const params = route.params;
-  console.log("route param: ", params.estimatedDate);
-  console.log("goal date format: ", params.goal.date_created);
   return (
     <ScrollView contentContainerStyle={styles.ViewGoalScreen}>
       <ScreenHeader title={params.goal.name} navigation={navigation} />
       <View style={styles.topContentContainer}>
         <View style={styles.themeContainer}>
           <View
-            style={[styles.themeSample, { backgroundColor: colors.blue }]}
+            style={[styles.themeSample, { backgroundColor: params.goal.theme }]}
           ></View>
-          <Font text="Change theme" textStyle={styles.themeText}></Font>
+          <Font text="Color theme" textStyle={styles.themeText}></Font>
         </View>
         <View style={styles.titleContainer}>
           <Font
@@ -32,13 +30,31 @@ const ViewGoalScreen = ({ navigation, route }) => {
           <Font text="Remaining" textStyle={fonts.lightHeading3}></Font>
         </View>
       </View>
+      <View style={styles.descriptionContainer}>
+        <Font text="Description:" font={fonts.heading3}></Font>
+        <TextInput style={styles.descriptionInput}>
+          <Font text={params.goal.description}></Font>
+        </TextInput>
+      </View>
       <View style={styles.progressMade}>
         <Font text="Progress made:" font={fonts.heading3}></Font>
       </View>
       <Text style={styles.progressText}>
-        <Font text={params.goal.current_value} font={fonts.heading2}></Font>
+        <Font
+          text={
+            params.goal.quantified
+              ? params.goal.current_value
+              : params.daysPassed
+          }
+          font={fonts.heading2}
+        ></Font>
         <Font text={" of "} font={fonts.heading4}></Font>
-        <Font text={params.goal.max_value} font={fonts.heading2}></Font>
+        <Font
+          text={
+            params.goal.quantified ? params.goal.max_value : params.daysTotal
+          }
+          font={fonts.heading2}
+        ></Font>
         <Text>
           <Font
             text={params.goal.quantified ? " miles" : " days"}
@@ -64,6 +80,14 @@ const ViewGoalScreen = ({ navigation, route }) => {
         unfilledColor={colors.whiteDark}
         borderWidth={0}
       />
+      <View style={styles.deadlineContainer}>
+        <Font text="Deadline date:" textStyle={styles.statsFont}></Font>
+        <Font
+          text={DateService.formatDateWithYear(params.goal.deadline)}
+          font={fonts.heading3}
+        ></Font>
+      </View>
+
       <View style={styles.botContentContainer}>
         <View style={styles.headerContainer}>
           <Font text="Statistics:" font={fonts.heading3}></Font>
@@ -85,22 +109,28 @@ const ViewGoalScreen = ({ navigation, route }) => {
             your current phase will make you reach your goal in time or not."
             />
           </View>
-          <View style={styles.rowContainer}>
-            <Font
-              text="Projected finish date:"
-              textStyle={styles.statsFont}
-            ></Font>
+          {params.goal.quantified && (
+            <>
+              <View
+                style={[styles.rowContainer, styles.projectedDateContainer]}
+              >
+                <Font
+                  text="Projected finish date:"
+                  textStyle={styles.statsFont}
+                ></Font>
 
-            <InfoModal
-              styleProp={{ marginLeft: 28 }}
-              text="Depending on your current progress it is calculated assuming that you do not change your phase."
-            />
-          </View>
-          <Font
-            text={DateService.formatDateWithYear(params.estimatedDate)}
-            font={fonts.heading3}
-          ></Font>
-          <View style={[styles.rowContainer, styles.youAreSection]}>
+                <InfoModal
+                  styleProp={{ marginLeft: 28 }}
+                  text="Depending on your current progress it is calculated assuming that you do not change your phase."
+                />
+              </View>
+              <Font
+                text={DateService.formatDateWithYear(params.estimatedDate)}
+                font={fonts.heading3}
+              ></Font>
+            </>
+          )}
+          <View style={styles.rowContainer}>
             <Font text="You are:" textStyle={styles.statsFont}></Font>
             <InfoModal
               styleProp={{ marginLeft: 28 }}
@@ -110,15 +140,29 @@ const ViewGoalScreen = ({ navigation, route }) => {
 
           <Text>
             <Font
-              text={Math.abs(params.dayDifference)}
+              text={
+                params.goal.quantified
+                  ? Math.abs(params.dayDifference)
+                  : params.daysPassed
+              }
               font={fonts.heading3}
               textStyle={{
-                color: params.goodPhase ? colors.greenLight : colors.redLight,
+                color: params.goal.quantified
+                  ? params.goodPhase
+                    ? colors.greenLight
+                    : colors.redLight
+                  : colors.yellow,
               }}
             ></Font>
             <Font text=" days " font={fonts.heading3}></Font>
             <Font
-              text={params.goodPhase ? "ahead" : "behind"}
+              text={
+                params.goal.quantified
+                  ? params.goodPhase
+                    ? "ahead"
+                    : "behind"
+                  : "in"
+              }
               font={fonts.heading3}
             ></Font>
           </Text>
@@ -159,6 +203,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     transform: [{ translateX: -50 }],
   },
+  descriptionContainer: {
+    marginTop: 10,
+    width: "90%",
+  },
+  deadlineContainer: {
+    width: "80%",
+    marginBottom: 30,
+  },
   themeContainer: {
     width: 100,
     marginRight: 20,
@@ -190,7 +242,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     width: "80%",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   botContentContainer: {
     width: "80%",
@@ -198,6 +250,9 @@ const styles = StyleSheet.create({
   },
   innerBotContentContainer: {
     width: "80%",
+  },
+  projectedDateContainer: {
+    marginVertical: 20,
   },
   statsFont: {
     marginVertical: 10,
@@ -213,7 +268,8 @@ const styles = StyleSheet.create({
   contributorHeader: {
     marginTop: 20,
   },
-  youAreSection: {
-    marginTop: 20,
+
+  descriptionInput: {
+    padding: 10,
   },
 });

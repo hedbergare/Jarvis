@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import GoalsScreen from "../screens/GoalsScreen";
 import ViewGoalScreen from "../screens/ViewGoalScreen";
+import CreateGoalScreen from "../screens/CreateGoalScreen";
 
 const GoalStackScreen = () => {
   const GoalStack = createStackNavigator();
@@ -16,6 +17,7 @@ const GoalStackScreen = () => {
     >
       <GoalStack.Screen name="GoalsScreen" component={GoalsScreen} />
       <GoalStack.Screen name="ViewGoalScreen" component={ViewGoalScreen} />
+      <GoalStack.Screen name="CreateGoalScreen" component={CreateGoalScreen} />
     </GoalStack.Navigator>
   );
 };
