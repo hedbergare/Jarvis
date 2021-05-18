@@ -1,12 +1,14 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/vars";
+import Font from "./Font";
+import SvgComponent from "./SvgComponent";
 
 const DisplayField = ({ text, src, textStyle }) => {
   return (
     <View style={styles.DisplayField}>
-      <Image style={styles.icon} source={src} />
-      <Text style={textStyle}>{text}</Text>
+      <SvgComponent content={src} iconStyle={styles.icon} />
+      <Font text={text} textStyle={textStyle}></Font>
     </View>
   );
 };
@@ -18,13 +20,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "90%",
-    paddingBottom: 20,
+    paddingBottom: 10,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.black + "30",
   },
-  icon: {
-    marginRight: 20,
-    width: 50,
-    height: 50,
-  },
+  icon: { marginRight: 10 },
 });

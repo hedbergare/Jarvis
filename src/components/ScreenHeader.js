@@ -7,6 +7,7 @@ import { fonts } from "../../constants/fonts";
 import { Ionicons } from "@expo/vector-icons";
 
 import SvgComponent from "./SvgComponent";
+import DateService from "../services/DateService";
 
 const ScreenHeader = ({ title, navigation }) => {
   const handleBackArrow = () => {
@@ -41,7 +42,7 @@ const ScreenHeader = ({ title, navigation }) => {
           <Font text={title}></Font>
         </Text>
         <Text style={[styles.date, fonts.subText]}>
-          <Font text="Saturday 20th April"></Font>
+          <Font text={DateService.formatDate(new Date())}></Font>
         </Text>
       </View>
     </View>

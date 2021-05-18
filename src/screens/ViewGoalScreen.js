@@ -57,7 +57,7 @@ const ViewGoalScreen = ({ navigation, route }) => {
         ></Font>
         <Text>
           <Font
-            text={params.goal.quantified ? " miles" : " days"}
+            text={params.goal.quantified ? params.goal.unit : " days"}
             font={fonts.heading4}
           ></Font>
           <Font text={" complete"} font={fonts.heading4}></Font>

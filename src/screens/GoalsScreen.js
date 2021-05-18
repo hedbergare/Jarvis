@@ -29,15 +29,23 @@ const GoalsScreen = ({ navigation }) => {
       const start = new Date(goal.date_created).getTime();
       const now = new Date().getTime();
 
-      const startIndays = Math.floor(start / (1000 * 60 * 60 * 24));
       const daysPast = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+      const pace = progressMade / (daysPast > 0 ? daysPast : 1);
 
-      const estimatedDays = Math.floor(daysPast / progressMade);
-      const totalDays = (startIndays + estimatedDays) * (1000 * 60 * 60 * 24);
-      const finishDate = moment(totalDays).format("YYYY-MM-DD");
-      return finishDate;
+      const estimatedDays = Math.floor(
+        (goal.max_value - goal.current_value) / (pace * 100)
+      );
+
+      console.log("estimatedDays: ", estimatedDays);
+
+      const totalMilliseconds = Math.floor(
+        now + estimatedDays * 1000 * 60 * 60 * 24
+      );
+      const finishDate = moment(totalMilliseconds).format("YYYY-MM-DD");
+      const goodPace = estimatedDays >= 0 ? true : false;
+      return [finishDate, estimatedDays, goodPace];
     }
-    return;
+    return [goal.deadline, 0, true];
   };
 
   const calculateProgressMade = (goal, now, start, end) => {
@@ -57,14 +65,6 @@ const GoalsScreen = ({ navigation }) => {
   const calculateDaysPassed = (start, now) =>
     Math.floor((now - start) / (1000 * 60 * 60 * 24));
 
-  const calculatePhase = (end, estimatedDate) => {
-    const differeceInDays =
-      (end - new Date(estimatedDate).getTime()) / (1000 * 60 * 60 * 24);
-    const goodPhase = differeceInDays >= 0 ? true : false;
-
-    return [goodPhase, differeceInDays];
-  };
-
   const renderGoalCard = (goal, index) => {
     const now = new Date().getTime();
     const start = new Date(goal.date_created).getTime();
@@ -76,8 +76,11 @@ const GoalsScreen = ({ navigation }) => {
     const daysTotal = calculateDaysTotal(start, end);
 
     const progressMade = calculateProgressMade(goal, now, start, end);
-    const estimatedDate = estimatedFinishDate(goal, progressMade);
-    const [goodPhase, dayDifference] = calculatePhase(end, estimatedDate);
+    const [estimatedDate, dayDifference, goodPhase] = estimatedFinishDate(
+      goal,
+      progressMade
+    );
+    // const [goodPhase, dayDifference] = calculatePhase(end, estimatedDate);
 
     return (
       <GoalCard
@@ -88,7 +91,7 @@ const GoalsScreen = ({ navigation }) => {
         progress={Math.round(progressMade * 100)}
         estimatedDate={estimatedDate}
         goodPhase={goodPhase}
-        dayDifference={dayDifference}
+        dayDifference={daysTotal - dayDifference}
         daysPassed={daysPassed}
         daysTotal={daysTotal}
       />

@@ -40,6 +40,8 @@ const CreateGoalScreen = ({ navigation }) => {
   const [date, setDate] = useState(
     new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
   );
+  const [quantity, setQuantity] = useState();
+  const [unit, setUnit] = useState("");
 
   const [description, setDescription] = useState("");
 
@@ -49,13 +51,16 @@ const CreateGoalScreen = ({ navigation }) => {
   };
 
   const handleAddGoal = () => {
+    console.log(quantity ? true : false);
     const goal = {
       name: name,
       description: description,
-      quantified: false,
+      quantified: quantity ? true : false,
       deadline: date,
+      max_value: quantity,
       date_created: now,
       theme: theme,
+      unit: unit,
     };
     dispatch(addGoal(userId, goal));
     navigation.navigate("GoalsScreen");
@@ -137,6 +142,30 @@ const CreateGoalScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
+        <View style={styles.goalValueContainer}>
+          <CreateField
+            src={icons.target}
+            placeholder="Assign a goal value"
+            title="Goal value (optional)"
+            textChanged={(text) => {
+              setQuantity(text);
+            }}
+            toggleRender={toggleRender}
+          />
+        </View>
+        {quantity ? (
+          <View style={styles.goalValueContainer}>
+            <CreateField
+              src={icons.none}
+              placeholder="Enter a unit (eg. miles)"
+              title="Unit"
+              textChanged={(text) => {
+                setUnit(text);
+              }}
+              toggleRender={toggleRender}
+            />
+          </View>
+        ) : null}
         <Text style={[fonts.heading5, styles.descriptionText]}>
           <Font text="Description:"></Font>
         </Text>
@@ -149,7 +178,7 @@ const CreateGoalScreen = ({ navigation }) => {
         />
         <View style={styles.confrimButtonStyle}>
           <ConfirmButton
-            text="Create goal"
+            confirmText="Create goal"
             handleConfirm={() => handleAddGoal()}
           />
         </View>
@@ -242,5 +271,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.black + "90",
     position: "absolute",
+  },
+  goalValueContainer: {
+    marginTop: 20,
   },
 });

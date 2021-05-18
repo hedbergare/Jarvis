@@ -18,9 +18,11 @@ export const colors = {
   greenLight: "#00C896",
   red: "#f85566",
   yellow: "#c78c03",
+  yellowLight: "#E9D29C",
   purple: "#5635d2",
   blue: "#2055c5",
   blueDark: "#123B91",
+  blueLight: "#90ABE2",
 };
 
 export const icons = {
@@ -245,6 +247,9 @@ export const icons = {
   <path id="buttons" d="M0,31.973A2.907,2.907,0,1,1,2.906,34.88,2.907,2.907,0,0,1,0,31.973ZM0,17.44a2.907,2.907,0,1,1,2.906,2.906A2.907,2.907,0,0,1,0,17.44ZM0,2.906A2.907,2.907,0,1,1,2.906,5.813,2.907,2.907,0,0,1,0,2.906Z" transform="translate(106.093 167.86)" fill="#664f4d"/>
   <path id="hair-2" data-name="hair" d="M6.242,11.211c-11.627,29.067-5.087,43.237,4,60.313s-2.18,33.063-2.18,33.063,13.08-8.357,13.08-26.887-13.08-30.157-2.18-45.417S17.869-17.856,6.242,11.211Z" transform="translate(110.453 46.507)" fill="url(#linear-gradient-3)"/>
 </g>
+</svg>
+`,
+  none: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="20.55" viewBox="0 0 18 20.55">
 </svg>
 `,
 };

@@ -1,42 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Modal,
-  Pressable,
-  ScrollView,
 } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors, icons } from "../../constants/vars";
 import ScreenHeader from "../components/ScreenHeader";
-import TaskListCard from "../components/TaskListCard";
-import { useSelector, useDispatch } from "react-redux";
+import ListCard from "../components/ListCard";
+import { useDispatch, useSelector } from "react-redux";
+import Font from "../components/Font";
+import CreateField from "../components/CreateField";
 import AddButton from "../components/AddButton";
 import FullScreenModal from "../components/FullScreenModal";
-import CreateField from "../components/CreateField";
 import ToggleInput from "../components/ToggleInput";
 import {
-  addTaskList,
-  deleteTaskList,
-  submitEditTaskList,
-} from "../../redux/actions/TaskListActions";
+  addItemList,
+  deleteItemList,
+  submitEditList,
+} from "../../redux/actions/ItemListActions";
 
 const TaskListsScreen = ({ navigation }) => {
-  const [displayOwned, setDisplayOwned] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [shareWith, setShareWith] = useState("None");
-  const [name, setName] = useState("");
-  const [editName, setEditName] = useState("");
-  const [editList, setEditList] = useState(null);
-
   const dispatch = useDispatch();
-  const taskLists = useSelector((state) => state.taskLists);
-  const userId = useSelector((state) => state.currentUser.uid);
+  const [displayOwned, setDisplayOwned] = React.useState(true);
+  const [showAddModal, setShowAddModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [editName, setEditName] = React.useState("");
+  const [editList, setEditList] = React.useState(null);
 
-  const { sharedTaskLists } = useSelector((state) => state.sharedTaskLists);
+  const itemLists = useSelector((state) => state.itemLists);
+  const { sharedItemLists } = useSelector((state) => state.sharedItemLists);
+  const userId = useSelector((state) => state.currentUser.uid);
 
   const handleDisplayOwned = () => {
     setDisplayOwned(true);
@@ -45,45 +42,42 @@ const TaskListsScreen = ({ navigation }) => {
   const handleDisplayShared = () => {
     setDisplayOwned(false);
   };
-
-  const handleOnPressTaskList = (list) => {
-    navigation.navigate("ViewTaskListScreen", list.key);
+  const handleOnPressList = (list) => {
+    navigation.navigate("ViewListScreen", list.key);
   };
-
-  const handleCreateTaskList = () => {
-    dispatch(addTaskList(userId, name));
-    setShowAddModal(false);
+  const handleOnDeleteList = (list) => {
+    dispatch(deleteItemList(list.key));
   };
-  const handleOnDeleteTaskList = (list) => {
-    dispatch(deleteTaskList(list.key));
-  };
-
-  const handleOnEditTaskList = (list) => {
+  const handleOnEditList = (list) => {
     setEditList(list);
     setShowEditModal(true);
   };
+  const renderList = (list, index) => {
+    return (
+      <ListCard
+        key={index}
+        list={list}
+        onPressHandler={(list) => handleOnPressList(list)}
+        handleDelete={(list) => handleOnDeleteList(list)}
+        handleEdit={(list) => handleOnEditList(list)}
+      />
+    );
+  };
+  const handleCreateItemList = () => {
+    dispatch(addItemList(userId, name));
+    setShowAddModal(false);
+  };
   const handleSubmitChanges = () => {
-    dispatch(submitEditTaskList(editName, editList.key));
+    dispatch(submitEditList(editName, editList.key));
     setEditName("");
     setEditList(null);
     setShowEditModal(false);
   };
-  const renderTasklist = (list, index) => {
-    return (
-      <TaskListCard
-        key={index}
-        list={list}
-        onPressHandler={(list) => handleOnPressTaskList(list)}
-        handleDelete={(list) => handleOnDeleteTaskList(list)}
-        handleEdit={(list) => handleOnEditTaskList(list)}
-      />
-    );
-  };
 
   return (
     <>
-      <ScrollView contentContainerStyle={styles.TaskListsScreen}>
-        <ScreenHeader title="Task lists" navigation={navigation} />
+      <ScrollView contentContainerStyle={styles.ListScreen}>
+        <ScreenHeader title="Item lists" navigation={navigation} />
         <View style={styles.listTypeToggle}>
           <TouchableOpacity
             style={displayOwned ? styles.activeListStyle : null}
@@ -115,25 +109,36 @@ const TaskListsScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.taskListContainer}>
-          {displayOwned
-            ? Object.values(taskLists).map((list, index) => {
-                return renderTasklist(list, index);
+        <View style={styles.cardsContainer}>
+          {displayOwned ? (
+            itemLists ? (
+              Object.values(itemLists).map((list, index) => {
+                return renderList(list, index);
               })
-            : Object.values(sharedTaskLists).map((list, index) => {
-                return renderTasklist(list, index);
-              })}
+            ) : (
+              <Text>
+                <Font text="You don't have any item lists yet."></Font>
+              </Text>
+            )
+          ) : sharedItemLists ? (
+            Object.values(sharedItemLists).map((list, index) => {
+              return renderList(list, index);
+            })
+          ) : (
+            <Text>
+              <Font text="You don't have any shared lists..."></Font>
+            </Text>
+          )}
         </View>
-
         {showAddModal && (
           <FullScreenModal
             confirmText="Create list"
-            title="Create Task List"
+            title="Create Item List"
             visible={showAddModal}
             handleClose={() => {
               setShowAddModal(false);
             }}
-            handleConfirm={() => handleCreateTaskList()}
+            handleConfirm={() => handleCreateItemList()}
             content={
               <>
                 <CreateField
@@ -145,19 +150,20 @@ const TaskListsScreen = ({ navigation }) => {
                 <ToggleInput
                   title="Share with a friend"
                   icon={icons.share}
-                  value={shareWith}
+                  value={"None"}
                   handleOnPress={() => {
-                    console.log("insert logic for choosing friend");
+                    console.log("Insert share friend functionality");
                   }}
                 />
               </>
             }
           />
         )}
+
         {showEditModal && (
           <FullScreenModal
             confirmText="Submit changes"
-            title="Edit Task List"
+            title="Edit Item List"
             visible={showEditModal}
             handleClose={() => {
               setShowEditModal(false);
@@ -174,9 +180,9 @@ const TaskListsScreen = ({ navigation }) => {
                 <ToggleInput
                   title="Share with a friend"
                   icon={icons.share}
-                  value={shareWith}
+                  value={"None"}
                   handleOnPress={() => {
-                    console.log("insert logic for choosing friend");
+                    console.log("Insert share friend funcitonality");
                   }}
                 />
               </>
@@ -196,10 +202,13 @@ const TaskListsScreen = ({ navigation }) => {
 export default TaskListsScreen;
 
 const styles = StyleSheet.create({
-  TaskListsScreen: {
+  ListScreen: {
     backgroundColor: colors.white,
     alignItems: "center",
     minHeight: "100%",
+  },
+  cardsContainer: {
+    marginTop: 10,
   },
   listTypeToggle: {
     width: "100%",
@@ -219,7 +228,33 @@ const styles = StyleSheet.create({
   fadedText: {
     opacity: 0.5,
   },
-  taskListContainer: {
-    marginTop: 10,
+  modalBackground: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    backgroundColor: colors.black + "90",
+    position: "absolute",
+  },
+  createListContainer: {
+    alignSelf: "center",
+    alignItems: "center",
+    width: "90%",
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "white",
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+  },
+  addButton: {
+    alignSelf: "center",
+    width: 100,
+    marginVertical: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: colors.purple,
+    borderRadius: 50,
+  },
+  addButtonText: {
+    color: colors.white,
   },
 });
