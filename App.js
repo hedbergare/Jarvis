@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from "react";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import ApiKeys from "./constants/ApiKeys";
 import firebase from "firebase/app";
@@ -24,6 +25,7 @@ import TaskStackScreen from "./src/navigation/TaskStackScreen";
 import { fetchSharedTaskLists } from "./redux/actions/SharedTaskListActions";
 import { fetchItemLists } from "./redux/actions/ItemListActions";
 import { fetchSharedItemLists } from "./redux/actions/SharedItemListActions";
+import { fetchOwnGoals } from "./redux/actions/GoalActions";
 
 const AppWrapper = () => {
   return (
@@ -35,12 +37,23 @@ const AppWrapper = () => {
 
 const App = () => {
   const [authUser, setAuthUser] = React.useState("loading");
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const dispatch = useDispatch();
 
   //Initializing firebase
   if (!firebase.apps.length) {
     firebase.initializeApp(ApiKeys.FirebaseConfig);
   }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
 
   const Tabs = () => {
     if (authUser === "loading") {
@@ -73,6 +86,7 @@ const App = () => {
         dispatch(fetchUser(user.uid));
         dispatch(fetchTaskLists(user.uid));
         dispatch(fetchSharedTaskLists(user.uid));
+        dispatch(fetchOwnGoals(user.uid));
         dispatch(fetchItemLists(user.uid));
         dispatch(fetchSharedItemLists(user.uid));
         setAuthUser("true");
@@ -90,51 +104,66 @@ const App = () => {
   const Stack = createStackNavigator();
 
   return (
-    <NavigationContainer>
-      {authUser === "false" ? (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            name="AuthUserStackScreen"
-            component={AuthUserStackScreen}
-          />
-        </Stack.Navigator>
-      ) : (
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
+    <ScrollView
+      contentContainerStyle={styles.wrapper}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <NavigationContainer>
+        {authUser === "false" ? (
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen
+              name="AuthUserStackScreen"
+              component={AuthUserStackScreen}
+            />
+          </Stack.Navigator>
+        ) : (
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
 
-              if (route.name === "HomeScreen") {
-                iconName = focused ? "ios-home" : "ios-home-outline";
-              } else if (route.name === "GoalStackScreen") {
-                iconName = focused ? "ios-bulb" : "ios-bulb-outline";
-              } else if (route.name === "TaskStackScreen") {
-                iconName = focused ? "ios-newspaper" : "ios-newspaper-outline";
-              } else if (route.name === "CreateTaskStackScreen") {
-                iconName = focused ? "ios-create" : "ios-create-outline";
-              } else if (route.name === "ListStackScreen") {
-                iconName = focused ? "ios-list" : "ios-list";
-              }
+                if (route.name === "HomeScreen") {
+                  iconName = focused ? "ios-home" : "ios-home-outline";
+                } else if (route.name === "GoalStackScreen") {
+                  iconName = focused ? "ios-bulb" : "ios-bulb-outline";
+                } else if (route.name === "TaskStackScreen") {
+                  iconName = focused
+                    ? "ios-newspaper"
+                    : "ios-newspaper-outline";
+                } else if (route.name === "CreateTaskStackScreen") {
+                  iconName = focused ? "ios-create" : "ios-create-outline";
+                } else if (route.name === "ListStackScreen") {
+                  iconName = focused ? "ios-list" : "ios-list";
+                }
 
-              // You can return any component that you like here!
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: colors.blue,
-            inactiveTintColor: colors.gray,
-            showLabel: false,
-          }}
-        >
-          {Tabs()}
-        </Tab.Navigator>
-      )}
-    </NavigationContainer>
+                // You can return any component that you like here!
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+            })}
+            tabBarOptions={{
+              activeTintColor: colors.blue,
+              inactiveTintColor: colors.gray,
+              showLabel: false,
+            }}
+          >
+            {Tabs()}
+          </Tab.Navigator>
+        )}
+      </NavigationContainer>
+    </ScrollView>
   );
 };
 
 export default AppWrapper;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});

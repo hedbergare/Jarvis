@@ -9,9 +9,17 @@ export const fonts = StyleSheet.create({
     fontSize: 24,
     fontWeight: "500",
   },
+  lightHeading2: {
+    fontSize: 24,
+    fontWeight: "300",
+  },
   heading3: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  lightHeading3: {
+    fontSize: 18,
+    fontWeight: "300",
   },
   heading4: {
     fontSize: 18,

@@ -15,7 +15,7 @@ const AuthUserStackScreen = () => {
     >
       <AuthUserStack.Screen name="LoginScreen" component={LoginScreen} />
       <AuthUserStack.Screen
-        name="Registration"
+        name="RegistrationScreen"
         component={RegistrationScreen}
       />
     </AuthUserStack.Navigator>
