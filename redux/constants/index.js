@@ -1,6 +1,11 @@
 //USER & AUTHENTICATION ACTIONS
 export const SIGN_IN = "sign_in";
 
+//OTHER USERS ACTIONS
+export const FETCH_OTHER_USERS = "fetch_other_users";
+export const ADD_FRIEND = "add_friend";
+export const DELETE_FRIEND = "delete_friend";
+
 //TASK LIST ACTIONS
 export const FETCH_TASK_LISTS = "fetch_task_lists";
 export const ADD_TASK_LIST = "add_task_list";

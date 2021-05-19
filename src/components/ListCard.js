@@ -8,7 +8,13 @@ import DateService from "../services/DateService";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import SwipeButtons from "./SwipeButtons";
 
-const ListCard = ({ list, onPressHandler, handleDelete, handleEdit }) => {
+const ListCard = ({
+  list,
+  onPressHandler,
+  handleDelete,
+  handleEdit,
+  swipeable,
+}) => {
   const swipeableRef = React.useRef(null);
   const getTotal = () => {
     if (list.items) {
@@ -46,7 +52,7 @@ const ListCard = ({ list, onPressHandler, handleDelete, handleEdit }) => {
             }}
           ></SwipeButtons>
         )}
-        friction={2}
+        friction={swipeable ? 2 : 10000}
         rightThreshold={20}
         containerStyle={styles.swipeContainer}
       >

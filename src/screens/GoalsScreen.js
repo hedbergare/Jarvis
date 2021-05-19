@@ -20,7 +20,6 @@ import AddButton from "../components/AddButton";
 
 const GoalsScreen = ({ navigation }) => {
   const fetchedGoals = useSelector((state) => state.goals);
-  console.log(fetchedGoals);
 
   const estimatedFinishDate = (goal, progressMade) => {
     if (progressMade > 0) {
@@ -35,8 +34,6 @@ const GoalsScreen = ({ navigation }) => {
       const estimatedDays = Math.floor(
         (goal.max_value - goal.current_value) / (pace * 100)
       );
-
-      console.log("estimatedDays: ", estimatedDays);
 
       const totalMilliseconds = Math.floor(
         now + estimatedDays * 1000 * 60 * 60 * 24

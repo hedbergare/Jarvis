@@ -1,18 +1,12 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Pressable,
-  TouchableOpacity,
-  Modal,
-  Text,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Modal, Text } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import { Ionicons } from "@expo/vector-icons";
 
 import Font from "./Font";
 import ConfirmButton from "./ConfirmButton";
+import { ScrollView } from "react-native-gesture-handler";
 const FullScreenModal = ({
   title,
   handleConfirm,
@@ -28,31 +22,37 @@ const FullScreenModal = ({
       animationType="fade"
       visible={visible}
     >
-      <TouchableOpacity style={styles.modalBackground} onPress={handleClose}>
-        <Pressable>
-          <View style={styles.contentContainer}>
-            <TouchableOpacity
-              style={styles.modalIconContainer}
-              onPress={handleClose}
-            >
-              <Ionicons
-                name="close-outline"
-                color={colors.grayDark}
-                size={30}
+      <TouchableOpacity
+        style={styles.modalBackground}
+        onPress={handleClose}
+        activeOpacity={1}
+      >
+        <ScrollView style={{ flexGrow: 0, height: 400, borderRadius: 20 }}>
+          <TouchableOpacity onPress={() => {}} activeOpacity={1}>
+            <View style={styles.contentContainer}>
+              <TouchableOpacity
+                style={styles.modalIconContainer}
+                onPress={handleClose}
+              >
+                <Ionicons
+                  name="close-outline"
+                  color={colors.grayDark}
+                  size={30}
+                />
+              </TouchableOpacity>
+              <View style={styles.titleBorder}>
+                <Text style={[fonts.heading2, styles.title]}>
+                  <Font text={title}></Font>
+                </Text>
+              </View>
+              {content}
+              <ConfirmButton
+                confirmText={confirmText}
+                handleConfirm={handleConfirm}
               />
-            </TouchableOpacity>
-            <View style={styles.titleBorder}>
-              <Text style={[fonts.heading2, styles.title]}>
-                <Font text={title}></Font>
-              </Text>
             </View>
-            {content}
-            <ConfirmButton
-              confirmText={confirmText}
-              handleConfirm={handleConfirm}
-            />
-          </View>
-        </Pressable>
+          </TouchableOpacity>
+        </ScrollView>
       </TouchableOpacity>
     </Modal>
   );
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     paddingHorizontal: 40,
     minWidth: "80%",
+    width: "100%",
     minHeight: 200,
     borderRadius: 20,
     overflow: "hidden",

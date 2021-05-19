@@ -62,7 +62,9 @@ const ViewListScreen = ({ navigation, route }) => {
     }
   };
   const handleCreateItem = () => {
-    dispatch(addItemToList(name, quantity, list.key));
+    dispatch(
+      addItemToList(name, quantity, list.key, firebase.auth().currentUser.uid)
+    );
     setShowAddModal(false);
     setName("");
     setQuantity(1);

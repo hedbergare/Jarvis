@@ -51,7 +51,6 @@ const CreateGoalScreen = ({ navigation }) => {
   };
 
   const handleAddGoal = () => {
-    console.log(quantity ? true : false);
     const goal = {
       name: name,
       description: description,

@@ -1,16 +1,27 @@
 import React from "react";
 import { Image, StyleSheet, Text, View, TextInput } from "react-native";
+import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
+import SvgComponent from "./SvgComponent";
 
-const InputField = ({ placeHolderText, src, secureEntry, textChanged }) => {
+const InputField = ({
+  placeHolderText,
+  src,
+  secureEntry,
+  textChanged,
+  value,
+  editable,
+}) => {
   return (
     <View style={styles.InputField}>
-      <Image source={src} />
+      <SvgComponent content={src} />
       <TextInput
         secureTextEntry={secureEntry}
-        style={styles.input}
+        style={[styles.input, fonts.heading4]}
         placeholder={placeHolderText}
         onChangeText={(text) => textChanged(text)}
+        value={value}
+        editable={editable}
       />
     </View>
   );
@@ -30,10 +41,5 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: 10,
-    width: 200,
-    fontSize: 16,
-  },
-  icon: {
-    marginRight: 20,
   },
 });

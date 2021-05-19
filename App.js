@@ -25,6 +25,7 @@ import TaskStackScreen from "./src/navigation/TaskStackScreen";
 import { fetchSharedTaskLists } from "./redux/actions/SharedTaskListActions";
 import { fetchItemLists } from "./redux/actions/ItemListActions";
 import { fetchSharedItemLists } from "./redux/actions/SharedItemListActions";
+import { fetchOtherUsers } from "./redux/actions/OtherUsersActions";
 import { fetchOwnGoals } from "./redux/actions/GoalActions";
 
 const AppWrapper = () => {
@@ -86,6 +87,7 @@ const App = () => {
         dispatch(fetchUser(user.uid));
         dispatch(fetchTaskLists(user.uid));
         dispatch(fetchSharedTaskLists(user.uid));
+        dispatch(fetchOtherUsers(user.uid));
         dispatch(fetchOwnGoals(user.uid));
         dispatch(fetchItemLists(user.uid));
         dispatch(fetchSharedItemLists(user.uid));

@@ -15,21 +15,39 @@ import Font from "../components/Font";
 import CreateField from "../components/CreateField";
 import AddButton from "../components/AddButton";
 import FullScreenModal from "../components/FullScreenModal";
-import ToggleInput from "../components/ToggleInput";
 import {
   addItemList,
   deleteItemList,
   submitEditList,
 } from "../../redux/actions/ItemListActions";
+import ShareWithPicker from "../components/ShareWithPicker";
 
-const TaskListsScreen = ({ navigation }) => {
+const ListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+
   const [displayOwned, setDisplayOwned] = React.useState(true);
   const [showAddModal, setShowAddModal] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [name, setName] = React.useState("");
   const [editName, setEditName] = React.useState("");
   const [editList, setEditList] = React.useState(null);
+
+  const [shareWith, setShareWith] = React.useState([]);
+
+  const handleOnShareWith = (id) => {
+    shareWith.push(id);
+  };
+  const handleRemoveShareWith = (id) => {
+    shareWith.splice(shareWith.indexOf(id), 1);
+  };
+  const [editShareWith, setEditShareWith] = React.useState([]);
+
+  const handleOnEditShareWith = (id) => {
+    editShareWith.push(id);
+  };
+  const handleEditRemoveShareWith = (id) => {
+    editShareWith.splice(shareWith.indexOf(id), 1);
+  };
 
   const itemLists = useSelector((state) => state.itemLists);
   const { sharedItemLists } = useSelector((state) => state.sharedItemLists);
@@ -50,9 +68,14 @@ const TaskListsScreen = ({ navigation }) => {
   };
   const handleOnEditList = (list) => {
     setEditList(list);
+    if (list.shared_with) {
+      for (let user in list.shared_with) {
+        editShareWith.push(user);
+      }
+    }
     setShowEditModal(true);
   };
-  const renderList = (list, index) => {
+  const renderList = (list, index, swipeable = true) => {
     return (
       <ListCard
         key={index}
@@ -60,18 +83,20 @@ const TaskListsScreen = ({ navigation }) => {
         onPressHandler={(list) => handleOnPressList(list)}
         handleDelete={(list) => handleOnDeleteList(list)}
         handleEdit={(list) => handleOnEditList(list)}
+        swipeable={swipeable}
       />
     );
   };
   const handleCreateItemList = () => {
-    dispatch(addItemList(userId, name));
+    dispatch(addItemList(userId, name, shareWith));
     setShowAddModal(false);
   };
   const handleSubmitChanges = () => {
-    dispatch(submitEditList(editName, editList.key));
+    dispatch(submitEditList(editName, editList.key, editShareWith));
     setEditName("");
     setEditList(null);
     setShowEditModal(false);
+    setEditShareWith([]);
   };
 
   return (
@@ -113,7 +138,7 @@ const TaskListsScreen = ({ navigation }) => {
           {displayOwned ? (
             itemLists ? (
               Object.values(itemLists).map((list, index) => {
-                return renderList(list, index);
+                return renderList(list, index, true);
               })
             ) : (
               <Text>
@@ -122,7 +147,7 @@ const TaskListsScreen = ({ navigation }) => {
             )
           ) : sharedItemLists ? (
             Object.values(sharedItemLists).map((list, index) => {
-              return renderList(list, index);
+              return renderList(list, index, false);
             })
           ) : (
             <Text>
@@ -147,14 +172,11 @@ const TaskListsScreen = ({ navigation }) => {
                   title="Name"
                   textChanged={(text) => setName(text)}
                 />
-                <ToggleInput
-                  title="Share with a friend"
-                  icon={icons.share}
-                  value={"None"}
-                  handleOnPress={() => {
-                    console.log("Insert share friend functionality");
-                  }}
-                />
+
+                <ShareWithPicker
+                  handleOnShareWith={(id) => handleOnShareWith(id)}
+                  handleRemoveShareWith={(id) => handleRemoveShareWith(id)}
+                ></ShareWithPicker>
               </>
             }
           />
@@ -177,14 +199,11 @@ const TaskListsScreen = ({ navigation }) => {
                   title="Name"
                   textChanged={(text) => setEditName(text)}
                 />
-                <ToggleInput
-                  title="Share with a friend"
-                  icon={icons.share}
-                  value={"None"}
-                  handleOnPress={() => {
-                    console.log("Insert share friend funcitonality");
-                  }}
-                />
+                <ShareWithPicker
+                  handleOnShareWith={(id) => handleOnEditShareWith(id)}
+                  handleRemoveShareWith={(id) => handleEditRemoveShareWith(id)}
+                  alreadyShared={editList.shared_with}
+                ></ShareWithPicker>
               </>
             }
           />
@@ -199,7 +218,7 @@ const TaskListsScreen = ({ navigation }) => {
   );
 };
 
-export default TaskListsScreen;
+export default ListScreen;
 
 const styles = StyleSheet.create({
   ListScreen: {
@@ -256,5 +275,13 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: colors.white,
+  },
+  friendPickerContainer: {
+    alignSelf: "center",
+    width: 200,
+    height: 100,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: colors.white,
   },
 });

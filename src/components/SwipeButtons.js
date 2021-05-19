@@ -26,12 +26,12 @@ const styles = StyleSheet.create({
   },
   edit: {
     justifyContent: "center",
-    backgroundColor: colors.green,
-    paddingHorizontal: 10,
+    backgroundColor: colors.greenLight,
+    paddingHorizontal: 30,
   },
   delete: {
     justifyContent: "center",
-    backgroundColor: colors.red,
-    paddingHorizontal: 10,
+    backgroundColor: colors.redLight,
+    paddingHorizontal: 30,
   },
 });

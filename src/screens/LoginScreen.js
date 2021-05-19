@@ -31,16 +31,19 @@ const LoginScreen = ({ navigation }) => {
       <InputField
         placeHolderText="Email"
         secureEntry={false}
-        src={require("../assets/icon-mail.png")}
+        src={icons.email}
         textChanged={(text) => setEmail(text)}
       ></InputField>
       <InputField
         placeHolderText="Password"
         secureEntry={true}
-        src={require("../assets/icon-key.png")}
+        src={icons.key}
         textChanged={(text) => setPassword(text)}
       ></InputField>
-      <TouchableOpacity style={styles.forgotPasswordContainer}>
+      <TouchableOpacity
+        style={styles.forgotPasswordContainer}
+        onPress={() => navigation.navigate("ForgotPasswordScreen")}
+      >
         <Text style={[styles.forgotPasswordText, fonts.subText]}>
           <Font text="Forgot your password?"></Font>
         </Text>
