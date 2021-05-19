@@ -37,7 +37,11 @@ export const fetchItemLists = (uid) => {
       });
   };
 };
-export const addItemList = (uid, name) => {
+export const addItemList = (uid, name, friends) => {
+  let sharedWith = {};
+  for (const friend of friends) {
+    sharedWith[friend] = true;
+  }
   return (dispatch) => {
     firebase.database().ref().child("item_lists/").push().set({
       name: name,
@@ -45,7 +49,7 @@ export const addItemList = (uid, name) => {
       completed: false,
       date_created: new Date().getTime(),
       items: {},
-      shared_with: {},
+      shared_with: sharedWith,
     });
     dispatch({ type: ADD_ITEM_LIST });
   };
@@ -73,7 +77,7 @@ export const subtractQuantity = (listId, itemId) => {
   };
 };
 
-export const addItemToList = (name, quantity, listId) => {
+export const addItemToList = (name, quantity, listId, userId) => {
   return (dispatch) => {
     firebase
       .database()
@@ -84,6 +88,7 @@ export const addItemToList = (name, quantity, listId) => {
         name: name,
         completed: false,
         quantity: quantity,
+        userId: userId,
       });
     firebase
       .database()
@@ -133,12 +138,16 @@ export const submitEditItem = (name, quantity, itemId, listId) => {
     dispatch({ type: EDIT_ITEM });
   };
 };
-export const submitEditList = (name, listId) => {
+export const submitEditList = (name, listId, friends) => {
+  let sharedWith = {};
+  for (const friend of friends) {
+    sharedWith[friend] = true;
+  }
   return (dispatch) => {
     firebase
       .database()
       .ref("/item_lists/" + listId)
-      .update({ name: name });
+      .update({ name: name, shared_with: sharedWith });
     dispatch({ type: EDIT_ITEM_LIST });
   };
 };

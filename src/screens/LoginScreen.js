@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import LoginService from "../services/LoginService";
 import { fonts } from "../../constants/fonts";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import LargeButton from "../components/LargeButton";
 import Font from "../components/Font";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -25,16 +25,19 @@ const LoginScreen = ({ navigation }) => {
       <InputField
         placeHolderText="Email"
         secureEntry={false}
-        src={require("../assets/icon-mail.png")}
+        src={icons.email}
         textChanged={(text) => setEmail(text)}
       ></InputField>
       <InputField
         placeHolderText="Password"
         secureEntry={true}
-        src={require("../assets/icon-key.png")}
+        src={icons.key}
         textChanged={(text) => setPassword(text)}
       ></InputField>
-      <TouchableOpacity style={styles.forgotPasswordContainer}>
+      <TouchableOpacity
+        style={styles.forgotPasswordContainer}
+        onPress={() => navigation.navigate("ForgotPasswordScreen")}
+      >
         <Text style={[styles.forgotPasswordText, fonts.subText]}>
           <Font text="Forgot your password?"></Font>
         </Text>
@@ -70,7 +73,9 @@ const LoginScreen = ({ navigation }) => {
         <Text style={fonts.subText}>
           <Font text="Don't have an account?"></Font>
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("RegistrationScreen")}
+        >
           <Text style={[fonts.subText, styles.signUpText]}>
             <Font text="Sign up"></Font>
           </Text>

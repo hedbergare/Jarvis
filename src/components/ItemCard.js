@@ -13,9 +13,9 @@ import Font from "./Font";
 import "firebase/database";
 import IncrementButton from "./IncrementButton";
 import DecrementButton from "./DecrementButton";
-import Swipeout from "react-native-swipeout";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import SwipeButtons from "./SwipeButtons";
+import { useSelector } from "react-redux";
 
 const ItemCard = ({
   item,
@@ -29,9 +29,22 @@ const ItemCard = ({
   const [quantityState, setQuantityState] = React.useState(item.quantity);
   const swipeableRef = React.useRef(null);
 
+  const otherUsers = useSelector((state) => state.otherUsers);
+
+  const fetchCreator = () => {
+    for (const user of otherUsers) {
+      if (user.key === item.userId) {
+        return user.first_name + " " + user.last_name;
+      }
+    }
+    return "you";
+  };
+
   React.useEffect(() => {
     setQuantityState(item.quantity);
   }, [item.quantity]);
+
+  const creator = fetchCreator();
 
   return (
     <>
@@ -79,7 +92,7 @@ const ItemCard = ({
                 <Font text={item.name} />
               </Text>
               <Text style={fonts.subText}>
-                <Font text="Added by you"></Font>
+                <Font text={"Added by " + creator}></Font>
               </Text>
             </TouchableOpacity>
             <View style={styles.rightFloatContainer}>

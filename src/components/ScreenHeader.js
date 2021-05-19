@@ -17,7 +17,7 @@ const ScreenHeader = ({ title, navigation }) => {
   };
   const handleSettingsIcon = () => {
     {
-      /* todo: fix routing on click. */
+      navigation.navigate("SettingsScreen");
     }
   };
   return (

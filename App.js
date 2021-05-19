@@ -24,6 +24,7 @@ import TaskStackScreen from "./src/navigation/TaskStackScreen";
 import { fetchSharedTaskLists } from "./redux/actions/SharedTaskListActions";
 import { fetchItemLists } from "./redux/actions/ItemListActions";
 import { fetchSharedItemLists } from "./redux/actions/SharedItemListActions";
+import { fetchOtherUsers } from "./redux/actions/OtherUsersActions";
 
 const AppWrapper = () => {
   return (
@@ -75,6 +76,7 @@ const App = () => {
         dispatch(fetchSharedTaskLists(user.uid));
         dispatch(fetchItemLists(user.uid));
         dispatch(fetchSharedItemLists(user.uid));
+        dispatch(fetchOtherUsers(user.uid));
         setAuthUser("true");
       } else {
         setAuthUser("false");

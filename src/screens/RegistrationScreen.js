@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import firebase from "firebase/app";
-import { colors } from "../../constants/vars";
+import { colors, icons } from "../../constants/vars";
 import "firebase/database";
 import ScreenHeader from "../components/ScreenHeader";
 import InputField from "../components/InputField";
@@ -63,31 +63,31 @@ const RegistrationScreen = ({ navigation }) => {
           placeHolderText="First Name"
           secureEntry={false}
           textChanged={(text) => setFirstName(text)}
-          src={require("../assets/icon-mail.png")}
+          src={icons.profile}
         />
         <InputField
           placeHolderText="Last name"
           secureEntry={false}
           textChanged={(lastName) => setLastName(lastName)}
-          src={require("../assets/icon-mail.png")}
+          src={icons.profile}
         />
         <InputField
           placeHolderText="Email"
           secureEntry={false}
           textChanged={(email) => setEmail(email)}
-          src={require("../assets/icon-mail.png")}
+          src={icons.email}
         />
         <InputField
           placeHolderText="Password"
           secureEntry={true}
           textChanged={(password) => setPassword(password)}
-          src={require("../assets/icon-key.png")}
+          src={icons.key}
         />
         <InputField
           placeHolderText="Confirm Password"
           secureEntry={true}
           textChanged={(password) => setConfirmPassword(password)}
-          src={require("../assets/icon-key.png")}
+          src={icons.key}
         />
       </View>
       <TouchableOpacity onPress={() => registerAccount()}>

@@ -38,7 +38,11 @@ export const fetchTaskLists = (uid) => {
   };
 };
 
-export const addTaskList = (uid, name) => {
+export const addTaskList = (uid, name, friends) => {
+  let sharedWith = {};
+  for (const friend of friends) {
+    sharedWith[friend] = true;
+  }
   return (dispatch) => {
     firebase.database().ref().child("/task_lists/").push().set({
       name: name,
@@ -46,7 +50,7 @@ export const addTaskList = (uid, name) => {
       completed: false,
       date_created: new Date().getTime(),
       tasks: {},
-      shared_with: {},
+      shared_with: sharedWith,
     });
     dispatch({ type: ADD_TASK_LIST });
   };
@@ -105,12 +109,16 @@ export const shareTaskList = (taskListId, shareId) => {
     dispatch({ type: SHARE_TASK_LIST });
   };
 };
-export const submitEditTaskList = (name, listId) => {
+export const submitEditTaskList = (name, listId, friends) => {
+  let sharedWith = {};
+  for (const friend of friends) {
+    sharedWith[friend] = true;
+  }
   return (dispatch) => {
     firebase
       .database()
       .ref("/task_lists/" + listId)
-      .update({ name: name });
+      .update({ name: name, shared_with: sharedWith });
     dispatch({ type: EDIT_TASK_LIST });
   };
 };
