@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { fontFamilies } from "../../constants/vars";
 
-const Font = ({ text, textStyle }) => {
-  return <Text style={[textStyle, styles.font]}>{text}</Text>;
+const Font = ({ text, textStyle, font }) => {
+  return <Text style={[font, textStyle, styles.font]}>{text}</Text>;
 };
 
 export default Font;

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import firebase from "firebase/app";
 import { colors, icons } from "../../constants/vars";
 import "firebase/database";
@@ -9,6 +15,9 @@ import LargeButton from "../components/LargeButton";
 import { useDispatch } from "react-redux";
 import { addTaskList } from "../../redux/actions/TaskListActions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SvgComponent from "../components/SvgComponent";
+import { fonts } from "../../constants/fonts";
+import Font from "../components/Font";
 require("firebase/auth");
 
 const RegistrationScreen = ({ navigation }) => {
@@ -50,66 +59,97 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      contentContainerStyle={styles.RegistrationScreen}
-      scrollEnabled={true}
-    >
-      <ScreenHeader title="Register account" navigation={navigation} />
+    <ScrollView>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.RegistrationScreen}
+        scrollEnabled={true}
+      >
+        <SvgComponent
+          content={icons.RegisterIllustration}
+          style={styles.profileImage}
+        />
+        <Font
+          text="Create Account"
+          font={fonts.heading3}
+          textStyle={{ color: colors.redLight, marginTop: 30 }}
+        ></Font>
 
-      <Text style={styles.errorMessage}> {errorMessage}</Text>
-      <View style={styles.inputContainer}>
-        <InputField
-          placeHolderText="First Name"
-          secureEntry={false}
-          textChanged={(text) => setFirstName(text)}
-          src={icons.profile}
-        />
-        <InputField
-          placeHolderText="Last name"
-          secureEntry={false}
-          textChanged={(lastName) => setLastName(lastName)}
-          src={icons.profile}
-        />
-        <InputField
-          placeHolderText="Email"
-          secureEntry={false}
-          textChanged={(email) => setEmail(email)}
-          src={icons.email}
-        />
-        <InputField
-          placeHolderText="Password"
-          secureEntry={true}
-          textChanged={(password) => setPassword(password)}
-          src={icons.key}
-        />
-        <InputField
-          placeHolderText="Confirm Password"
-          secureEntry={true}
-          textChanged={(password) => setConfirmPassword(password)}
-          src={icons.key}
-        />
-      </View>
-      <TouchableOpacity onPress={() => registerAccount()}>
-        <LargeButton
-          text="Register"
-          backgroundColor={colors.redLight}
-          color={colors.white}
-        ></LargeButton>
-      </TouchableOpacity>
-    </KeyboardAwareScrollView>
+        <Text style={styles.errorMessage}> {errorMessage}</Text>
+        <View style={styles.inputContainer}>
+          <InputField
+            placeHolderText="First Name"
+            secureEntry={false}
+            textChanged={(text) => setFirstName(text)}
+            src={require("../assets/icon-mail.png")}
+          />
+          <InputField
+            placeHolderText="Last name"
+            secureEntry={false}
+            textChanged={(lastName) => setLastName(lastName)}
+            src={require("../assets/icon-mail.png")}
+          />
+          <InputField
+            placeHolderText="Email"
+            secureEntry={false}
+            textChanged={(email) => setEmail(email)}
+            src={require("../assets/icon-mail.png")}
+          />
+          <InputField
+            placeHolderText="Password"
+            secureEntry={true}
+            textChanged={(password) => setPassword(password)}
+            src={require("../assets/icon-key.png")}
+          />
+          <InputField
+            placeHolderText="Confirm Password"
+            secureEntry={true}
+            textChanged={(password) => setConfirmPassword(password)}
+            src={require("../assets/icon-key.png")}
+          />
+        </View>
+        <TouchableOpacity onPress={() => registerAccount()}>
+          <LargeButton
+            text="SIGN UP"
+            backgroundColor={colors.redLight}
+            color={colors.white}
+          ></LargeButton>
+        </TouchableOpacity>
+        <View style={styles.registerContainer}>
+          <Text style={fonts.subText}>
+            <Font text="Already have an account?"></Font>
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+            <Text style={[fonts.subText, styles.signUpText]}>
+              <Font text="Log in"></Font>
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   RegistrationScreen: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     alignItems: "center",
+    paddingVertical: 50,
   },
-  inputContainer: {},
+  profileImage: {
+    marginBottom: 30,
+  },
   errorMessage: {
     color: "tomato",
+  },
+  registerContainer: {
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  signUpText: {
+    color: colors.redLight,
+    marginLeft: 10,
   },
 });
 

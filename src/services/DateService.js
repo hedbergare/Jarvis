@@ -11,6 +11,9 @@ class DateService {
   static formatDate = (date) => {
     return Moment(date).format("dddd Do of MMM");
   };
+  static formatDateWithYear = (date) => {
+    return Moment(date).format("dddd Do of MMM YYYY");
+  };
 }
 
 export default DateService;

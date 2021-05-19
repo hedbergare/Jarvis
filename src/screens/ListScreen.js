@@ -15,7 +15,6 @@ import Font from "../components/Font";
 import CreateField from "../components/CreateField";
 import AddButton from "../components/AddButton";
 import FullScreenModal from "../components/FullScreenModal";
-
 import {
   addItemList,
   deleteItemList,
@@ -45,11 +44,9 @@ const ListScreen = ({ navigation }) => {
 
   const handleOnEditShareWith = (id) => {
     editShareWith.push(id);
-    console.log("Lägger till editShareWith", editShareWith);
   };
   const handleEditRemoveShareWith = (id) => {
     editShareWith.splice(shareWith.indexOf(id), 1);
-    console.log("Tar bort", editShareWith);
   };
 
   const itemLists = useSelector((state) => state.itemLists);

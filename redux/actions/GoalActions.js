@@ -1,10 +1,9 @@
-import { FETCH_OWN_GOALS } from "../constants";
+import { FETCH_OWN_GOALS, ADD_GOAL } from "../constants";
 import firebase from "firebase/app";
 import "firebase/database";
 require("firebase/auth");
 
 export const fetchOwnGoals = (uid) => {
-  const goals = [];
   return (dispatch) => {
     firebase
       .database()
@@ -12,6 +11,8 @@ export const fetchOwnGoals = (uid) => {
       .orderByChild("userId")
       .equalTo(uid)
       .on("value", (snapshot) => {
+        const goals = [];
+
         snapshot.forEach((goal) => {
           const tempObject = goal.val();
           tempObject.key = goal.key;
@@ -19,5 +20,24 @@ export const fetchOwnGoals = (uid) => {
         });
         dispatch({ type: FETCH_OWN_GOALS, goals: goals });
       });
+  };
+};
+
+export const addGoal = (uid, goal) => {
+  return (dispatch) => {
+    firebase.database().ref().child("/goals/").push().set({
+      name: goal.name,
+      userId: uid,
+      completed: false,
+      quantified: goal.quantified,
+      date_created: goal.date_created.getTime(),
+      current_value: 0,
+      max_value: goal.max_value,
+      shared_with: {},
+      description: goal.description,
+      deadline: goal.deadline.getTime(),
+      theme: goal.theme,
+    });
+    dispatch({ type: ADD_GOAL });
   };
 };
