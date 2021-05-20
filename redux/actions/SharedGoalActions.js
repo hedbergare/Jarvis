@@ -4,21 +4,23 @@ import "firebase/database";
 require("firebase/auth");
 
 export const fetchSharedGoals = (uid) => {
-  const sharedGoals = [];
   return (dispatch) => {
+    let sharedGoals;
     firebase
       .database()
-      .ref("/users/" + uid + "/shared_goals/")
+      .ref("/goals/")
       .on("value", (snapshot) => {
-        snapshot.forEach((shared_goal) => {
-          firebase
-            .database()
-            .ref("/goals/" + shared_goal.key)
-            .on("value", (goal) => {
-              sharedGoals.push(goal.val());
-            });
+        sharedGoals = [];
+        snapshot.forEach((goal) => {
+          for (let id in goal.val().shared_with) {
+            if (uid === id) {
+              let tempObject = goal.val();
+              tempObject.key = goal.key;
+              sharedGoals.push(tempObject);
+            }
+          }
         });
+        dispatch({ type: FETCH_SHARED_GOALS, shared_goals: sharedGoals });
       });
-    dispatch({ type: FETCH_SHARED_GOALS, shared_goals: sharedGoals });
   };
 };

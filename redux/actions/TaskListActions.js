@@ -69,7 +69,8 @@ export const addTaskToList = (task) => {
         deadline: task.deadline.getTime(),
         date_created: task.date_created.getTime(),
         completed: false,
-        connected_goal: {},
+        connected_goal: task.goalId,
+        goal_value: task.added_value,
       });
     firebase
       .database()
@@ -78,7 +79,14 @@ export const addTaskToList = (task) => {
     dispatch({ type: ADD_TASK });
   };
 };
-export const completeTask = (taskListId, taskId, updatedState) => {
+export const completeTask = (
+  taskListId,
+  taskId,
+  updatedState,
+  connectedGoal,
+  goalValue,
+  taskOwnerId
+) => {
   const ref = firebase.database().ref("/task_lists/" + taskListId);
   return (dispatch) => {
     firebase
@@ -97,6 +105,19 @@ export const completeTask = (taskListId, taskId, updatedState) => {
         });
         ref.update({ completed: allTasks });
       });
+    if (connectedGoal) {
+      let value;
+      updatedState ? (value = +goalValue) : (value = -goalValue);
+      firebase
+        .database()
+        .ref("/goals/" + connectedGoal)
+        .child("current_value")
+        .set(firebase.database.ServerValue.increment(value));
+      firebase
+        .database()
+        .ref("/goals/" + connectedGoal + "/contributors/" + taskOwnerId)
+        .set(true);
+    }
     dispatch({ type: COMPLETE_TASK });
   };
 };
