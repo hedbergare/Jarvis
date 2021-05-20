@@ -175,6 +175,7 @@ const ViewGoalScreen = ({ navigation, route }) => {
           {params.goal.quantified ? (
             params.goal.contributors ? (
               Object.keys(params.goal.contributors).map((value, index) => {
+                console.log("Här", value);
                 return <ContributorTag key={index} value={value} />;
               })
             ) : (
@@ -182,6 +183,7 @@ const ViewGoalScreen = ({ navigation, route }) => {
             )
           ) : params.goal.shared_with ? (
             Object.keys(params.goal.shared_with).map((value, index) => {
+              console.log("shared_with", value);
               return <ContributorTag key={index} value={value} />;
             })
           ) : (

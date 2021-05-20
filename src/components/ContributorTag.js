@@ -13,7 +13,7 @@ const ContributorTag = ({ value }) => {
   const fetchFirstLetter = () => {
     for (const user of otherUsers) {
       if (user.key === value) {
-        return user.firstName[0];
+        return user.first_name[0];
       }
     }
     return currentUser.first_name[0];

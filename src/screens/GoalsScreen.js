@@ -23,7 +23,7 @@ const GoalsScreen = ({ navigation }) => {
   const sharedGoals = useSelector((state) => state.sharedGoals);
 
   const estimatedFinishDate = (goal, progressMade) => {
-    if (goal.quantified) {
+    if (goal.quantified && progressMade > 0) {
       moment.locale("en");
 
       const start = new Date(goal.date_created).getTime();
