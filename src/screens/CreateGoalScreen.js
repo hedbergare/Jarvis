@@ -22,6 +22,7 @@ import ThemeSample from "../components/ThemeSample";
 import ToggleInput from "../components/ToggleInput";
 import DateService from "../services/DateService";
 import { useDispatch, useSelector } from "react-redux";
+import ShareWithPicker from "../components/ShareWithPicker";
 
 import { addGoal } from "../../redux/actions/GoalActions";
 
@@ -40,10 +41,19 @@ const CreateGoalScreen = ({ navigation }) => {
   const [date, setDate] = useState(
     new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
   );
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState("");
 
   const [description, setDescription] = useState("");
+
+  const [shareWith, setShareWith] = React.useState([]);
+
+  const handleOnShareWith = (id) => {
+    shareWith.push(id);
+  };
+  const handleRemoveShareWith = (id) => {
+    shareWith.splice(shareWith.indexOf(id), 1);
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -51,6 +61,7 @@ const CreateGoalScreen = ({ navigation }) => {
   };
 
   const handleAddGoal = () => {
+    console.log(shareWith);
     const goal = {
       name: name,
       description: description,
@@ -60,6 +71,7 @@ const CreateGoalScreen = ({ navigation }) => {
       date_created: now,
       theme: theme,
       unit: unit,
+      shareWith: shareWith,
     };
     dispatch(addGoal(userId, goal));
     navigation.navigate("GoalsScreen");
@@ -90,11 +102,15 @@ const CreateGoalScreen = ({ navigation }) => {
           value={DateService.formatDate(date)}
           handleOnPress={() => setToggleModal("date")}
         />
-        <ToggleInput
+        {/* <ToggleInput
           title="Share Goal (optional)"
           icon={icons.share}
           value={"None"}
-          handleOnPress={() => setToggleModal("")}
+          handleOnPress={() => setToggleModal("share")}
+        /> */}
+        <ShareWithPicker
+          handleOnShareWith={(id) => handleOnShareWith(id)}
+          handleRemoveShareWith={(id) => handleRemoveShareWith(id)}
         />
         <View style={styles.contentWidth}>
           <Font text="Choose theme:" font={fonts.heading3}></Font>

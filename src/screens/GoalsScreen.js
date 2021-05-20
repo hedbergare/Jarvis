@@ -20,9 +20,10 @@ import AddButton from "../components/AddButton";
 
 const GoalsScreen = ({ navigation }) => {
   const fetchedGoals = useSelector((state) => state.goals);
+  const sharedGoals = useSelector((state) => state.sharedGoals);
 
   const estimatedFinishDate = (goal, progressMade) => {
-    if (progressMade > 0) {
+    if (goal.quantified) {
       moment.locale("en");
 
       const start = new Date(goal.date_created).getTime();
@@ -144,9 +145,21 @@ const GoalsScreen = ({ navigation }) => {
           <Font text="Goals" font={fonts.heading2} />
         </View>
 
-        {Object.values(fetchedGoals).map((goal, index) => {
-          return renderGoalCard(goal, index);
-        })}
+        {displayOwned ? (
+          fetchedGoals ? (
+            Object.values(fetchedGoals).map((goal, index) => {
+              return renderGoalCard(goal, index);
+            })
+          ) : (
+            <></>
+          )
+        ) : sharedGoals ? (
+          Object.values(sharedGoals).map((goal, index) => {
+            return renderGoalCard(goal, index);
+          })
+        ) : (
+          <></>
+        )}
       </ScrollView>
       <AddButton
         handleOnPress={() => {
