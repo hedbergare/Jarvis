@@ -61,7 +61,6 @@ const CreateGoalScreen = ({ navigation }) => {
   };
 
   const handleAddGoal = () => {
-    console.log(shareWith);
     const goal = {
       name: name,
       description: description,
