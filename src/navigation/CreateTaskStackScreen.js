@@ -4,7 +4,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import CreateTaskScreen from "../screens/CreateTaskScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
-const CreateTaskStackScreen = () => {
+const CreateTaskStackScreen = ({ navigation }) => {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      // Prevent default behavior
+      e.preventDefault();
+
+      navigation.navigate("CreateTaskScreen", {
+        task: null,
+        hideBackArrow: true,
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   const CreateTaskStack = createStackNavigator();
 
   return (

@@ -1,15 +1,13 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../constants/vars";
+import { Ionicons } from "@expo/vector-icons";
 
-const EditButton = () => {
+const EditButton = ({ handleOnPress }) => {
   return (
-    <View style={styles.EditButton}>
-      <Image
-        style={styles.icon}
-        source={require("../assets/icon-pen-white.png")}
-      />
-    </View>
+    <TouchableOpacity style={styles.EditButton} onPress={handleOnPress}>
+      <Ionicons name={"create-outline"} size={28} color={colors.white} />
+    </TouchableOpacity>
   );
 };
 
@@ -18,9 +16,10 @@ export default EditButton;
 const styles = StyleSheet.create({
   EditButton: {
     justifyContent: "center",
+    paddingLeft: 4,
     alignItems: "center",
-    width: 62,
-    height: 62,
+    width: 55,
+    height: 55,
     backgroundColor: colors.blueDark,
     borderRadius: 31,
   },

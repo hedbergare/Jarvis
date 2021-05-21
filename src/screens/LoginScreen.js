@@ -23,11 +23,14 @@ const LoginScreen = ({ navigation }) => {
         content={icons.loginIllustration}
         iconStyle={styles.profileImage}
       />
-      <Font
-        text="LOG IN"
-        font={fonts.heading3}
-        textStyle={{ color: colors.redLight }}
-      ></Font>
+      <View style={styles.titleContainer}>
+        <Font
+          text="LOG IN"
+          font={fonts.heading3}
+          textStyle={{ color: colors.redLight }}
+        ></Font>
+      </View>
+
       <InputField
         placeHolderText="Email"
         secureEntry={false}
@@ -103,10 +106,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 30,
   },
+  titleContainer: {
+    marginBottom: "10%",
+  },
 
   forgotPasswordContainer: {
-    width: 280,
-    marginBottom: 30,
+    width: "70%",
+    marginBottom: "20%",
     marginTop: 2,
   },
   forgotPasswordText: {

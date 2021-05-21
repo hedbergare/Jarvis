@@ -66,7 +66,7 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
         rightThreshold={20}
         containerStyle={styles.swipeContainer}
       >
-        <View style={[styles.TaskCard, { opacity: checkboxState ? 0.5 : 1 }]}>
+        <View style={[styles.TaskCard]}>
           <View style={styles.content}>
             <BouncyCheckbox
               isChecked={checkboxState}
@@ -87,6 +87,7 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
                   styles.TaskCardTitle,
                   fonts.heading3,
                   {
+                    opacity: checkboxState ? 0.5 : 1,
                     textDecorationLine: checkboxState ? "line-through" : "none",
                   },
                 ]}
@@ -97,6 +98,7 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
                 style={
                   (fonts.subText,
                   {
+                    opacity: checkboxState ? 0.5 : 1,
                     textDecorationLine: checkboxState ? "line-through" : "none",
                   })
                 }
