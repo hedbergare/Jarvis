@@ -40,9 +40,12 @@ export const fetchTaskLists = (uid) => {
 
 export const addTaskList = (uid, name, friends) => {
   let sharedWith = {};
-  for (const friend of friends) {
-    sharedWith[friend] = true;
+  if (friends) {
+    for (const friend of friends) {
+      sharedWith[friend] = true;
+    }
   }
+
   return (dispatch) => {
     firebase.database().ref().child("/task_lists/").push().set({
       name: name,

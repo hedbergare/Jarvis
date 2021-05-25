@@ -109,7 +109,11 @@ const GoalsScreen = ({ navigation }) => {
   return (
     <>
       <ScrollView contentContainerStyle={styles.GoalsScreen}>
-        <ScreenHeader title="My Goals" navigation={navigation} />
+        <ScreenHeader
+          title="My Goals"
+          navigation={navigation}
+          hideBackArrow={true}
+        />
         <View style={styles.listTypeToggle}>
           <TouchableOpacity
             style={displayOwned ? styles.activeListStyle : null}

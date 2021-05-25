@@ -26,6 +26,42 @@ export const colors = {
 };
 
 export const icons = {
+  logo: `<svg id="Component_69_1" data-name="Component 69 – 1" xmlns="http://www.w3.org/2000/svg" width="211.837" height="111.541" viewBox="0 0 211.837 111.541">
+  <g id="Group_20" data-name="Group 20" transform="translate(34.748)">
+    <rect id="Rectangle_59" data-name="Rectangle 59" width="78.807" height="78.807" transform="translate(0 78.235) rotate(-65)" fill="#2055c5" opacity="0.483"/>
+    <rect id="Rectangle_61" data-name="Rectangle 61" width="78.807" height="78.807" transform="translate(15.359 55.725) rotate(-45)" fill="#2055c5" opacity="0.453"/>
+    <rect id="Rectangle_62" data-name="Rectangle 62" width="78.807" height="78.807" transform="translate(37.612 39.982) rotate(-25)" fill="#2055c5" opacity="0.516"/>
+  </g>
+  <g id="Group_19" data-name="Group 19" transform="translate(65.91 15.762)">
+    <path id="Path_55" data-name="Path 55" d="M12.358,12.358,56.539,0,44.523,44.523,0,56.623Z" transform="translate(0 33.979) rotate(-45)" fill="#00c896"/>
+    <path id="Subtraction_7" data-name="Subtraction 7" d="M22.531,79.965h0v0L0,39.979,22.5,0l.03.051Z" transform="translate(17.477 -5.947)" fill="#00b184"/>
+  </g>
+  <g id="Group_28" data-name="Group 28" transform="translate(0 21.038)">
+    <g id="logo_banner" data-name="logo banner" transform="translate(0)">
+      <g id="Group_18" data-name="Group 18" transform="translate(50.588 56.911) rotate(180)">
+        <path id="Subtraction_6" data-name="Subtraction 6" d="M50.587,38.574H0v-.121L29.72,18.028,0,2.377V0H50.587V.848L36.823,19.287,50.587,37.725v.848Z" transform="translate(0 0)" fill="#81b5f2"/>
+        <path id="Path_52" data-name="Path 52" d="M18.338,0,0,30.22H18.338Z" transform="translate(30.222 0) rotate(90)" fill="#2055c5"/>
+      </g>
+      <g id="Group_17" data-name="Group 17" transform="translate(161.249 20.235)">
+        <path id="Subtraction_6-2" data-name="Subtraction 6" d="M50.587,38.574H0v-.121L29.72,18.028,0,2.377V0H50.587V.848L36.823,19.287,50.587,37.725v.848Z" transform="translate(0 0)" fill="#81b5f2"/>
+        <path id="Path_52-2" data-name="Path 52" d="M0,0,20.235,30.222H0Z" transform="translate(30.222 18.338) rotate(90)" fill="#2055c5"/>
+      </g>
+      <rect id="Rectangle_56" data-name="Rectangle 56" width="171.366" height="38.573" transform="translate(20.104)" fill="#fff"/>
+    </g>
+  </g>
+  <text id="J_A_R_V_I_S_." data-name="J A R V I S ." transform="translate(104.294 51.876)" fill="#2055c5" font-size="32" font-weight="500" letter-spacing="-0.02em"><tspan x="-78.574" y="0">J A R V I S .</tspan></text>
+</svg>
+`,
+  homeScreenHeader: `<svg id="Component_70_1" data-name="Component 70 – 1" xmlns="http://www.w3.org/2000/svg" width="100%" height="418" viewBox="0 0 424 418">
+  <path id="Path_2" data-name="Path 2" d="M0,0H424V413.976H0Z" fill="#123b91"/>
+  <path id="Intersection_5" data-name="Intersection 5" d="M0,112.044C21.614,55.59,64.657,13.3,116.7,0V112.044Z" transform="translate(307.298 296.303)" fill="#fff" opacity="0.097"/>
+  <path id="Intersection_6" data-name="Intersection 6" d="M.591,131.044Q0,125.167,0,119.135C0,53.338,53.659,0,119.851,0S239.7,53.338,239.7,119.135q0,6.03-.591,11.909Z" transform="translate(173.447 282.933)" fill="#fff" opacity="0.1"/>
+  <path id="Intersection_4" data-name="Intersection 4" d="M2.293,284.547A363.261,363.261,0,0,1,0,243.7C0,143.319,40.984,54.459,103.926,0V284.547Z" transform="translate(320.074 129.43)" fill="#fff" opacity="0.1"/>
+  <path id="Rectangle_31" data-name="Rectangle 31" d="M50,0H374a50,50,0,0,1,50,50v5a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V50A50,50,0,0,1,50,0Z" transform="translate(0 363)" fill="#fff"/>
+</svg>
+
+
+`,
   screenHeader: `<svg id="Component_59_4" data-name="Component 59 – 4" xmlns="http://www.w3.org/2000/svg" width="100%" height="287" viewBox="0 0 457 287">
   <path id="Path_2" data-name="Path 2" d="M0,0H457V285.725H0Z" fill="#123b91"/>
   <path id="Intersection_5" data-name="Intersection 5" d="M0,86.611C20.345,42.972,60.861,10.28,109.851,0V86.611Z" transform="translate(347.149 199.114)" fill="#fff" opacity="0.097"/>

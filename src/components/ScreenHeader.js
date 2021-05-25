@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SvgComponent from "./SvgComponent";
 import DateService from "../services/DateService";
 
-const ScreenHeader = ({ title, navigation }) => {
+const ScreenHeader = ({ title, navigation, hideSettings, hideBackArrow }) => {
   const handleBackArrow = () => {
     {
       navigation.goBack();
@@ -23,20 +23,31 @@ const ScreenHeader = ({ title, navigation }) => {
   return (
     <View style={styles.screenHeader}>
       <SvgComponent content={icons.screenHeader} iconStyle={styles.iconStyle} />
+      {!hideBackArrow && (
+        <TouchableOpacity
+          style={styles.backArrowIcon}
+          onPress={handleBackArrow}
+        >
+          <Ionicons
+            name="arrow-back-outline"
+            color={colors.whiteDark}
+            size={40}
+          />
+        </TouchableOpacity>
+      )}
 
-      <TouchableOpacity style={styles.backArrowIcon} onPress={handleBackArrow}>
-        <Ionicons
-          name="arrow-back-outline"
-          color={colors.whiteDark}
-          size={40}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.settingsIcon}
-        onPress={handleSettingsIcon}
-      >
-        <Ionicons name="settings-outline" color={colors.whiteDark} size={32} />
-      </TouchableOpacity>
+      {!hideSettings && (
+        <TouchableOpacity
+          style={styles.settingsIcon}
+          onPress={handleSettingsIcon}
+        >
+          <Ionicons
+            name="settings-outline"
+            color={colors.whiteDark}
+            size={32}
+          />
+        </TouchableOpacity>
+      )}
       <View style={styles.screenHeaderText}>
         <Text style={[fonts.heading1, styles.title]}>
           <Font text={title}></Font>

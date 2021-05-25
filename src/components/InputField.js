@@ -31,7 +31,7 @@ export default InputField;
 
 const styles = StyleSheet.create({
   InputField: {
-    width: 280,
+    minWidth: "70%",
     height: 30,
     alignItems: "center",
     flexDirection: "row",

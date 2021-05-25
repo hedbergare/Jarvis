@@ -9,7 +9,16 @@ import { colors, icons } from "../../constants/vars";
 import DateService from "../services/DateService";
 
 const TaskScreen = ({ navigation, route }) => {
-  const task = route.params;
+  const task = route.params.task;
+  const list = route.params.list;
+
+  const handleEditPress = () => {
+    console.log("nu edit");
+    navigation.navigate("CreateTaskStackScreen", {
+      screen: "CreateTaskScreen",
+      params: { listName: list.name, task: task, hideBackArrow: false },
+    });
+  };
 
   return (
     <View style={styles.TaskScreen}>
@@ -36,7 +45,7 @@ const TaskScreen = ({ navigation, route }) => {
         ></Font>
       </View>
       <View style={styles.editButton}>
-        <EditButton />
+        <EditButton handleOnPress={() => handleEditPress()} />
       </View>
     </View>
   );
@@ -57,7 +66,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   editButton: {
-    marginLeft: 180,
-    marginTop: 0,
+    position: "absolute",
+    bottom: 70,
+    right: 70,
   },
 });
