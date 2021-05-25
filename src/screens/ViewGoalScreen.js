@@ -172,8 +172,23 @@ const ViewGoalScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.contributorTagContainer}>
-          <ContributorTag value={"P"} />
-          <ContributorTag value={"J"} />
+          {params.goal.quantified ? (
+            params.goal.contributors ? (
+              Object.keys(params.goal.contributors).map((value, index) => {
+                console.log("Här", value);
+                return <ContributorTag key={index} value={value} />;
+              })
+            ) : (
+              <></>
+            )
+          ) : params.goal.shared_with ? (
+            Object.keys(params.goal.shared_with).map((value, index) => {
+              console.log("shared_with", value);
+              return <ContributorTag key={index} value={value} />;
+            })
+          ) : (
+            <></>
+          )}
         </View>
       </View>
     </ScrollView>

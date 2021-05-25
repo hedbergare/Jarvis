@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
@@ -18,18 +18,24 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
   const dispatch = useDispatch();
 
   const goals = useSelector((state) => state.goals);
+  const sharedGoals = useSelector((state) => state.sharedGoals);
 
   const [checkboxState, setCheckboxState] = React.useState(task.completed);
   const swipeableRef = React.useRef(null);
 
   const renderGoalTags = () => {
     if (task.connected_goal) {
-      const goalId = Object.keys(task.connected_goal)[0];
       if (goals) {
         for (let goal of goals) {
-          if (goalId === goal.key) {
-            /* Connect the color to the theme of the goal */
-            return <Tag color={colors.green} text={goal.name}></Tag>;
+          if (task.connected_goal === goal.key) {
+            return <Tag color={goal.theme} text={goal.name}></Tag>;
+          }
+        }
+      }
+      if (sharedGoals) {
+        for (let goal of sharedGoals) {
+          if (task.connected_goal === goal.key) {
+            return <Tag color={goal.theme} text={goal.name}></Tag>;
           }
         }
       }
@@ -38,7 +44,16 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
 
   const handleCompleteTask = () => {
     if (list.userId === firebase.auth().currentUser.uid) {
-      dispatch(completeTask(list.key, task.key, !checkboxState));
+      dispatch(
+        completeTask(
+          list.key,
+          task.key,
+          !checkboxState,
+          task.connected_goal,
+          task.goal_value,
+          list.userId
+        )
+      );
     } else {
       dispatch(completeSharedTask(list.key, task.key, !checkboxState));
     }
@@ -68,53 +83,58 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
       >
         <View style={[styles.TaskCard]}>
           <View style={styles.content}>
-            <BouncyCheckbox
-              isChecked={checkboxState}
-              size={35}
-              fillColor={colors.green}
-              iconStyle={{
-                borderColor: colors.green,
-              }}
-              onPress={handleCompleteTask}
-            />
+            <View style={styles.firstRow}>
+              <BouncyCheckbox
+                isChecked={checkboxState}
+                size={35}
+                fillColor={colors.green}
+                iconStyle={{
+                  borderColor: colors.green,
+                }}
+                onPress={handleCompleteTask}
+                style={styles.checkboxCont}
+              />
 
-            <TouchableOpacity
-              style={styles.TaskCardText}
-              onPress={() => handleOnPress(task)}
-            >
-              <Text
-                style={[
-                  styles.TaskCardTitle,
-                  fonts.heading3,
-                  {
-                    opacity: checkboxState ? 0.5 : 1,
-                    textDecorationLine: checkboxState ? "line-through" : "none",
-                  },
-                ]}
+              <TouchableOpacity
+                style={styles.TaskCardText}
+                onPress={() => handleOnPress(task)}
               >
-                <Font text={task.name} />
-              </Text>
-              <Text
-                style={
-                  (fonts.subText,
-                  {
-                    opacity: checkboxState ? 0.5 : 1,
-                    textDecorationLine: checkboxState ? "line-through" : "none",
-                  })
-                }
-              >
-                <Font
-                  text={"Due to: " + DateService.formatTimeStamp(task.deadline)}
-                  textStyle={styles.dateText}
-                />
-              </Text>
-            </TouchableOpacity>
-            {/* <Image
-              style={styles.trashIcon}
-              source={require("../assets/icon-delete-trash-can.png")}
-            /> */}
+                <Text
+                  style={[
+                    styles.TaskCardTitle,
+                    fonts.heading3,
+                    {
+                      opacity: checkboxState ? 0.5 : 1,
+                      textDecorationLine: checkboxState
+                        ? "line-through"
+                        : "none",
+                    },
+                  ]}
+                >
+                  <Font text={task.name} />
+                </Text>
+                <Text
+                  style={
+                    (fonts.subText,
+                    {
+                      opacity: checkboxState ? 0.5 : 1,
+                      textDecorationLine: checkboxState
+                        ? "line-through"
+                        : "none",
+                    })
+                  }
+                >
+                  <Font
+                    text={
+                      "Due to: " + DateService.formatTimeStamp(task.deadline)
+                    }
+                    textStyle={styles.dateText}
+                  />
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.tagContainer}>{renderGoalTags()}</View>
           </View>
-          <View style={styles.tagContainer}>{renderGoalTags()}</View>
         </View>
       </Swipeable>
     </>
@@ -126,23 +146,24 @@ export default TaskCard;
 const styles = StyleSheet.create({
   TaskCard: {
     width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
+    paddingTop: 5,
     backgroundColor: colors.white,
   },
   content: {
-    flexDirection: "row",
+    flexDirection: "column",
     paddingBottom: 15,
     borderBottomColor: colors.black,
     borderBottomWidth: 1,
-    flexDirection: "row",
     width: "86%",
-    alignItems: "center",
     marginHorizontal: "7%",
   },
   swipeContainer: {
     width: "100%",
     marginBottom: 10,
+  },
+  firstRow: { flexDirection: "row" },
+  checkboxCont: {
+    alignItems: "baseline",
   },
   TaskCardText: {
     color: "black",
@@ -150,6 +171,7 @@ const styles = StyleSheet.create({
   },
   tagContainer: {
     marginTop: 10,
+    marginLeft: 20,
     flexDirection: "row",
   },
   dateText: {

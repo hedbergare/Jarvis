@@ -51,7 +51,7 @@ export default GoalCard;
 
 const styles = StyleSheet.create({
   GoalCard: {
-    minWidth: "90%",
+    width: "90%",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",

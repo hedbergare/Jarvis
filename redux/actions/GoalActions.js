@@ -24,6 +24,10 @@ export const fetchOwnGoals = (uid) => {
 };
 
 export const addGoal = (uid, goal) => {
+  let sharedWith = {};
+  for (const friend of goal.shareWith) {
+    sharedWith[friend] = true;
+  }
   return (dispatch) => {
     firebase.database().ref().child("/goals/").push().set({
       name: goal.name,
@@ -33,7 +37,7 @@ export const addGoal = (uid, goal) => {
       date_created: goal.date_created.getTime(),
       current_value: 0,
       max_value: goal.max_value,
-      shared_with: {},
+      shared_with: sharedWith,
       description: goal.description,
       deadline: goal.deadline.getTime(),
       theme: goal.theme,

@@ -18,8 +18,8 @@ const ShareWithPicker = ({
       <View style={styles.title}>
         <SvgComponent content={icons.share} iconStyle={styles.iconStyle} />
 
-        <Text style={fonts.heading5}>
-          <Font text={"Share with:"}></Font>
+        <Text style={fonts.subText}>
+          <Font text={"Share with (optional):"}></Font>
         </Text>
       </View>
       <View style={styles.friendContainer}>
@@ -70,5 +70,7 @@ const styles = StyleSheet.create({
   friendContainer: {
     flexDirection: "column",
     width: "100%",
+    alignItems: "center",
+    alignSelf: "center",
   },
 });

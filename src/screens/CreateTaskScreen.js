@@ -28,6 +28,8 @@ const CreateTaskScreen = ({ navigation, route }) => {
   Moment.locale("en");
   const dispatch = useDispatch();
   const taskLists = useSelector((state) => state.taskLists);
+  const goals = useSelector((state) => state.goals);
+  const sharedGoals = useSelector((state) => state.sharedGoals);
   const routeParams = route.params;
 
   const [date, setDate] = useState(new Date());
@@ -37,6 +39,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
   const [assignedTaskEdit, setAssignedTaskEdit] = useState();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [value, setValue] = useState("");
   const [toggleModal, setToggleModal] = useState();
   const [toggleRender, setToggleRender] = useState(false);
 
@@ -56,6 +59,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
       }
     } else {
       setAssignedList("General");
+      setAssignedGoal("None");
     }
   }, [routeParams]);
 
@@ -76,12 +80,25 @@ const CreateTaskScreen = ({ navigation, route }) => {
         listId = list.key;
       }
     }
+    let goalId = null;
+    for (let goal of goals) {
+      if (assignedGoal === goal.name) {
+        goalId = goal.key;
+      }
+    }
+    for (let goal of sharedGoals) {
+      if (assignedGoal === goal.name) {
+        goalId = goal.key;
+      }
+    }
     const task = {
       name: name,
       description: description,
       deadline: date,
       date_created: now,
       listId: listId,
+      goalId: goalId,
+      added_value: value,
     };
     if (!assignedTaskEdit) {
       dispatch(addTaskToList(task));
@@ -99,6 +116,9 @@ const CreateTaskScreen = ({ navigation, route }) => {
 
   const renderTaskListPicker = (list, index) => {
     return <Picker.Item key={index} label={list.name} value={list.name} />;
+  };
+  const renderGoalPicker = (goal, index) => {
+    return <Picker.Item key={index} label={goal.name} value={goal.name} />;
   };
   return (
     <ScrollView contentContainerStyle={styles.CreateTaskScreen}>
@@ -146,6 +166,19 @@ const CreateTaskScreen = ({ navigation, route }) => {
           value={assignedGoal}
           handleOnPress={() => handleToggleModal("goal")}
         />
+        {assignedGoal !== "None" ? (
+          <View style={styles.goalValueContainer}>
+            <CreateField
+              src={icons.none}
+              placeholder="Enter a value"
+              title="Value"
+              textChanged={(text) => {
+                setValue(text);
+              }}
+              toggleRender={toggleRender}
+            />
+          </View>
+        ) : null}
         <Text style={[fonts.heading5, styles.descriptionText]}>
           <Font text="Description:"></Font>
         </Text>
@@ -245,6 +278,43 @@ const CreateTaskScreen = ({ navigation, route }) => {
               >
                 {Object.values(taskLists).map((list, index) => {
                   return renderTaskListPicker(list, index);
+                })}
+              </Picker>
+            </Pressable>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal
+        presentationStyle="overFullScreen"
+        transparent={true}
+        animationType="fade"
+        style={styles.modalBackground}
+        visible={toggleModal === "goal"}
+        onRequestClose={() => {
+          setToggleModal("");
+        }}
+      >
+        <TouchableOpacity
+          style={styles.modalBackground}
+          onPress={() => {
+            setToggleModal("");
+          }}
+        >
+          <View style={styles.datePickerContainer}>
+            <Pressable>
+              <Picker
+                selectedValue={assignedGoal}
+                onValueChange={(itemValue, itemIndex) =>
+                  setAssignedGoal(itemValue)
+                }
+              >
+                <Picker.Item label={"None"} value={"None"} />
+                {Object.values(goals).map((goal, index) => {
+                  return renderGoalPicker(goal, index);
+                })}
+                {Object.values(sharedGoals).map((goal, index) => {
+                  return renderGoalPicker(goal, index);
                 })}
               </Picker>
             </Pressable>

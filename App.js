@@ -27,6 +27,7 @@ import { fetchSharedItemLists } from "./redux/actions/SharedItemListActions";
 import { fetchOtherUsers } from "./redux/actions/OtherUsersActions";
 import { fetchOwnGoals } from "./redux/actions/GoalActions";
 import HomeStackScreen from "./src/navigation/HomeStackScreen";
+import { fetchSharedGoals } from "./redux/actions/SharedGoalActions";
 
 const AppWrapper = () => {
   return (
@@ -89,6 +90,7 @@ const App = () => {
         dispatch(fetchSharedTaskLists(user.uid));
         dispatch(fetchOtherUsers(user.uid));
         dispatch(fetchOwnGoals(user.uid));
+        dispatch(fetchSharedGoals(user.uid));
         dispatch(fetchItemLists(user.uid));
         dispatch(fetchSharedItemLists(user.uid));
         setAuthUser("true");
