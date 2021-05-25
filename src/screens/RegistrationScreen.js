@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   },
   centerText: {
     alignItems: "center",
+    paddingBottom: 100,
   },
   profileImage: {
     marginBottom: 30,
