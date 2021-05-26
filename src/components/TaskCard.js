@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { colors } from "../../constants/vars";
 import { fonts } from "../../constants/fonts";
@@ -81,7 +81,7 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
         rightThreshold={20}
         containerStyle={styles.swipeContainer}
       >
-        <View style={[styles.TaskCard, { opacity: checkboxState ? 0.5 : 1 }]}>
+        <View style={[styles.TaskCard]}>
           <View style={styles.content}>
             <View style={styles.firstRow}>
               <BouncyCheckbox
@@ -104,6 +104,7 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
                     styles.TaskCardTitle,
                     fonts.heading3,
                     {
+                      opacity: checkboxState ? 0.5 : 1,
                       textDecorationLine: checkboxState
                         ? "line-through"
                         : "none",
@@ -116,6 +117,7 @@ const TaskCard = ({ handleOnPress, task, list, handleDelete, handleEdit }) => {
                   style={
                     (fonts.subText,
                     {
+                      opacity: checkboxState ? 0.5 : 1,
                       textDecorationLine: checkboxState
                         ? "line-through"
                         : "none",
@@ -144,8 +146,7 @@ export default TaskCard;
 const styles = StyleSheet.create({
   TaskCard: {
     width: "100%",
-
-    /* alignItems: "center", */
+    paddingTop: 5,
     backgroundColor: colors.white,
   },
   content: {
@@ -154,7 +155,6 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.black,
     borderBottomWidth: 1,
     width: "86%",
-    /* alignItems: "center", */
     marginHorizontal: "7%",
   },
   swipeContainer: {

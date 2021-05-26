@@ -79,7 +79,7 @@ const TaskListCard = ({
           >
             <ProgressCircle
               percent={calculateProgress()}
-              radius={25}
+              radius={30}
               borderWidth={8}
               color={colors.blueDark}
               shadowColor={colors.whiteDark}
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     backgroundColor: colors.white,
+    paddingTop: 10,
   },
   content: {
     paddingBottom: 10,

@@ -51,7 +51,6 @@ const CreateGoalScreen = ({ navigation, route }) => {
   const [goalToEdit, setGoalToEdit] = React.useState(null);
 
   useEffect(() => {
-    console.log("UseEffect: routeparams har ändrats");
     if (routeParams?.editGoal) {
       setGoalToEdit(routeParams.editGoal);
       setDate(new Date(routeParams.editGoal.deadline));
@@ -59,21 +58,17 @@ const CreateGoalScreen = ({ navigation, route }) => {
       setQuantity(routeParams.editGoal.max_value);
       if (routeParams.editGoal.shared_with) {
         for (let user in routeParams.editGoal.shared_with) {
-          console.log("Lägger in en användare i shareWith");
           shareWith.push(user);
         }
       }
-      console.log(shareWith);
     }
   }, [routeParams]);
 
   const handleOnShareWith = (id) => {
     shareWith.push(id);
-    console.log(shareWith);
   };
   const handleRemoveShareWith = (id) => {
     shareWith.splice(shareWith.indexOf(id), 1);
-    console.log(shareWith);
   };
 
   const onChange = (event, selectedDate) => {
@@ -98,7 +93,6 @@ const CreateGoalScreen = ({ navigation, route }) => {
   };
 
   const handleEditGoal = () => {
-    console.log("HandleEditGoal");
     const goal = {
       name: name,
       description: description,
@@ -109,9 +103,7 @@ const CreateGoalScreen = ({ navigation, route }) => {
       unit: unit,
       shareWith: shareWith,
     };
-    console.log("Ska redigera målet till detta: ", goal);
     dispatch(editGoal(goalToEdit.key, goal));
-    /* dispatch */
     clear();
   };
   const clear = () => {
@@ -125,12 +117,9 @@ const CreateGoalScreen = ({ navigation, route }) => {
     navigation.navigate("GoalsScreen");
   };
 
-  console.log(shareWith);
-
   return (
     <ScrollView contentContainerStyle={styles.CreateGoalScreen}>
       <KeyboardAwareScrollView
-        resetScrollToCoords={{ x: 0, y: 0 }}
         scrollEnabled={true}
         contentContainerStyle={styles.content}
       >
@@ -252,9 +241,8 @@ const CreateGoalScreen = ({ navigation, route }) => {
           onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={4}
-          placeholder={
-            goalToEdit ? goalToEdit.description : "Add descripion..."
-          }
+          placeholder="Add descripion..."
+          defaultValue={goalToEdit ? goalToEdit.description : ""}
           style={styles.description}
         />
         <View style={styles.confirmButtonStyle}>

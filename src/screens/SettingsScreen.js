@@ -25,18 +25,27 @@ const SettingsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.SettingsScreen}>
-      <ScreenHeader title="Settings" navigation={navigation}></ScreenHeader>
+      <ScreenHeader
+        title="Settings"
+        navigation={navigation}
+        hideSettings={true}
+      ></ScreenHeader>
       <InputField
         value={currentUser.first_name + " " + currentUser.last_name}
         editable={false}
         src={icons.profile}
       />
+      <View style={styles.spacingContainer}></View>
       <InputField
         value={currentUser.email}
         editable={false}
         src={icons.email}
       />
+      <View style={styles.spacingContainer}></View>
+
       <ClickableField text="Reset password" src={icons.key} />
+      <View style={styles.spacingContainer}></View>
+
       <ClickableField
         onPress={() => {
           setShowFriendModal(true);
@@ -44,12 +53,14 @@ const SettingsScreen = ({ navigation }) => {
         text="Manage friends"
         src={icons.profile}
       />
-      <TouchableOpacity onPress={() => onSignoutPress()}>
-        <Font
-          textStyle={[fonts.heading3, styles.logOutText]}
-          text="LOG OUT"
-        ></Font>
-      </TouchableOpacity>
+      <View style={styles.logOutTextContainer}>
+        <TouchableOpacity onPress={() => onSignoutPress()}>
+          <Font
+            textStyle={[fonts.heading3, styles.logOutText]}
+            text="LOG OUT"
+          ></Font>
+        </TouchableOpacity>
+      </View>
       {showFriendModal ? (
         <FriendListModal
           title="Manage Friends"
@@ -69,6 +80,15 @@ const styles = StyleSheet.create({
   SettingsScreen: {
     minHeight: "100%",
     backgroundColor: "#fff",
+    alignItems: "center",
+  },
+  spacingContainer: {
+    marginBottom: 10,
+  },
+  logOutTextContainer: {
+    position: "absolute",
+    bottom: 50,
+    justifyContent: "center",
     alignItems: "center",
   },
   logOutText: {

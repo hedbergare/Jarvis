@@ -45,6 +45,7 @@ export const addTaskList = (uid, name, friends) => {
       sharedWith[friend] = true;
     }
   }
+
   return (dispatch) => {
     firebase.database().ref().child("/task_lists/").push().set({
       name: name,

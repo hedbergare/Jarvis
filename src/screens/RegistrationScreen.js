@@ -9,7 +9,6 @@ import {
 import firebase from "firebase/app";
 import { colors, icons } from "../../constants/vars";
 import "firebase/database";
-import ScreenHeader from "../components/ScreenHeader";
 import InputField from "../components/InputField";
 import LargeButton from "../components/LargeButton";
 import { useDispatch } from "react-redux";
@@ -59,42 +58,45 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.RegistrationScreen}>
       <KeyboardAwareScrollView
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.RegistrationScreen}
+        /* resetScrollToCoords={{ x: 0, y: 0 }} */
+        contentContainerStyle={styles.centerText}
         scrollEnabled={true}
       >
         <SvgComponent
           content={icons.RegisterIllustration}
           style={styles.profileImage}
         />
-        <Font
-          text="Create Account"
-          font={fonts.heading3}
-          textStyle={{ color: colors.redLight, marginTop: 30 }}
-        ></Font>
-
+        <View style={styles.titleContainer}>
+          <Font
+            text="Create Account"
+            font={fonts.heading2}
+            textStyle={{ color: colors.redLight, marginTop: 30 }}
+          ></Font>
+        </View>
         <Font textStyle={styles.errorMessage} text={errorMessage}></Font>
         <View style={styles.inputContainer}>
-          <InputField
-            placeHolderText="First Name"
-            secureEntry={false}
-            textChanged={(text) => setFirstName(text)}
-            src={icons.profile}
-          />
-          <InputField
-            placeHolderText="Last name"
-            secureEntry={false}
-            textChanged={(lastName) => setLastName(lastName)}
-            src={icons.profile}
-          />
-          <InputField
-            placeHolderText="Email"
-            secureEntry={false}
-            textChanged={(email) => setEmail(email)}
-            src={icons.email}
-          />
+          <View style={styles.personalInfoContainer}>
+            <InputField
+              placeHolderText="First Name"
+              secureEntry={false}
+              textChanged={(text) => setFirstName(text)}
+              src={icons.profile}
+            />
+            <InputField
+              placeHolderText="Last name"
+              secureEntry={false}
+              textChanged={(lastName) => setLastName(lastName)}
+              src={icons.none}
+            />
+            <InputField
+              placeHolderText="Email"
+              secureEntry={false}
+              textChanged={(email) => setEmail(email)}
+              src={icons.email}
+            />
+          </View>
           <InputField
             placeHolderText="Password"
             secureEntry={true}
@@ -105,10 +107,13 @@ const RegistrationScreen = ({ navigation }) => {
             placeHolderText="Confirm Password"
             secureEntry={true}
             textChanged={(password) => setConfirmPassword(password)}
-            src={icons.key}
+            src={icons.none}
           />
         </View>
-        <TouchableOpacity onPress={() => registerAccount()}>
+        <TouchableOpacity
+          onPress={() => registerAccount()}
+          style={styles.buttonContainer}
+        >
           <LargeButton
             text="SIGN UP"
             backgroundColor={colors.redLight}
@@ -132,10 +137,16 @@ const RegistrationScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   RegistrationScreen: {
-    flex: 1,
+    /* flex: 1, */
     backgroundColor: colors.white,
-    alignItems: "center",
     paddingVertical: 50,
+  },
+  titleContainer: {
+    marginBottom: "10%",
+  },
+  centerText: {
+    alignItems: "center",
+    paddingBottom: 100,
   },
   profileImage: {
     marginBottom: 30,
@@ -150,6 +161,12 @@ const styles = StyleSheet.create({
   signUpText: {
     color: colors.redLight,
     marginLeft: 10,
+  },
+  personalInfoContainer: {
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    marginTop: 30,
   },
 });
 

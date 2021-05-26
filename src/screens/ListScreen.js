@@ -102,7 +102,11 @@ const ListScreen = ({ navigation }) => {
   return (
     <>
       <ScrollView contentContainerStyle={styles.ListScreen}>
-        <ScreenHeader title="Item lists" navigation={navigation} />
+        <ScreenHeader
+          title="Item Lists"
+          navigation={navigation}
+          hideBackArrow={true}
+        />
         <View style={styles.listTypeToggle}>
           <TouchableOpacity
             style={displayOwned ? styles.activeListStyle : null}

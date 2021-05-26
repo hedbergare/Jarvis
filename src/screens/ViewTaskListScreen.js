@@ -32,7 +32,7 @@ const ViewTaskListScreen = ({ navigation, route }) => {
   const list = fetchCurrentList();
 
   const handleOnPressTaskCard = (task) => {
-    navigation.navigate("TaskScreen", task);
+    navigation.navigate("TaskScreen", { task, list });
   };
 
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const ViewTaskListScreen = ({ navigation, route }) => {
   const handleOnEditTask = (task) => {
     navigation.navigate("CreateTaskStackScreen", {
       screen: "CreateTaskScreen",
-      params: { listName: list.name, task: task },
+      params: { listName: list.name, task: task, hideBackArrow: false },
     });
   };
   const renderTaskCards = (task, index) => {
@@ -52,7 +52,7 @@ const ViewTaskListScreen = ({ navigation, route }) => {
         key={index}
         task={task}
         list={list}
-        handleOnPress={(task) => handleOnPressTaskCard(task)}
+        handleOnPress={(task) => handleOnPressTaskCard(task, list)}
         handleDelete={(task) => handleOnDeleteTask(task)}
         handleEdit={(task) => handleOnEditTask(task)}
       />
@@ -80,7 +80,7 @@ const ViewTaskListScreen = ({ navigation, route }) => {
         handleOnPress={() => {
           navigation.navigate("CreateTaskStackScreen", {
             screen: "CreateTaskScreen",
-            params: { listName: list.name, task: null },
+            params: { listName: list.name, task: null, hideBackArrow: false },
           });
         }}
       />

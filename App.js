@@ -8,7 +8,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import HomeScreen from "./src/screens/HomeScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import Store from "./redux/Store";
 import { Provider } from "react-redux";
@@ -27,6 +26,7 @@ import { fetchItemLists } from "./redux/actions/ItemListActions";
 import { fetchSharedItemLists } from "./redux/actions/SharedItemListActions";
 import { fetchOtherUsers } from "./redux/actions/OtherUsersActions";
 import { fetchOwnGoals } from "./redux/actions/GoalActions";
+import HomeStackScreen from "./src/navigation/HomeStackScreen";
 import { fetchSharedGoals } from "./redux/actions/SharedGoalActions";
 
 const AppWrapper = () => {
@@ -69,7 +69,7 @@ const App = () => {
     } else if (authUser === "true") {
       return (
         <>
-          <Tab.Screen name="HomeScreen" component={HomeScreen} />
+          <Tab.Screen name="HomeStackScreen" component={HomeStackScreen} />
           <Tab.Screen name="GoalStackScreen" component={GoalStackScreen} />
           <Tab.Screen name="TaskStackScreen" component={TaskStackScreen} />
           <Tab.Screen
@@ -132,7 +132,7 @@ const App = () => {
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
 
-                if (route.name === "HomeScreen") {
+                if (route.name === "HomeStackScreen") {
                   iconName = focused ? "ios-home" : "ios-home-outline";
                 } else if (route.name === "GoalStackScreen") {
                   iconName = focused ? "ios-bulb" : "ios-bulb-outline";

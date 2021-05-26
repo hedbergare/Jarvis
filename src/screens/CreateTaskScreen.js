@@ -52,6 +52,10 @@ const CreateTaskScreen = ({ navigation, route }) => {
         setAssignedTaskEdit(routeParams.task);
         setDate(routeParams.task.deadline);
         setDescription(routeParams.task.description);
+      } else {
+        setAssignedTaskEdit();
+        setDate(new Date());
+        setDescription("");
       }
     } else {
       setAssignedList("General");
@@ -105,6 +109,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
 
     setToggleRender(!toggleRender);
     inputRef.current.clear();
+    !routeParams?.hideBackArrow ? navigation.goBack() : null;
   };
 
   const resetInputs = () => {};
@@ -125,6 +130,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
         <ScreenHeader
           title={assignedTaskEdit ? "Edit task" : "Create a Task"}
           navigation={navigation}
+          hideBackArrow={routeParams?.hideBackArrow}
         />
         <CreateField
           src={icons.alphabet}
@@ -364,15 +370,18 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     backgroundColor: colors.white,
-    padding: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
     borderRadius: 50,
     borderColor: colors.purple,
-    borderWidth: 2,
+    borderWidth: 1,
     marginLeft: 40,
   },
   addButton: {
     backgroundColor: colors.purple,
     padding: 10,
+    paddingHorizontal: 20,
+
     borderRadius: 50,
     position: "absolute",
     right: 40,

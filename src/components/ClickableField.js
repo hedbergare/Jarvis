@@ -10,7 +10,9 @@ import { fonts } from "../../constants/fonts";
 const ClickableField = ({ text, src, onPress }) => {
   return (
     <TouchableOpacity style={styles.ClickableField} onPress={onPress}>
-      <SvgComponent content={src} />
+      <View style={styles.iconContainer}>
+        <SvgComponent content={src} />
+      </View>
       <Font text={text} textStyle={[fonts.heading4, styles.title]} />
       <Ionicons
         style={styles.arrow}
@@ -26,7 +28,8 @@ export default ClickableField;
 
 const styles = StyleSheet.create({
   ClickableField: {
-    width: 300,
+    minWidth: "80%",
+    height: 50,
     alignItems: "center",
     flexDirection: "row",
     backgroundColor: colors.white,
@@ -34,13 +37,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 20,
     shadowOpacity: 0.2,
-    shadowOffset: { width: 3, height: 3 },
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 2,
+  },
+  iconContainer: {
+    marginLeft: 5,
   },
   title: {
     marginLeft: 15,
   },
   arrow: {
     position: "absolute",
-    right: 0,
+    right: 10,
   },
 });
