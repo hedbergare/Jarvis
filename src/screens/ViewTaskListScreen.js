@@ -11,9 +11,12 @@ import FullScreenModal from "../components/FullScreenModal";
 import CreateField from "../components/CreateField";
 import Font from "../components/Font";
 import { fonts } from "../../constants/fonts";
+import Sort from "../components/Sort";
+import SortingService from "../services/SortingService";
 
 const ViewTaskListScreen = ({ navigation, route }) => {
   const listKey = route.params;
+  const [sortedList, setSortedList] = useState([]);
 
   const fetchCurrentList = () => {
     const taskLists = useSelector((state) => state.taskLists);
@@ -59,22 +62,50 @@ const ViewTaskListScreen = ({ navigation, route }) => {
     );
   };
 
+  const handleSortedList = (sortBy) => {
+    console.log(sortBy);
+    let sortedList;
+    switch (sortBy) {
+      case "Due date":
+        sortedList = SortingService.sortByDueDate(list.tasks, true);
+        break;
+      case "Newest":
+        sortedList = SortingService.sortByNewest(list.tasks, true);
+        break;
+      case "Oldest":
+        sortedList = SortingService.sortByOldest(list.tasks, true);
+        break;
+      default:
+    }
+    // console.log("SORTING LIST: ", sortedList);
+    setSortedList(sortedList);
+  };
+
   return (
     <View style={styles.ViewTaskListScreen}>
       <ScrollView>
         <ScreenHeader title={list.name} navigation={navigation} />
-        {list.tasks ? (
-          Object.values(list.tasks).map((task, index) => {
-            return renderTaskCards(task, index);
-          })
-        ) : (
-          <View style={styles.noItemsText}>
-            <Font
-              textStyle={fonts.heading5}
-              text="Add your first item below!"
-            ></Font>
-          </View>
-        )}
+        <View style={styles.sortContainer}>
+          <Sort
+            selectedChoice="Due date"
+            listToSort={list.tasks}
+            handleOnPress={(sortedBy) => handleSortedList(sortedBy)}
+          />
+        </View>
+        <View style={styles.listContainer}>
+          {list.tasks ? (
+            Object.values(sortedList)?.map((task, index) => {
+              return renderTaskCards(task, index);
+            })
+          ) : (
+            <View style={styles.noItemsText}>
+              <Font
+                textStyle={fonts.heading5}
+                text="Add your first item below!"
+              ></Font>
+            </View>
+          )}
+        </View>
       </ScrollView>
       <AddButton
         handleOnPress={() => {
@@ -100,5 +131,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
+  },
+  listContainer: {
+    zIndex: -1,
+  },
+  sortContainer: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
 });
