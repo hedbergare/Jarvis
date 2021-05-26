@@ -51,6 +51,7 @@ class SortingService {
   };
 
   static sortByOldest = (listToSort, isObject) => {
+    console.log("Nu i sort by oldet!", listToSort);
     let list = [];
 
     if (isObject) {

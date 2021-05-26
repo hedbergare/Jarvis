@@ -133,13 +133,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flexDirection: "row",
     width: "100%",
+    marginBottom: 10,
+    height: 90,
+  },
+  ItemCardText: {
+    justifyContent: "center",
   },
   swipeContainer: {
     width: "100%",
+    height: 90,
     marginBottom: 10,
   },
   content: {
-    paddingBottom: 10,
+    paddingBottom: 20,
     borderBottomColor: colors.black,
     borderBottomWidth: 1,
     flexDirection: "row",
@@ -161,6 +167,7 @@ const styles = StyleSheet.create({
   changeQuantity: {
     flexDirection: "column",
     justifyContent: "space-between",
-    height: 50,
+    height: 70,
+    marginLeft: 15,
   },
 });

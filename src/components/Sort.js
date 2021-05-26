@@ -5,14 +5,10 @@ import { colors } from "../../constants/vars";
 import DropDownPicker from "react-native-dropdown-picker";
 import SortingService from "../services/SortingService";
 
-const Sort = ({ listToSort, selectedChoice, handleOnPress }) => {
+const Sort = ({ options, handleOnPress }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("Due date");
-  const [items, setItems] = useState([
-    { label: "Due date", value: "Due date" },
-    { label: "Newest", value: "Newest" },
-    { label: "Oldest", value: "Oldest" },
-  ]);
+  const [value, setValue] = useState(options[0].value);
+  const [items, setItems] = useState(options);
   useEffect(() => {
     handleOnPress(value);
   }, [value]);

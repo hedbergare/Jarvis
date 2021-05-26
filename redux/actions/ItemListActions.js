@@ -89,6 +89,7 @@ export const addItemToList = (name, quantity, listId, userId) => {
         completed: false,
         quantity: quantity,
         userId: userId,
+        date_created: new Date().getTime(),
       });
     firebase
       .database()

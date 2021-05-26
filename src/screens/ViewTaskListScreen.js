@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { colors, icons } from "../../constants/vars";
 import AddButton from "../components/AddButton";
@@ -6,7 +6,10 @@ import ScreenHeader from "../components/ScreenHeader";
 import { useDispatch, useSelector } from "react-redux";
 
 import TaskCard from "../components/TaskCard";
-import { deleteTask } from "../../redux/actions/TaskListActions";
+import {
+  deleteTask,
+  fetchTaskLists,
+} from "../../redux/actions/TaskListActions";
 import FullScreenModal from "../components/FullScreenModal";
 import CreateField from "../components/CreateField";
 import Font from "../components/Font";
@@ -16,6 +19,8 @@ import SortingService from "../services/SortingService";
 
 const ViewTaskListScreen = ({ navigation, route }) => {
   const listKey = route.params;
+  const [selectedSortOption, setSelectedSortOption] = useState("Due date");
+
   const [sortedList, setSortedList] = useState([]);
 
   const fetchCurrentList = () => {
@@ -33,10 +38,6 @@ const ViewTaskListScreen = ({ navigation, route }) => {
   };
 
   const list = fetchCurrentList();
-
-  const handleOnPressTaskCard = (task) => {
-    navigation.navigate("TaskScreen", { task, list });
-  };
 
   const dispatch = useDispatch();
 
@@ -63,23 +64,28 @@ const ViewTaskListScreen = ({ navigation, route }) => {
   };
 
   const handleSortedList = (sortBy) => {
-    console.log(sortBy);
+    setSelectedSortOption(sortBy);
     let sortedList;
-    switch (sortBy) {
-      case "Due date":
-        sortedList = SortingService.sortByDueDate(list.tasks, true);
-        break;
-      case "Newest":
-        sortedList = SortingService.sortByNewest(list.tasks, true);
-        break;
-      case "Oldest":
-        sortedList = SortingService.sortByOldest(list.tasks, true);
-        break;
-      default:
+    if (list.tasks) {
+      switch (sortBy) {
+        case "Due date":
+          sortedList = SortingService.sortByDueDate(list.tasks, true);
+          break;
+        case "Newest":
+          sortedList = SortingService.sortByNewest(list.tasks, true);
+          break;
+        case "Oldest":
+          sortedList = SortingService.sortByOldest(list.tasks, true);
+          break;
+        default:
+      }
     }
     // console.log("SORTING LIST: ", sortedList);
     setSortedList(sortedList);
   };
+  useEffect(() => {
+    handleSortedList(selectedSortOption);
+  }, [list]);
 
   return (
     <View style={styles.ViewTaskListScreen}>
@@ -87,13 +93,18 @@ const ViewTaskListScreen = ({ navigation, route }) => {
         <ScreenHeader title={list.name} navigation={navigation} />
         <View style={styles.sortContainer}>
           <Sort
+            options={[
+              { label: "Due date", value: "Due date" },
+              { label: "Newest", value: "Newest" },
+              { label: "Oldest", value: "Oldest" },
+            ]}
             selectedChoice="Due date"
             listToSort={list.tasks}
             handleOnPress={(sortedBy) => handleSortedList(sortedBy)}
           />
         </View>
         <View style={styles.listContainer}>
-          {list.tasks ? (
+          {list.tasks && sortedList ? (
             Object.values(sortedList)?.map((task, index) => {
               return renderTaskCards(task, index);
             })
