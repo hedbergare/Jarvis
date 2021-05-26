@@ -17,31 +17,41 @@ import moment from "moment";
 import GoalCard from "../components/GoalCard";
 import ScreenHeader from "../components/ScreenHeader";
 import AddButton from "../components/AddButton";
+import { deleteGoal } from "../../redux/actions/GoalActions";
 
 const GoalsScreen = ({ navigation }) => {
   const fetchedGoals = useSelector((state) => state.goals);
   const sharedGoals = useSelector((state) => state.sharedGoals);
 
+  const dispatch = useDispatch();
   const estimatedFinishDate = (goal, progressMade) => {
     if (goal.quantified && progressMade > 0) {
       moment.locale("en");
 
       const start = new Date(goal.date_created).getTime();
+      const end = new Date(goal.deadline).getTime();
       const now = new Date().getTime();
+      const totalDays = calculateDaysTotal(start, end);
 
       const daysPast = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-      const pace = progressMade / (daysPast > 0 ? daysPast : 1);
+
+      const requiredPace = goal.max_value / totalDays;
+      const pace = goal.current_value / (daysPast > 0 ? daysPast : 1);
 
       const estimatedDays = Math.floor(
-        (goal.max_value - goal.current_value) / (pace * 100)
+        (goal.max_value - goal.current_value) / pace
+      );
+
+      const amountDifference = Math.ceil(
+        (pace - requiredPace) * (daysPast == 0 ? 1 : daysPast)
       );
 
       const totalMilliseconds = Math.floor(
         now + estimatedDays * 1000 * 60 * 60 * 24
       );
       const finishDate = moment(totalMilliseconds).format("YYYY-MM-DD");
-      const goodPace = estimatedDays >= 0 ? true : false;
-      return [finishDate, estimatedDays, goodPace];
+      const goodPace = pace >= requiredPace ? true : false;
+      return [finishDate, amountDifference, goodPace];
     }
     return [goal.deadline, 0, true];
   };
@@ -74,7 +84,7 @@ const GoalsScreen = ({ navigation }) => {
     const daysTotal = calculateDaysTotal(start, end);
 
     const progressMade = calculateProgressMade(goal, now, start, end);
-    const [estimatedDate, dayDifference, goodPhase] = estimatedFinishDate(
+    const [estimatedDate, amountDifference, goodPhase] = estimatedFinishDate(
       goal,
       progressMade
     );
@@ -89,11 +99,19 @@ const GoalsScreen = ({ navigation }) => {
         progress={Math.round(progressMade * 100)}
         estimatedDate={estimatedDate}
         goodPhase={goodPhase}
-        dayDifference={daysTotal - dayDifference}
+        amountDifference={amountDifference}
         daysPassed={daysPassed}
         daysTotal={daysTotal}
+        handleDelete={(key) => handleDelete(key)}
+        handleEdit={(goal) => handleEdit(goal)}
       />
     );
+  };
+  const handleDelete = (key) => {
+    dispatch(deleteGoal(key));
+  };
+  const handleEdit = (goal) => {
+    navigation.navigate("CreateGoalScreen", { editGoal: goal });
   };
 
   const [displayOwned, setDisplayOwned] = useState(true);

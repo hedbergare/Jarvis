@@ -49,7 +49,7 @@ const RegistrationScreen = ({ navigation }) => {
               last_name: lastName,
             })
             .then(() => {
-              dispatch(addTaskList(userCredential.user.uid, "General"));
+              dispatch(addTaskList(userCredential.user.uid, "General", null));
             });
         })
         .catch((error) => {
@@ -75,7 +75,7 @@ const RegistrationScreen = ({ navigation }) => {
           textStyle={{ color: colors.redLight, marginTop: 30 }}
         ></Font>
 
-        <Text style={styles.errorMessage}> {errorMessage}</Text>
+        <Font textStyle={styles.errorMessage} text={errorMessage}></Font>
         <View style={styles.inputContainer}>
           <InputField
             placeHolderText="First Name"
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   errorMessage: {
-    color: "tomato",
+    color: colors.red,
   },
   registerContainer: {
     flexDirection: "row",

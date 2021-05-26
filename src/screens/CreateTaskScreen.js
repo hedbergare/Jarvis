@@ -76,7 +76,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
         listId = list.key;
       }
     }
-    let goalId;
+    let goalId = null;
     for (let goal of goals) {
       if (assignedGoal === goal.name) {
         goalId = goal.key;

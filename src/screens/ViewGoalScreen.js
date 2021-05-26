@@ -57,7 +57,7 @@ const ViewGoalScreen = ({ navigation, route }) => {
         ></Font>
         <Text>
           <Font
-            text={params.goal.quantified ? params.goal.unit : " days"}
+            text={params.goal.quantified ? " " + params.goal.unit : " days"}
             font={fonts.heading4}
           ></Font>
           <Font text={" complete"} font={fonts.heading4}></Font>
@@ -134,7 +134,7 @@ const ViewGoalScreen = ({ navigation, route }) => {
             <Font text="You are:" textStyle={styles.statsFont}></Font>
             <InfoModal
               styleProp={{ marginLeft: 28 }}
-              text="This value ressemblance how many days away from your deadline you are. Either ahead or behind."
+              text="This value is calculated by comparing your pace to the average pace required to finish the goal. Either ahead or behind."
             />
           </View>
 
@@ -142,7 +142,7 @@ const ViewGoalScreen = ({ navigation, route }) => {
             <Font
               text={
                 params.goal.quantified
-                  ? Math.abs(params.dayDifference)
+                  ? params.amountDifference
                   : params.daysPassed
               }
               font={fonts.heading3}
@@ -154,7 +154,12 @@ const ViewGoalScreen = ({ navigation, route }) => {
                   : colors.yellow,
               }}
             ></Font>
-            <Font text=" days " font={fonts.heading3}></Font>
+            <Font
+              text={
+                params.goal.quantified ? " " + params.goal.unit + " " : " days "
+              }
+              font={fonts.heading3}
+            ></Font>
             <Font
               text={
                 params.goal.quantified
@@ -175,7 +180,6 @@ const ViewGoalScreen = ({ navigation, route }) => {
           {params.goal.quantified ? (
             params.goal.contributors ? (
               Object.keys(params.goal.contributors).map((value, index) => {
-                console.log("Här", value);
                 return <ContributorTag key={index} value={value} />;
               })
             ) : (
@@ -183,7 +187,6 @@ const ViewGoalScreen = ({ navigation, route }) => {
             )
           ) : params.goal.shared_with ? (
             Object.keys(params.goal.shared_with).map((value, index) => {
-              console.log("shared_with", value);
               return <ContributorTag key={index} value={value} />;
             })
           ) : (

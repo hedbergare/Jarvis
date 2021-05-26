@@ -24,9 +24,12 @@ import DateService from "../services/DateService";
 import { useDispatch, useSelector } from "react-redux";
 import ShareWithPicker from "../components/ShareWithPicker";
 
-import { addGoal } from "../../redux/actions/GoalActions";
+import { addGoal, editGoal } from "../../redux/actions/GoalActions";
+import color from "color";
 
-const CreateGoalScreen = ({ navigation }) => {
+const CreateGoalScreen = ({ navigation, route }) => {
+  const routeParams = route.params;
+
   const now = new Date();
 
   const userId = useSelector((state) => state.currentUser.uid);
@@ -37,22 +40,40 @@ const CreateGoalScreen = ({ navigation }) => {
 
   const [name, setName] = useState("");
   const [theme, setTheme] = useState("#04a783");
-
   const [date, setDate] = useState(
     new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
   );
   const [quantity, setQuantity] = useState(null);
   const [unit, setUnit] = useState("");
-
   const [description, setDescription] = useState("");
-
   const [shareWith, setShareWith] = React.useState([]);
+
+  const [goalToEdit, setGoalToEdit] = React.useState(null);
+
+  useEffect(() => {
+    console.log("UseEffect: routeparams har ändrats");
+    if (routeParams?.editGoal) {
+      setGoalToEdit(routeParams.editGoal);
+      setDate(new Date(routeParams.editGoal.deadline));
+      setTheme(routeParams.editGoal.theme);
+      setQuantity(routeParams.editGoal.max_value);
+      if (routeParams.editGoal.shared_with) {
+        for (let user in routeParams.editGoal.shared_with) {
+          console.log("Lägger in en användare i shareWith");
+          shareWith.push(user);
+        }
+      }
+      console.log(shareWith);
+    }
+  }, [routeParams]);
 
   const handleOnShareWith = (id) => {
     shareWith.push(id);
+    console.log(shareWith);
   };
   const handleRemoveShareWith = (id) => {
     shareWith.splice(shareWith.indexOf(id), 1);
+    console.log(shareWith);
   };
 
   const onChange = (event, selectedDate) => {
@@ -76,6 +97,36 @@ const CreateGoalScreen = ({ navigation }) => {
     navigation.navigate("GoalsScreen");
   };
 
+  const handleEditGoal = () => {
+    console.log("HandleEditGoal");
+    const goal = {
+      name: name,
+      description: description,
+      quantified: quantity ? true : false,
+      deadline: date,
+      max_value: quantity,
+      theme: theme,
+      unit: unit,
+      shareWith: shareWith,
+    };
+    console.log("Ska redigera målet till detta: ", goal);
+    dispatch(editGoal(goalToEdit.key, goal));
+    /* dispatch */
+    clear();
+  };
+  const clear = () => {
+    setGoalToEdit(null), setName("");
+    setDescription("");
+    setQuantity(null);
+    setDate(null);
+    setShareWith([]);
+    setUnit("");
+    setTheme("#04a783");
+    navigation.navigate("GoalsScreen");
+  };
+
+  console.log(shareWith);
+
   return (
     <ScrollView contentContainerStyle={styles.CreateGoalScreen}>
       <KeyboardAwareScrollView
@@ -83,11 +134,14 @@ const CreateGoalScreen = ({ navigation }) => {
         scrollEnabled={true}
         contentContainerStyle={styles.content}
       >
-        <ScreenHeader title="Declare Goal" navigation={navigation} />
+        <ScreenHeader
+          title={goalToEdit ? "Edit Goal" : "Declare Goal"}
+          navigation={navigation}
+        />
 
         <CreateField
           src={icons.alphabet}
-          placeholder="Declare a name"
+          placeholder={goalToEdit ? goalToEdit.name : "Declare a name"}
           title="Name"
           textChanged={(text) => {
             setName(text);
@@ -101,15 +155,16 @@ const CreateGoalScreen = ({ navigation }) => {
           value={DateService.formatDate(date)}
           handleOnPress={() => setToggleModal("date")}
         />
-        {/* <ToggleInput
-          title="Share Goal (optional)"
-          icon={icons.share}
-          value={"None"}
-          handleOnPress={() => setToggleModal("share")}
-        /> */}
         <ShareWithPicker
           handleOnShareWith={(id) => handleOnShareWith(id)}
           handleRemoveShareWith={(id) => handleRemoveShareWith(id)}
+          alreadyShared={
+            routeParams
+              ? routeParams.editGoal.shared_with
+                ? routeParams.editGoal.shared_with
+                : []
+              : []
+          }
         />
         <View style={styles.contentWidth}>
           <Font text="Choose theme:" font={fonts.heading3}></Font>
@@ -159,7 +214,13 @@ const CreateGoalScreen = ({ navigation }) => {
         <View style={styles.goalValueContainer}>
           <CreateField
             src={icons.target}
-            placeholder="Assign a goal value"
+            placeholder={
+              goalToEdit
+                ? goalToEdit.quantified
+                  ? goalToEdit.max_value
+                  : "Assign a goal value"
+                : "Assign a goal value"
+            }
             title="Goal value (optional)"
             textChanged={(text) => {
               setQuantity(text);
@@ -171,7 +232,11 @@ const CreateGoalScreen = ({ navigation }) => {
           <View style={styles.goalValueContainer}>
             <CreateField
               src={icons.none}
-              placeholder="Enter a unit (eg. miles)"
+              placeholder={
+                goalToEdit?.quantified
+                  ? goalToEdit.unit
+                  : "Enter a unit (eg. miles)"
+              }
               title="Unit"
               textChanged={(text) => {
                 setUnit(text);
@@ -187,13 +252,31 @@ const CreateGoalScreen = ({ navigation }) => {
           onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={4}
-          placeholder="Add descripion..."
+          placeholder={
+            goalToEdit ? goalToEdit.description : "Add descripion..."
+          }
           style={styles.description}
         />
-        <View style={styles.confrimButtonStyle}>
+        <View style={styles.confirmButtonStyle}>
+          {goalToEdit ? (
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => {
+                clear();
+              }}
+            >
+              <Text style={[fonts.heading3, styles.cancelButtonText]}>
+                <Font text="Cancel"></Font>
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
           <ConfirmButton
-            confirmText="Create goal"
-            handleConfirm={() => handleAddGoal()}
+            confirmText={goalToEdit ? "Submit changes" : "Create goal"}
+            handleConfirm={() => {
+              goalToEdit ? handleEditGoal() : handleAddGoal();
+            }}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -268,9 +351,9 @@ const styles = StyleSheet.create({
     borderColor: colors.purple,
     borderRadius: 10,
   },
-  confrimButtonStyle: {
+  confirmButtonStyle: {
     marginTop: 20,
-    marginLeft: "30%",
+    flexDirection: "row",
   },
   datePickerContainer: {
     alignSelf: "center",
@@ -288,5 +371,15 @@ const styles = StyleSheet.create({
   },
   goalValueContainer: {
     marginTop: 20,
+  },
+  cancelButton: {
+    marginVertical: 20,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    paddingHorizontal: 20,
+    borderRadius: 50,
+    borderColor: colors.purple,
+    borderWidth: 1,
+    color: colors.purple,
   },
 });
