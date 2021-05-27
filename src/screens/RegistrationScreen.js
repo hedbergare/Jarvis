@@ -9,7 +9,6 @@ import {
 import firebase from "firebase/app";
 import { colors, icons } from "../../constants/vars";
 import "firebase/database";
-import ScreenHeader from "../components/ScreenHeader";
 import InputField from "../components/InputField";
 import LargeButton from "../components/LargeButton";
 import { useDispatch } from "react-redux";
@@ -49,7 +48,7 @@ const RegistrationScreen = ({ navigation }) => {
               last_name: lastName,
             })
             .then(() => {
-              dispatch(addTaskList(userCredential.user.uid, "General"));
+              dispatch(addTaskList(userCredential.user.uid, "General", null));
             });
         })
         .catch((error) => {
@@ -61,7 +60,7 @@ const RegistrationScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.RegistrationScreen}>
       <KeyboardAwareScrollView
-        resetScrollToCoords={{ x: 0, y: 0 }}
+        /* resetScrollToCoords={{ x: 0, y: 0 }} */
         contentContainerStyle={styles.centerText}
         scrollEnabled={true}
       >
@@ -76,7 +75,7 @@ const RegistrationScreen = ({ navigation }) => {
             textStyle={{ color: colors.redLight, marginTop: 30 }}
           ></Font>
         </View>
-        <Text style={styles.errorMessage}> {errorMessage}</Text>
+        <Font textStyle={styles.errorMessage} text={errorMessage}></Font>
         <View style={styles.inputContainer}>
           <View style={styles.personalInfoContainer}>
             <InputField
@@ -138,7 +137,7 @@ const RegistrationScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   RegistrationScreen: {
-    flex: 1,
+    /* flex: 1, */
     backgroundColor: colors.white,
     paddingVertical: 50,
   },
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   errorMessage: {
-    color: "tomato",
+    color: colors.red,
   },
   registerContainer: {
     flexDirection: "row",

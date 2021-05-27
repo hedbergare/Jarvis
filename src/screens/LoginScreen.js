@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import LoginService from "../services/LoginService";
 import { fonts } from "../../constants/fonts";
 import { colors, icons } from "../../constants/vars";
 import LargeButton from "../components/LargeButton";
@@ -15,10 +14,92 @@ import Font from "../components/Font";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import InputField from "../components/InputField";
 import SvgComponent from "../components/SvgComponent";
+import firebase from "firebase/app";
+import "firebase/database";
+require("firebase/auth");
+import * as Google from "expo-google-app-auth";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const signInWithGoogleAsync = async () => {
+    try {
+      const result = await Google.logInAsync({
+        iosClientId:
+          "790659808632-tisagpfd57o025ddch3klfe9s85h7juq.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      });
+
+      if (result.type === "success") {
+        onSignIn(result);
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
+    }
+  };
+  const signIn = (email, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        var user = userCredential.user;
+      })
+      .catch((error) => {
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        setError(errorMessage);
+      });
+  };
+  const isUserEqual = (googleUserId, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (
+          providerData[i].providerId ===
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUserId
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+  const onSignIn = (googleUser) => {
+    var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
+      unsubscribe();
+      if (!isUserEqual(googleUser.user.id, firebaseUser)) {
+        var credential = firebase.auth.GoogleAuthProvider.credential(
+          googleUser.idToken,
+          googleUser.accessToken
+        );
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then(function (result) {
+            firebase
+              .database()
+              .ref("/users/" + result.user.uid)
+              .set({
+                email: result.user.email,
+                first_name: result.additionalUserInfo.profile.given_name,
+                last_name: result.additionalUserInfo.profile.family_name,
+              });
+          })
+          .catch((error) => {
+            var errorMessage = error.message;
+            setError(errorMessage);
+          });
+      } else {
+        setError("User already signed-in Firebase.");
+      }
+    });
+  };
 
   return (
     <ScrollView style={styles.LoginScreen}>
@@ -38,6 +119,7 @@ const LoginScreen = ({ navigation }) => {
             textStyle={{ color: colors.redLight }}
           ></Font>
         </View>
+        <Font textStyle={styles.errorMessage} text={error}></Font>
 
         <InputField
           placeHolderText="Email"
@@ -62,7 +144,7 @@ const LoginScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.googleButton}
-          onPress={() => LoginService.signInWithGoogleAsync()}
+          onPress={() => signInWithGoogleAsync()}
         >
           <Text style={[fonts.subTextBold, styles.googleButtonText]}>
             <Font text="Connect with Google"></Font>
@@ -76,7 +158,7 @@ const LoginScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={() => {
-            LoginService.signIn(email, password);
+            signIn(email, password);
           }}
         >
           <LargeButton
@@ -162,5 +244,8 @@ const styles = StyleSheet.create({
   signUpText: {
     color: colors.redLight,
     marginLeft: 10,
+  },
+  errorMessage: {
+    color: colors.red,
   },
 });

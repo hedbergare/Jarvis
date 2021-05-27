@@ -25,6 +25,8 @@ export const COMPLETE_SHARED_TASK = "complete_shared_task";
 //GOAL ACTIONS
 export const FETCH_OWN_GOALS = "fetch_own_goals";
 export const ADD_GOAL = "add_goal";
+export const DELETE_GOAL = "delete_goal";
+export const EDIT_GOAL = "edit_goal";
 
 //SHARED GOAL ACTIONS
 export const FETCH_SHARED_GOALS = "fetch_shared_goals";

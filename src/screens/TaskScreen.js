@@ -13,7 +13,6 @@ const TaskScreen = ({ navigation, route }) => {
   const list = route.params.list;
 
   const handleEditPress = () => {
-    console.log("nu edit");
     navigation.navigate("CreateTaskStackScreen", {
       screen: "CreateTaskScreen",
       params: { listName: list.name, task: task, hideBackArrow: false },
