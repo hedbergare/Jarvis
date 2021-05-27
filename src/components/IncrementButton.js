@@ -22,9 +22,9 @@ export default IncrementButton;
 const styles = StyleSheet.create({
   IncrementButton: {
     backgroundColor: colors.blueLight,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
   },

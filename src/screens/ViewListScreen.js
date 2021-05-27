@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { colors, icons } from "../../constants/vars";
@@ -20,6 +20,8 @@ import FullScreenModal from "../components/FullScreenModal";
 import CreateItemField from "../components/CreateItemField";
 import Font from "../components/Font";
 import { fonts } from "../../constants/fonts";
+import Sort from "../components/Sort";
+import SortingService from "../services/SortingService";
 require("firebase/auth");
 
 const ViewListScreen = ({ navigation, route }) => {
@@ -37,6 +39,9 @@ const ViewListScreen = ({ navigation, route }) => {
   }
   const list = currentList;
 
+  const [selectedSortOption, setSelectedSortOption] = useState("Newest");
+
+  const [sortedList, setSortedList] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [name, setName] = useState("");
@@ -87,6 +92,26 @@ const ViewListScreen = ({ navigation, route }) => {
     setShowEditModal(true);
   };
 
+  const handleSortedList = (sortBy) => {
+    setSelectedSortOption(sortBy);
+    let sortedList;
+    if (list.items) {
+      switch (sortBy) {
+        case "Due date":
+          sortedList = SortingService.sortByDueDate(list.items, true);
+          break;
+        case "Newest":
+          sortedList = SortingService.sortByNewest(list.items, true);
+          break;
+        case "Oldest":
+          sortedList = SortingService.sortByOldest(list.items, true);
+          break;
+        default:
+      }
+    }
+    setSortedList(sortedList);
+  };
+
   const renderListItemCards = (item, index) => {
     return (
       <ItemCard
@@ -103,22 +128,37 @@ const ViewListScreen = ({ navigation, route }) => {
     );
   };
 
+  useEffect(() => {
+    handleSortedList(selectedSortOption);
+  }, [list]);
+
   return (
     <View style={styles.ViewListScreen}>
       <ScrollView>
         <ScreenHeader title={list.name} navigation={navigation} />
-        {list.items ? (
-          Object.values(list.items).map((item, index) => {
-            return renderListItemCards(item, index);
-          })
-        ) : (
-          <View style={styles.noItemsText}>
-            <Font
-              textStyle={fonts.heading5}
-              text="Add your first item below!"
-            ></Font>
-          </View>
-        )}
+        <View style={styles.sortContainer}>
+          <Sort
+            options={[
+              { label: "Newest", value: "Newest" },
+              { label: "Oldest", value: "Oldest" },
+            ]}
+            handleOnPress={(sortedBy) => handleSortedList(sortedBy)}
+          />
+        </View>
+        <View style={styles.listContainer}>
+          {list.items && sortedList ? (
+            Object.values(sortedList)?.map((item, index) => {
+              return renderListItemCards(item, index);
+            })
+          ) : (
+            <View style={styles.noItemsText}>
+              <Font
+                textStyle={fonts.heading5}
+                text="Add your first item below!"
+              ></Font>
+            </View>
+          )}
+        </View>
         {showAddModal && (
           <FullScreenModal
             confirmText="Create Item"
@@ -180,7 +220,6 @@ const ViewListScreen = ({ navigation, route }) => {
     </View>
   );
 };
-
 export default ViewListScreen;
 
 const styles = StyleSheet.create({
@@ -193,5 +232,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
+  },
+  sortContainer: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  listContainer: {
+    zIndex: -1,
   },
 });

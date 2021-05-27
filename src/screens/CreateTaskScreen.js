@@ -58,7 +58,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
         setDescription("");
       }
     } else {
-      setAssignedList("General");
+      setAssignedList(taskLists[0].name);
       setAssignedGoal("None");
     }
   }, [routeParams]);
@@ -75,9 +75,17 @@ const CreateTaskScreen = ({ navigation, route }) => {
 
   const handleAddTask = () => {
     let listId;
+    let listDeadline;
+    let listLength = 0;
+
     for (let list of taskLists) {
       if (assignedList === list.name) {
         listId = list.key;
+        listDeadline = list.deadline;
+        for (let task in list.tasks) {
+          console.log("task", task);
+          listLength++;
+        }
       }
     }
     let goalId = null;
@@ -101,12 +109,13 @@ const CreateTaskScreen = ({ navigation, route }) => {
       added_value: value,
     };
     if (!assignedTaskEdit) {
-      dispatch(addTaskToList(task));
+      dispatch(addTaskToList(task, listDeadline, listLength));
     } else {
       dispatch(editTask(assignedTaskEdit.key, task));
       setAssignedTaskEdit(null);
     }
-
+    setName("");
+    setDescription("");
     setToggleRender(!toggleRender);
     inputRef.current.clear();
     !routeParams?.hideBackArrow ? navigation.goBack() : null;
@@ -208,7 +217,13 @@ const CreateTaskScreen = ({ navigation, route }) => {
           )}
 
           <TouchableOpacity
-            style={styles.addButton}
+            disabled={name != "" ? false : true}
+            style={[
+              styles.addButton,
+              {
+                backgroundColor: name != "" ? colors.purple : colors.gray + 30,
+              },
+            ]}
             onPress={() => handleAddTask()}
           >
             <Text style={[fonts.heading3, styles.addButtonText]}>
@@ -378,7 +393,6 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   addButton: {
-    backgroundColor: colors.purple,
     padding: 10,
     paddingHorizontal: 20,
 

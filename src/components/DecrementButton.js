@@ -22,9 +22,9 @@ export default DecrementButton;
 const styles = StyleSheet.create({
   DecrementButton: {
     backgroundColor: colors.yellowLight,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
   },

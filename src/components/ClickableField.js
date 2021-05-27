@@ -18,7 +18,7 @@ const ClickableField = ({ text, src, onPress }) => {
         style={styles.arrow}
         name="chevron-forward-outline"
         color={colors.black}
-        size={40}
+        size={30}
       />
     </TouchableOpacity>
   );
@@ -29,16 +29,16 @@ export default ClickableField;
 const styles = StyleSheet.create({
   ClickableField: {
     minWidth: "80%",
-    height: 50,
+    height: 60,
     alignItems: "center",
     flexDirection: "row",
     backgroundColor: colors.white,
     padding: 10,
     borderRadius: 8,
     marginBottom: 20,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 1, height: 1 },
-    shadowRadius: 2,
+
+    borderBottomColor: colors.black,
+    borderBottomWidth: 1,
   },
   iconContainer: {
     marginLeft: 5,
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
   },
   arrow: {
     position: "absolute",
-    right: 10,
+    right: 15,
   },
 });
