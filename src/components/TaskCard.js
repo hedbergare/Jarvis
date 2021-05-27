@@ -145,6 +145,7 @@ export default TaskCard;
 
 const styles = StyleSheet.create({
   TaskCard: {
+    zIndex: 0,
     width: "100%",
     paddingTop: 5,
     backgroundColor: colors.white,

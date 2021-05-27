@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,14 +20,19 @@ import {
   submitEditTaskList,
 } from "../../redux/actions/TaskListActions";
 import ShareWithPicker from "../components/ShareWithPicker";
+import SortingService from "../services/SortingService";
+import Sort from "../components/Sort";
+import Font from "../components/Font";
 
 const TaskListsScreen = ({ navigation }) => {
   const [displayOwned, setDisplayOwned] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [sortedList, setSortedList] = useState([]);
   const [name, setName] = useState("");
   const [editName, setEditName] = useState("");
   const [editList, setEditList] = useState(null);
+  const [selectedSortOption, setSelectedSortOption] = useState("Due date");
 
   const [shareWith, setShareWith] = React.useState([]);
   const [editShareWith, setEditShareWith] = React.useState([]);
@@ -46,6 +51,7 @@ const TaskListsScreen = ({ navigation }) => {
   };
   const dispatch = useDispatch();
   const taskLists = useSelector((state) => state.taskLists);
+
   const userId = useSelector((state) => state.currentUser.uid);
 
   const { sharedTaskLists } = useSelector((state) => state.sharedTaskLists);
@@ -99,6 +105,30 @@ const TaskListsScreen = ({ navigation }) => {
     );
   };
 
+  const handleSortedList = (sortBy) => {
+    setSelectedSortOption(sortBy);
+    let sortedList;
+    if (taskLists) {
+      switch (sortBy) {
+        case "Due date":
+          sortedList = SortingService.sortByDueDate(taskLists, false);
+          break;
+        case "Oldest":
+          sortedList = SortingService.sortByOldest(taskLists, false);
+          break;
+        case "Newest":
+          sortedList = SortingService.sortByNewest(taskLists, false);
+          break;
+
+        default:
+          break;
+      }
+    }
+    setSortedList(sortedList);
+  };
+  useEffect(() => {
+    handleSortedList(selectedSortOption);
+  }, [taskLists]);
   return (
     <>
       <ScrollView contentContainerStyle={styles.TaskListsScreen}>
@@ -138,6 +168,22 @@ const TaskListsScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.secondHeadlineContainer}>
+          <Font text="Task lists" font={fonts.heading2}></Font>
+        </View>
+        <View style={styles.sortContainer}>
+          <Sort
+            options={[
+              { label: "Due date", value: "Due date" },
+              { label: "Newest", value: "Newest" },
+              { label: "Oldest", value: "Oldest" },
+            ]}
+            selectedChoice="Due date"
+            listToSort={taskLists}
+            handleOnPress={(sortedBy) => handleSortedList(sortedBy)}
+          />
+        </View>
+
         <View style={styles.taskListContainer}>
           {displayOwned
             ? Object.values(taskLists).map((list, index) => {
@@ -221,6 +267,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     flexDirection: "row",
+    marginBottom: 10,
   },
   listTypeText: {
     width: 140,
@@ -236,6 +283,16 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   taskListContainer: {
+    zIndex: -1,
     marginTop: 10,
+  },
+  sortContainer: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  secondHeadlineContainer: {
+    width: "80%",
+    transform: [{ translateY: 25 }],
   },
 });

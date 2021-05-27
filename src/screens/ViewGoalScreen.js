@@ -32,9 +32,9 @@ const ViewGoalScreen = ({ navigation, route }) => {
       </View>
       <View style={styles.descriptionContainer}>
         <Font text="Description:" font={fonts.heading3}></Font>
-        <TextInput style={styles.descriptionInput}>
+        <View style={styles.descriptionInput}>
           <Font text={params.goal.description}></Font>
-        </TextInput>
+        </View>
       </View>
       <View style={styles.progressMade}>
         <Font text="Progress made:" font={fonts.heading3}></Font>

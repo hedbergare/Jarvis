@@ -1,27 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
   TouchableOpacity,
-  RefreshControl,
 } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import Font from "../components/Font";
 import { useSelector, useDispatch } from "react-redux";
-
 import moment from "moment";
-
 import GoalCard from "../components/GoalCard";
 import ScreenHeader from "../components/ScreenHeader";
 import AddButton from "../components/AddButton";
 import { deleteGoal } from "../../redux/actions/GoalActions";
+import Sort from "../components/Sort";
+import SortingService from "../services/SortingService";
 
 const GoalsScreen = ({ navigation }) => {
   const fetchedGoals = useSelector((state) => state.goals);
   const sharedGoals = useSelector((state) => state.sharedGoals);
+  const [selectedSortOption, setSelectedSortOption] = useState("Due date");
+  const [sortedList, setSortedList] = useState([]);
 
   const dispatch = useDispatch();
   const estimatedFinishDate = (goal, progressMade) => {
@@ -88,7 +89,6 @@ const GoalsScreen = ({ navigation }) => {
       goal,
       progressMade
     );
-    // const [goodPhase, dayDifference] = calculatePhase(end, estimatedDate);
 
     return (
       <GoalCard
@@ -124,6 +124,31 @@ const GoalsScreen = ({ navigation }) => {
     setDisplayOwned(false);
   };
 
+  const handleSortedList = (sortBy) => {
+    setSelectedSortOption(sortBy);
+    let sortedList;
+    if (fetchedGoals) {
+      switch (sortBy) {
+        case "Due date":
+          sortedList = SortingService.sortByDueDate(fetchedGoals, false);
+          break;
+        case "Oldest":
+          sortedList = SortingService.sortByOldest(fetchedGoals, false);
+          break;
+        case "Newest":
+          sortedList = SortingService.sortByNewest(fetchedGoals, false);
+          break;
+
+        default:
+          break;
+      }
+    }
+    setSortedList(sortedList);
+  };
+  useEffect(() => {
+    handleSortedList(selectedSortOption);
+  }, [fetchedGoals]);
+
   return (
     <>
       <ScrollView contentContainerStyle={styles.GoalsScreen}>
@@ -147,7 +172,6 @@ const GoalsScreen = ({ navigation }) => {
               Mine
             </Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={displayOwned ? null : styles.activeListStyle}
             onPress={handleDisplayShared}
@@ -163,25 +187,37 @@ const GoalsScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.sortContainer}>
-          <Font text="Goals" font={fonts.heading2} />
+        <View style={styles.secondHeadlineContainer}>
+          <Font text="Goals" font={fonts.heading2}></Font>
         </View>
-
-        {displayOwned ? (
-          fetchedGoals ? (
-            Object.values(fetchedGoals).map((goal, index) => {
+        <View style={styles.sortContainer}>
+          <Sort
+            options={[
+              { label: "Due date", value: "Due date" },
+              { label: "Newest", value: "Newest" },
+              { label: "Oldest", value: "Oldest" },
+            ]}
+            selectedChoice="Due date"
+            handleOnPress={(sortedBy) => handleSortedList(sortedBy)}
+          />
+        </View>
+        <View style={styles.listContainer}>
+          {displayOwned ? (
+            fetchedGoals && sortedList ? (
+              Object.values(sortedList).map((goal, index) => {
+                return renderGoalCard(goal, index);
+              })
+            ) : (
+              <></>
+            )
+          ) : sharedGoals ? (
+            Object.values(sharedGoals).map((goal, index) => {
               return renderGoalCard(goal, index);
             })
           ) : (
             <></>
-          )
-        ) : sharedGoals ? (
-          Object.values(sharedGoals).map((goal, index) => {
-            return renderGoalCard(goal, index);
-          })
-        ) : (
-          <></>
-        )}
+          )}
+        </View>
       </ScrollView>
       <AddButton
         handleOnPress={() => {
@@ -219,9 +255,15 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   sortContainer: {
-    padding: 10,
-    minWidth: "90%",
-    minHeight: 50,
-    marginVertical: 20,
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  secondHeadlineContainer: {
+    width: "80%",
+    transform: [{ translateY: 25 }],
+  },
+  listContainer: {
+    zIndex: -1,
   },
 });

@@ -41,7 +41,11 @@ const CreateItemField = React.memo(
           ></TextInput>
         </View>
         <View style={styles.rightFloatContainer}>
-          <Font textStyle={fonts.subText} text="Quantity:"></Font>
+          <Font
+            font={fonts.subText}
+            textStyle={styles.quantityText}
+            text="Quantity:"
+          ></Font>
           <Font textStyle={fonts.heading5} text={quantity}></Font>
           <View style={styles.buttonContainer}>
             <IncrementButton
@@ -71,6 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     minWidth: "95%",
+    height: 90,
     paddingBottom: 10,
     marginBottom: 20,
     borderBottomWidth: 1,
@@ -91,8 +96,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   buttonContainer: {
-    height: 50,
+    marginLeft: 5,
+    height: 70,
     flexDirection: "column",
     justifyContent: "space-between",
+  },
+  quantityText: {
+    marginRight: 2,
   },
 });

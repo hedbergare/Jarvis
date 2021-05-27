@@ -6,24 +6,16 @@ import { colors, icons } from "../../constants/vars";
 import { useDispatch, useSelector } from "react-redux";
 import Font from "../components/Font";
 import { fonts } from "../../constants/fonts";
-import firebase from "firebase/app";
 import "firebase/database";
-
 import FriendCard from "../components/FriendCard";
 import { FlatList } from "react-native-gesture-handler";
 import { SearchBar } from "react-native-elements";
 import { addFriend, removeFriend } from "../../redux/actions/OtherUsersActions";
-import { SafeAreaView } from "react-native";
 import { LogBox } from "react-native";
-
 require("firebase/auth");
 
 const FriendsScreen = ({ navigation }) => {
-  LogBox.ignoreLogs([
-    "VirtualizedLists should never be nested",
-    // TODO: HAVERI! Går inte för mitt liv att få scrollen att fungera utan att få denna error?
-    // Även fast jag inte har en scrollview´? oklart
-  ]);
+  LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
 
   const currentUser = useSelector((state) => state.currentUser);
   const otherUsers = useSelector((state) => state.otherUsers);
@@ -99,6 +91,7 @@ const FriendsScreen = ({ navigation }) => {
               </View>
               <SearchBar
                 placeholder="Search for email"
+                returnKeyType="search"
                 placeholderTextColor={colors.gray}
                 containerStyle={styles.searchBar}
                 inputContainerStyle={styles.searchBarInput}
