@@ -39,6 +39,10 @@ const ViewTaskListScreen = ({ navigation, route }) => {
 
   const list = fetchCurrentList();
 
+  const handleOnPressTaskCard = (task) => {
+    navigation.navigate("TaskScreen", { task, list });
+  };
+
   const dispatch = useDispatch();
 
   const handleOnDeleteTask = (task) => {
@@ -80,7 +84,6 @@ const ViewTaskListScreen = ({ navigation, route }) => {
         default:
       }
     }
-    // console.log("SORTING LIST: ", sortedList);
     setSortedList(sortedList);
   };
   useEffect(() => {

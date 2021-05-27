@@ -52,6 +52,7 @@ export const addTaskList = (uid, name, friends) => {
       userId: uid,
       completed: false,
       date_created: new Date().getTime(),
+      deadline: new Date().getTime(),
       tasks: {},
       shared_with: sharedWith,
     });
@@ -59,7 +60,8 @@ export const addTaskList = (uid, name, friends) => {
   };
 };
 
-export const addTaskToList = (task) => {
+export const addTaskToList = (task, listDeadline, listLength) => {
+  console.log("listDeadline: ", listDeadline);
   return (dispatch) => {
     firebase
       .database()
@@ -78,7 +80,15 @@ export const addTaskToList = (task) => {
     firebase
       .database()
       .ref("/task_lists/" + task.listId)
-      .update({ completed: false });
+      .update({
+        completed: false,
+        deadline:
+          listLength != 0
+            ? task.deadline.getTime() < listDeadline
+              ? task.deadline.getTime()
+              : listDeadline
+            : task.deadline.getTime(),
+      });
     dispatch({ type: ADD_TASK });
   };
 };

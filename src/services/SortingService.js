@@ -51,7 +51,6 @@ class SortingService {
   };
 
   static sortByOldest = (listToSort, isObject) => {
-    console.log("Nu i sort by oldet!", listToSort);
     let list = [];
 
     if (isObject) {
@@ -63,8 +62,8 @@ class SortingService {
     }
 
     for (let i = 0; i < list.length; i++) {
-      for (let j = 0; j > list.length - 1; j++) {
-        if (list[j].date_created < list[j + 1].date_created) {
+      for (let j = 0; j < list.length - 1; j++) {
+        if (list[j].date_created > list[j + 1].date_created) {
           let tmp = list[j];
           list[j] = list[j + 1];
           list[j + 1] = tmp;

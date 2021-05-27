@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 import { colors } from "../../constants/vars";
 import DropDownPicker from "react-native-dropdown-picker";
-import SortingService from "../services/SortingService";
+import { fonts } from "../../constants/fonts";
 
 const Sort = ({ options, handleOnPress }) => {
   const [open, setOpen] = useState(false);
@@ -19,12 +18,13 @@ const Sort = ({ options, handleOnPress }) => {
         dropDownDirection="BOTTOM"
         placeholder={"SORT BY: " + value}
         style={{
-          minWidth: 120,
-          maxWidth: 180,
+          minWidth: 100,
+          maxWidth: 160,
 
           borderWidth: 0,
           alignSelf: "flex-end",
         }}
+        textStyle={fonts.subText}
         dropDownContainerStyle={{
           width: 100,
           borderWidth: 0,
