@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -21,10 +21,14 @@ import {
   submitEditList,
 } from "../../redux/actions/ItemListActions";
 import ShareWithPicker from "../components/ShareWithPicker";
+import Sort from "../components/Sort";
+import SortingService from "../services/SortingService";
 
 const ListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
+  const [selectedSortOption, setSelectedSortOption] = useState("Newest");
+  const [sortedList, setSortedList] = useState([]);
   const [displayOwned, setDisplayOwned] = React.useState(true);
   const [showAddModal, setShowAddModal] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
@@ -99,6 +103,28 @@ const ListScreen = ({ navigation }) => {
     setEditShareWith([]);
   };
 
+  const handleSortedList = (sortBy) => {
+    setSelectedSortOption(sortBy);
+    let sortedList;
+    if (itemLists) {
+      switch (sortBy) {
+        case "Oldest":
+          sortedList = SortingService.sortByOldest(itemLists, false);
+          break;
+        case "Newest":
+          sortedList = SortingService.sortByNewest(itemLists, false);
+          break;
+
+        default:
+          break;
+      }
+    }
+    setSortedList(sortedList);
+  };
+  useEffect(() => {
+    handleSortedList(selectedSortOption);
+  }, [itemLists]);
+
   return (
     <>
       <ScrollView contentContainerStyle={styles.ListScreen}>
@@ -138,10 +164,24 @@ const ListScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.secondHeadlineContainer}>
+          <Font text="Item lists" font={fonts.heading2}></Font>
+        </View>
+        <View style={styles.sortContainer}>
+          <Sort
+            options={[
+              { label: "Newest", value: "Newest" },
+              { label: "Oldest", value: "Oldest" },
+            ]}
+            selectedChoice="Due date"
+            handleOnPress={(sortedBy) => handleSortedList(sortedBy)}
+          />
+        </View>
+
         <View style={styles.cardsContainer}>
           {displayOwned ? (
-            itemLists ? (
-              Object.values(itemLists).map((list, index) => {
+            itemLists && sortedList ? (
+              Object.values(sortedList).map((list, index) => {
                 return renderList(list, index, true);
               })
             ) : (
@@ -231,7 +271,8 @@ const styles = StyleSheet.create({
     minHeight: "100%",
   },
   cardsContainer: {
-    marginTop: 10,
+    zIndex: -1,
+    marginTop: 20,
   },
   listTypeToggle: {
     width: "100%",
@@ -287,5 +328,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: colors.white,
+  },
+  sortContainer: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  secondHeadlineContainer: {
+    width: "80%",
+    transform: [{ translateY: 25 }],
   },
 });

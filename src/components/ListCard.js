@@ -63,7 +63,12 @@ const ListCard = ({
               onPressHandler(list);
             }}
           >
-            <View style={styles.circle}></View>
+            <View
+              style={[
+                styles.circle,
+                { backgroundColor: list.completed ? colors.green : colors.red },
+              ]}
+            ></View>
             <View style={styles.textContainer}>
               <Text
                 style={[
@@ -95,6 +100,7 @@ const ListCard = ({
             <View style={styles.rightFloatContainer}>
               <Text
                 style={[
+                  styles.progressTextContainer,
                   fonts.subText,
                   styles.completed,
                   {
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
   },
   swipeContainer: {
     width: "100%",
-    marginBottom: 10,
+    marginBottom: 20,
   },
   rightFloatContainer: {
     flexDirection: "row",
@@ -142,9 +148,10 @@ const styles = StyleSheet.create({
   textContainer: {
     width: "65%",
     paddingLeft: 10,
+    marginBottom: 5,
   },
   content: {
-    paddingBottom: 10,
+    paddingBottom: 20,
     borderBottomColor: colors.black,
     borderBottomWidth: 1,
     flexDirection: "row",
@@ -153,10 +160,12 @@ const styles = StyleSheet.create({
     marginHorizontal: "7%",
   },
   circle: {
-    backgroundColor: colors.green,
     width: 10,
     height: 10,
     borderRadius: 5,
     marginHorizontal: 10,
+  },
+  progressTextContainer: {
+    marginRight: 8,
   },
 });
