@@ -16,16 +16,23 @@ const FriendCard = ({
   handleShareWith,
   removeShareWith,
   alreadySharedWith,
+  showEmail,
 }) => {
   const [checkboxState, setCheckboxState] = React.useState(
     alreadySharedWith ? true : false
   );
   return (
     <View style={styles.FriendCard}>
-      <Font
-        text={firstName + " " + lastName}
-        textStyle={[fonts.heading5, { color: colors.black, fontWeight: "400" }]}
-      />
+      <View>
+        <Font
+          text={firstName + " " + lastName}
+          textStyle={[
+            fonts.heading4,
+            { color: colors.black, fontWeight: "400" },
+          ]}
+        />
+        {showEmail ? <Font text={email} textStyle={fonts.subText} /> : <></>}
+      </View>
       {!share ? (
         <TouchableOpacity onPress={() => handleOnPress(id)}>
           <Font

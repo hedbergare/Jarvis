@@ -5,6 +5,7 @@ import TaskListsScreen from "../screens/TaskListsScreen";
 import ViewTaskListScreen from "../screens/ViewTaskListScreen";
 import TaskScreen from "../screens/TaskScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import CreateTaskScreen from "../screens/CreateTaskScreen";
 
 const TaskStackScreen = () => {
   const TaskStack = createStackNavigator();
@@ -21,6 +22,7 @@ const TaskStackScreen = () => {
         component={ViewTaskListScreen}
       />
       <TaskStack.Screen name="TaskScreen" component={TaskScreen} />
+      <TaskStack.Screen name="CreateTaskScreen" component={CreateTaskScreen} />
       <TaskStack.Screen name="SettingsScreen" component={SettingsScreen} />
     </TaskStack.Navigator>
   );
