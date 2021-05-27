@@ -140,9 +140,7 @@ const App = () => {
                   iconName = focused
                     ? "ios-newspaper"
                     : "ios-newspaper-outline";
-                } /* else if (route.name === "CreateTaskStackScreen") {
-                  iconName = focused ? "ios-create" : "ios-create-outline";
-                }  */ else if (route.name === "ListStackScreen") {
+                } else if (route.name === "ListStackScreen") {
                   iconName = focused ? "ios-list" : "ios-list";
                 } else if (route.name === "FriendsStackScreen") {
                   iconName = focused ? "ios-people" : "ios-people-outline";
