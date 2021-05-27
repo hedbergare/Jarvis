@@ -61,7 +61,6 @@ export const addTaskList = (uid, name, friends) => {
 };
 
 export const addTaskToList = (task, listDeadline, listLength) => {
-  console.log("listDeadline: ", listDeadline);
   return (dispatch) => {
     firebase
       .database()
