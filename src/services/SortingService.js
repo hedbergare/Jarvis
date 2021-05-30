@@ -3,6 +3,21 @@ import React from "react";
 class SortingService {
   constructor() {}
 
+  static fetchAllUserTasks = (taskLists) => {
+    let list = [];
+
+    if (taskLists) {
+      Object.values(taskLists).map((taskList, index) => {
+        Object.values(taskList.tasks).map((task, index) => {
+          const taskWithList = { ...task, list: taskList };
+
+          return taskWithList.completed ? null : list.push(taskWithList);
+        });
+      });
+    }
+    return list;
+  };
+
   static sortByDueDate = (listToSort, isObject) => {
     let list = [];
 
