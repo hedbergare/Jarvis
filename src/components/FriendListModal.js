@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     minWidth: "90%",
     height: 400,
     borderRadius: 20,
-    /* overflow: "hidden", */
     backgroundColor: colors.white,
     zIndex: 2,
     alignItems: "center",

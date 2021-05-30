@@ -46,13 +46,13 @@ const SettingsScreen = ({ navigation }) => {
       <ClickableField text="Reset password" src={icons.key} />
       <View style={styles.spacingContainer}></View>
 
-      <ClickableField
+      {/* <ClickableField
         onPress={() => {
           setShowFriendModal(true);
         }}
         text="Manage friends"
         src={icons.profile}
-      />
+      /> */}
       <View style={styles.logOutTextContainer}>
         <TouchableOpacity onPress={() => onSignoutPress()}>
           <Font

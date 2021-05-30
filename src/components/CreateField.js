@@ -20,6 +20,7 @@ const CreateField = React.memo(
             <Font text={title + ":"}></Font>
           </Text>
           <TextInput
+            returnKeyType="done"
             ref={inputRef}
             style={(fonts.heading5, styles.textInput)}
             /* placeholder={placeholder} */

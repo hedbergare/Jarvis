@@ -49,9 +49,10 @@ const ViewTaskListScreen = ({ navigation, route }) => {
     dispatch(deleteTask(list.key, task.key));
   };
   const handleOnEditTask = (task) => {
-    navigation.navigate("CreateTaskStackScreen", {
-      screen: "CreateTaskScreen",
-      params: { listName: list.name, task: task, hideBackArrow: false },
+    navigation.navigate("CreateTaskScreen", {
+      listName: list.name,
+      task: task,
+      hideBackArrow: false,
     });
   };
   const renderTaskCards = (task, index) => {
@@ -123,9 +124,10 @@ const ViewTaskListScreen = ({ navigation, route }) => {
       </ScrollView>
       <AddButton
         handleOnPress={() => {
-          navigation.navigate("CreateTaskStackScreen", {
-            screen: "CreateTaskScreen",
-            params: { listName: list.name, task: null, hideBackArrow: false },
+          navigation.navigate("CreateTaskScreen", {
+            listName: list.name,
+            task: null,
+            hideBackArrow: false,
           });
         }}
       />

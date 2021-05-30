@@ -13,7 +13,6 @@ import Store from "./redux/Store";
 import { Provider } from "react-redux";
 import GoalStackScreen from "./src/navigation/GoalStackScreen";
 import ListStackScreen from "./src/navigation/ListStackScreen";
-import CreateTaskStackScreen from "./src/navigation/CreateTaskStackScreen";
 import { colors } from "./constants/vars";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "./redux/actions/AuthActions";
@@ -28,6 +27,7 @@ import { fetchOtherUsers } from "./redux/actions/OtherUsersActions";
 import { fetchOwnGoals } from "./redux/actions/GoalActions";
 import HomeStackScreen from "./src/navigation/HomeStackScreen";
 import { fetchSharedGoals } from "./redux/actions/SharedGoalActions";
+import FriendsStackScreen from "./src/navigation/FriendsStackScreen";
 
 const AppWrapper = () => {
   return (
@@ -72,11 +72,11 @@ const App = () => {
           <Tab.Screen name="HomeStackScreen" component={HomeStackScreen} />
           <Tab.Screen name="GoalStackScreen" component={GoalStackScreen} />
           <Tab.Screen name="TaskStackScreen" component={TaskStackScreen} />
-          <Tab.Screen
-            name="CreateTaskStackScreen"
-            component={CreateTaskStackScreen}
-          />
           <Tab.Screen name="ListStackScreen" component={ListStackScreen} />
+          <Tab.Screen
+            name="FriendsStackScreen"
+            component={FriendsStackScreen}
+          />
         </>
       );
     }
@@ -140,10 +140,10 @@ const App = () => {
                   iconName = focused
                     ? "ios-newspaper"
                     : "ios-newspaper-outline";
-                } else if (route.name === "CreateTaskStackScreen") {
-                  iconName = focused ? "ios-create" : "ios-create-outline";
                 } else if (route.name === "ListStackScreen") {
                   iconName = focused ? "ios-list" : "ios-list";
+                } else if (route.name === "FriendsStackScreen") {
+                  iconName = focused ? "ios-people" : "ios-people-outline";
                 }
 
                 // You can return any component that you like here!

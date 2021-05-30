@@ -238,6 +238,8 @@ const CreateGoalScreen = ({ navigation, route }) => {
           <Font text="Description:"></Font>
         </Text>
         <TextInput
+          returnKeyType="done"
+          blurOnSubmit={true}
           onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={4}

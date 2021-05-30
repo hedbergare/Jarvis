@@ -5,15 +5,12 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  RefreshControl,
 } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/vars";
 import Font from "../components/Font";
 import { useSelector, useDispatch } from "react-redux";
-
 import moment from "moment";
-
 import GoalCard from "../components/GoalCard";
 import ScreenHeader from "../components/ScreenHeader";
 import AddButton from "../components/AddButton";

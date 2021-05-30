@@ -3,14 +3,15 @@ import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import CreateTaskScreen from "../screens/CreateTaskScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import FriendsScreen from "../screens/FriendsScreen";
 
-const CreateTaskStackScreen = ({ navigation }) => {
+const FriendsStackScreen = ({ navigation }) => {
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", (e) => {
       // Prevent default behavior
       e.preventDefault();
 
-      navigation.navigate("CreateTaskScreen", {
+      navigation.navigate("FriendsScreen", {
         task: null,
         hideBackArrow: true,
       });
@@ -18,27 +19,21 @@ const CreateTaskStackScreen = ({ navigation }) => {
 
     return unsubscribe;
   }, [navigation]);
-  const CreateTaskStack = createStackNavigator();
+  const FriendStack = createStackNavigator();
 
   return (
-    <CreateTaskStack.Navigator
+    <FriendStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <CreateTaskStack.Screen
-        name="CreateTaskScreen"
-        component={CreateTaskScreen}
-      />
+      <FriendStack.Screen name="FriendsScreen" component={FriendsScreen} />
 
-      <CreateTaskStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-      />
-    </CreateTaskStack.Navigator>
+      <FriendStack.Screen name="SettingsScreen" component={SettingsScreen} />
+    </FriendStack.Navigator>
   );
 };
 
-export default CreateTaskStackScreen;
+export default FriendsStackScreen;
 
 const styles = StyleSheet.create({});

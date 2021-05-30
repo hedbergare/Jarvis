@@ -83,7 +83,6 @@ const CreateTaskScreen = ({ navigation, route }) => {
         listId = list.key;
         listDeadline = list.deadline;
         for (let task in list.tasks) {
-          console.log("task", task);
           listLength++;
         }
       }
@@ -193,6 +192,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
         </Text>
         <TextInput
           ref={inputRef}
+          returnKeyType="done"
           onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={4}
