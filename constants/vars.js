@@ -54,11 +54,11 @@ export const icons = {
 `,
   homeScreenHeader: `<svg id="Component_70_1" data-name="Component 70 – 1" xmlns="http://www.w3.org/2000/svg" width="100%" height="418" viewBox="0 0 424 418">
   <path id="Path_2" data-name="Path 2" d="M0,0H424V413.976H0Z" fill="#123b91"/>
-  <path id="Intersection_5" data-name="Intersection 5" d="M0,112.044C21.614,55.59,64.657,13.3,116.7,0V112.044Z" transform="translate(307.298 296.303)" fill="#fff" opacity="0.097"/>
-  <path id="Intersection_6" data-name="Intersection 6" d="M.591,131.044Q0,125.167,0,119.135C0,53.338,53.659,0,119.851,0S239.7,53.338,239.7,119.135q0,6.03-.591,11.909Z" transform="translate(173.447 282.933)" fill="#fff" opacity="0.1"/>
-  <path id="Intersection_4" data-name="Intersection 4" d="M2.293,284.547A363.261,363.261,0,0,1,0,243.7C0,143.319,40.984,54.459,103.926,0V284.547Z" transform="translate(320.074 129.43)" fill="#fff" opacity="0.1"/>
-  <path id="Rectangle_31" data-name="Rectangle 31" d="M50,0H374a50,50,0,0,1,50,50v5a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V50A50,50,0,0,1,50,0Z" transform="translate(0 363)" fill="#fff"/>
-</svg>
+    <path id="Intersection_5" data-name="Intersection 5" d="M0,112.044C21.614,55.59,64.657,13.3,116.7,0V112.044Z" transform="translate(307.298 296.303)" fill="#fff" opacity="0.097"/>
+    <path id="Intersection_6" data-name="Intersection 6" d="M.591,131.044Q0,125.167,0,119.135C0,53.338,53.659,0,119.851,0S239.7,53.338,239.7,119.135q0,6.03-.591,11.909Z" transform="translate(173.447 282.933)" fill="#fff" opacity="0.1"/>
+    <path id="Intersection_4" data-name="Intersection 4" d="M2.293,284.547A363.261,363.261,0,0,1,0,243.7C0,143.319,40.984,54.459,103.926,0V284.547Z" transform="translate(320.074 129.43)" fill="#fff" opacity="0.1"/>
+    <path id="Rectangle_31" data-name="Rectangle 31" d="M50,0H374a50,50,0,0,1,50,50v5a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V50A50,50,0,0,1,50,0Z" transform="translate(0 363)" fill="#fff"/>
+  </svg>
 
 
 `,
