@@ -14,16 +14,45 @@ import SortingService from "../services/SortingService";
 
 const HomeScreen = ({ navigation }) => {
   const taskLists = useSelector((state) => state.taskLists);
-  const fetchAllUserTasks = SortingService.fetchAllUserTasks(taskLists);
+  const [fetchAllUserTasks, setFetchAllUserTasks] = useState([]);
 
-  const [taskKeys, setTaskKeys] = useState(fetchAllUserTasks.length);
-  console.log(taskKeys);
+  const [urgentTasks, setUrgentTasks] = useState([]);
+
+  const [urgentKeys, setUrgentKeys] = useState([]);
+  const currentTasklists = () => {
+    if (urgentKeys.length != 0) {
+      let updatedTasks = [];
+      for (const task of urgentKeys) {
+        updatedTasks.push(
+          SortingService.findTaskByKey(taskLists, task.taskKey, task.listKey)
+        );
+      }
+      return updatedTasks;
+      // setUrgentTasks(updatedTasks);
+    }
+  };
+  const currentTasks = currentTasklists();
+  useEffect(() => {
+    setFetchAllUserTasks(SortingService.fetchAllUserTasks(taskLists));
+  }, []);
 
   useEffect(() => {
-    if (taskKeys === 0) {
-      setTaskKeys(fetchAllUserTasks.length);
+    if (urgentKeys.length === 0 && fetchAllUserTasks.length > 0) {
+      let tempList = [];
+      let counter = 0;
+      for (const fetchedTask of fetchAllUserTasks) {
+        counter++;
+        if (counter < 4) {
+          tempList.push({
+            taskKey: fetchedTask.key,
+            listKey: fetchedTask.list.key,
+          });
+        }
+      }
+      setUrgentKeys(tempList);
     }
-  }, [fetchAllUserTasks]);
+    // currentTasklists();
+  }, [taskLists]);
 
   const renderTasklist = (task, index) => {
     return (
@@ -67,9 +96,11 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <Font text="Upcoming Tasks:" font={fonts.heading1}></Font>
-      {Object.values(fetchAllUserTasks).map((task, index) => {
-        return renderTasklist(task, index);
-      })}
+      {urgentKeys && currentTasks
+        ? Object.values(currentTasks).map((task, index) => {
+            return renderTasklist(task, index);
+          })
+        : null}
     </View>
   );
 };
