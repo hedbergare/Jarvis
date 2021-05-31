@@ -14,44 +14,12 @@ import SortingService from "../services/SortingService";
 
 const HomeScreen = ({ navigation }) => {
   const taskLists = useSelector((state) => state.taskLists);
-  const [fetchAllUserTasks, setFetchAllUserTasks] = useState([]);
+  const [fetchAllUserTasks, setFetchAllUserTasks] = useState(
+    SortingService.fetchAllUserTasks(taskLists)
+  );
 
-  const [urgentTasks, setUrgentTasks] = useState([]);
-
-  const [urgentKeys, setUrgentKeys] = useState([]);
-  const currentTasklists = () => {
-    if (urgentKeys.length != 0) {
-      let updatedTasks = [];
-      for (const task of urgentKeys) {
-        updatedTasks.push(
-          SortingService.findTaskByKey(taskLists, task.taskKey, task.listKey)
-        );
-      }
-      return updatedTasks;
-      // setUrgentTasks(updatedTasks);
-    }
-  };
-  const currentTasks = currentTasklists();
   useEffect(() => {
     setFetchAllUserTasks(SortingService.fetchAllUserTasks(taskLists));
-  }, []);
-
-  useEffect(() => {
-    if (urgentKeys.length === 0 && fetchAllUserTasks.length > 0) {
-      let tempList = [];
-      let counter = 0;
-      for (const fetchedTask of fetchAllUserTasks) {
-        counter++;
-        if (counter < 4) {
-          tempList.push({
-            taskKey: fetchedTask.key,
-            listKey: fetchedTask.list.key,
-          });
-        }
-      }
-      setUrgentKeys(tempList);
-    }
-    // currentTasklists();
   }, [taskLists]);
 
   const renderTasklist = (task, index) => {
@@ -96,8 +64,8 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <Font text="Upcoming Tasks:" font={fonts.heading1}></Font>
-      {urgentKeys && currentTasks
-        ? Object.values(currentTasks).map((task, index) => {
+      {taskLists && fetchAllUserTasks
+        ? Object.values(fetchAllUserTasks).map((task, index) => {
             return renderTasklist(task, index);
           })
         : null}

@@ -3,23 +3,6 @@ import React from "react";
 class SortingService {
   constructor() {}
 
-  static findTaskByKey = (taskLists, taskKey, listKey) => {
-    let matchingTask;
-    if (taskLists) {
-      Object.values(taskLists).map((taskList, index) => {
-        if (taskList.key == listKey && taskList.tasks) {
-          Object.values(taskList.tasks).map((task, index) => {
-            if (task.key == taskKey) {
-              const taskWithList = { ...task, list: taskList };
-              return (matchingTask = taskWithList);
-            }
-          });
-        }
-      });
-    }
-    return matchingTask;
-  };
-
   static fetchAllUserTasks = (taskLists) => {
     let list = [];
 
