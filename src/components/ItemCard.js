@@ -56,7 +56,10 @@ const ItemCard = ({
               handleDelete(item);
               swipeableRef.current.close();
             }}
-            onEditPress={() => handleEdit(item)}
+            onEditPress={() => {
+              handleEdit(item);
+              swipeableRef.current.close();
+            }}
           ></SwipeButtons>
         )}
         friction={2}

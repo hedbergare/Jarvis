@@ -53,6 +53,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
       <View style={styles.input}>
         <Font textStyle={styles.errorMessage} text={error} />
         <InputField
+          returnKeyType="done"
           placeHolderText="E-mail address"
           src={icons.email}
           textChanged={(text) => setEmail(text)}

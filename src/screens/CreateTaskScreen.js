@@ -50,6 +50,7 @@ const CreateTaskScreen = ({ navigation, route }) => {
       setAssignedList(routeParams?.listName);
       if (routeParams?.task) {
         setAssignedTaskEdit(routeParams.task);
+        /* setName(routeParams.task.name); */
         setDate(routeParams.task.deadline);
         setDescription(routeParams.task.description);
       } else {

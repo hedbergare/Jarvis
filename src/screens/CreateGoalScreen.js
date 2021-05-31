@@ -53,9 +53,11 @@ const CreateGoalScreen = ({ navigation, route }) => {
   useEffect(() => {
     if (routeParams?.editGoal) {
       setGoalToEdit(routeParams.editGoal);
+      setName(routeParams.editGoal.name);
       setDate(new Date(routeParams.editGoal.deadline));
       setTheme(routeParams.editGoal.theme);
       setQuantity(routeParams.editGoal.max_value);
+      setUnit(routeParams.editGoal.unit);
       if (routeParams.editGoal.shared_with) {
         for (let user in routeParams.editGoal.shared_with) {
           shareWith.push(user);
