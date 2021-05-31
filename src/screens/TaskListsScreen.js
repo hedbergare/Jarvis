@@ -78,6 +78,7 @@ const TaskListsScreen = ({ navigation }) => {
 
   const handleOnEditTaskList = (list) => {
     setEditList(list);
+    setEditName(list.name);
     if (list.shared_with) {
       for (let user in list.shared_with) {
         editShareWith.push(user);

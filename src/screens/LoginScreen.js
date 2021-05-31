@@ -124,11 +124,13 @@ const LoginScreen = ({ navigation }) => {
         <InputField
           placeHolderText="Email"
           secureEntry={false}
+          returnKeyType="done"
           src={icons.email}
           textChanged={(text) => setEmail(text)}
         ></InputField>
         <InputField
           placeHolderText="Password"
+          returnKeyType="done"
           secureEntry={true}
           src={icons.key}
           textChanged={(text) => setPassword(text)}

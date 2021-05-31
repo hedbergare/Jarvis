@@ -22,6 +22,7 @@ const InputField = ({
         onChangeText={(text) => textChanged(text)}
         value={value}
         editable={editable}
+        returnKeyType="done"
       />
     </View>
   );
@@ -41,5 +42,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: 10,
+    minWidth: 150,
   },
 });
