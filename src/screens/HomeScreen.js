@@ -5,12 +5,17 @@ import { colors, icons } from "../../constants/vars";
 import Font from "../components/Font";
 import { useSelector, useStore, useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  deleteTask,
+  fetchTaskLists,
+} from "../../redux/actions/TaskListActions";
 
 import SvgComponent from "../components/SvgComponent";
 import TaskCard from "../components/TaskCard";
 
 import DateService from "../services/DateService";
 import SortingService from "../services/SortingService";
+import ConfirmButton from "../components/ConfirmButton";
 
 const HomeScreen = ({ navigation }) => {
   const taskLists = useSelector((state) => state.taskLists);
@@ -18,8 +23,23 @@ const HomeScreen = ({ navigation }) => {
     SortingService.fetchAllUserTasks(taskLists)
   );
 
+  const dispatch = useDispatch();
+
+  const handleOnDeleteTask = (task) => {
+    dispatch(deleteTask(task.list.key, task.key));
+  };
+
+  const handleOnEditTask = (task) => {
+    navigation.navigate("CreateTaskScreen", {
+      listName: task.list.name,
+      task: task,
+      hideBackArrow: false,
+    });
+  };
+
   useEffect(() => {
-    setFetchAllUserTasks(SortingService.fetchAllUserTasks(taskLists));
+    const allTasks = SortingService.fetchAllUserTasks(taskLists);
+    setFetchAllUserTasks(SortingService.sortByDueDate(allTasks, false));
   }, [taskLists]);
 
   const renderTasklist = (task, index) => {
@@ -28,9 +48,9 @@ const HomeScreen = ({ navigation }) => {
         key={index}
         task={task}
         list={task.list}
-        // handleOnPress={(task) => handleOnPressTaskCard(task, list)}
-        // handleDelete={(task) => handleOnDeleteTask(task)}
-        // handleEdit={(task) => handleOnEditTask(task)}
+        // handleOnPress={(task) => handleOnPressTaskCard(task, task.list)}
+        handleDelete={(task) => handleOnDeleteTask(task)}
+        handleEdit={(task) => handleOnEditTask(task)}
       />
     );
   };
@@ -66,9 +86,24 @@ const HomeScreen = ({ navigation }) => {
       <Font text="Upcoming Tasks:" font={fonts.heading1}></Font>
       {taskLists && fetchAllUserTasks
         ? Object.values(fetchAllUserTasks).map((task, index) => {
-            return renderTasklist(task, index);
+            return index < 3 ? renderTasklist(task, index) : null;
           })
         : null}
+
+      <View style={styles.confirmButton}>
+        <ConfirmButton
+          confirmText="Add New Task"
+          handleConfirm={() => {
+            navigation.navigate("TaskStackScreen", {
+              screen: "CreateTaskScreen",
+              params: {
+                task: null,
+                hideBackArrow: false,
+              },
+            });
+          }}
+        />
+      </View>
     </View>
   );
 };

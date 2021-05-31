@@ -38,10 +38,7 @@ const TaskScreen = ({ navigation, route }) => {
       <View style={styles.descriptionContainer}>
         <Font textStyle={fonts.heading4} text="Description:"></Font>
 
-        <Font
-          textStyle={[fonts.heading4, styles.descriptionText]}
-          text={task.description}
-        ></Font>
+        <Font textStyle={styles.descriptionText} text={task.description}></Font>
       </View>
       <View style={styles.editButton}>
         <EditButton handleOnPress={() => handleEditPress()} />
